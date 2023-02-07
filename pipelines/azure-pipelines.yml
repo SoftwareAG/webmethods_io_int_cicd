@@ -6,7 +6,7 @@
 trigger: none
 parameters:
   projectName: ''
-  source_environment: ''
+  source_environment: dev_environment.yaml
   workflowId: ''
 pool:
   vmImage: ubuntu-latest
