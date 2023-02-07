@@ -1,0 +1,24 @@
+jobs:
+- job: Export_workflow_DEV
+  variables:
+    - group: 'dev'
+  pool:
+    vmImage: ubuntu-latest
+  workspace:
+    clean: all
+  resources:
+  repositories:
+  - repository: webMethodsIO_Integration
+    type: git
+    name: webMethodsIO_Integration/webMethodsIO_Integration
+    ref: dev
+  steps:
+    - checkout: self
+      submodules: "true"
+      persistCredentials: "true"
+      clean: "true"
+    - checkout: webMethodsIO_Integration
+      submodules: "true"
+      persistCredentials: "true"
+      clean: "true"
+

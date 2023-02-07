@@ -3,32 +3,21 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger:
-- main
-
-resources:
-  repositories:
-  - repository: webMethodsIO_Integration
-    type: git
-    name: webMethodsIO_Integration/webMethodsIO_Integration
-    ref: dev
-    trigger:
-    - dev
-
+trigger: none
+parameters:
+  projectName: ''
+  source_environment: ''
+  workflowId: ''
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: |
-    echo ${PROJECTNAME}
-    echo ${WORKFLOWID}
+- script: 
+    echo ${projectName}
+    echo ${workflowID}
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
-    echo ${EXPORT_URL}
-    echo ${PWD}
   displayName: 'Export Workflow'
-
-- checkout: webMethodsIO_Integration
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.

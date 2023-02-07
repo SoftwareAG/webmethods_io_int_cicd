@@ -1,0 +1,6 @@
+tenant:
+  hostname: "insrsaeu.int-aws-de.webmethods.io"   # ApiGateway hostname or ip address
+  port: "443"                                       # ApiGateway port
+  importer_username: "refplatform"                     # ApiGateway user with "Import assets" privilege 
+  exporter_username: "refplatform"                     # ApiGateway user with "Export assets" privilege 
+  type: "DEV" 
