@@ -21,8 +21,11 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
-    TEST=`yq -e ".tenant.hostname" configs/dev.yml`
-    echo ${TEST}
+    HOSTNAME=`yq -e ".tenant.hostname" configs/dev.yml`
+    echo "##vso[task.setvariable variable=source_environment_hostname]${HOSTNAME}"
+    PORT=`yq -e ".tenant.port" configs/dev.yml`
+    EXPORTER_USERNAME=`yq -e ".tenant.exporter_username" configs/dev.yml`
+
     echo ${PROJECTNAME}
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
     echo ${PROJECTNAME}
