@@ -48,7 +48,6 @@ steps:
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
     echo ${EXPORT_URL}
     echo ${PWD}
-=======
   displayName: 'Export Workflow'
 
 - script: |
