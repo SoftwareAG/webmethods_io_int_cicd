@@ -26,6 +26,16 @@ steps:
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
     echo ${EXPORT_URL}
     echo ${PWD}
+    curl EXPORT_URL
+    curl --location --request POST 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects/Reference Platform/workflows/fld0030bc6b75736ae31dfa3/export' \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    --header 'Authorization: Basic cmVmcGxhdGZvcm06TWFuYWdlMTIzJg==' \
+    --data-raw '{
+    "name": "Workflow_A",
+    "description": "Something"
+    }'
+
   displayName: 'Export Workflow'
 
 - script: |
