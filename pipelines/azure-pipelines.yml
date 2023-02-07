@@ -5,9 +5,9 @@
 
 trigger: none
 parameters:
-  PROJECTNAME: ${PROJECTNAME}
-  source_environment: dev_environment.yaml
-  workflowId: ${WORKFLOWID}
+    PROJECTNAME: ${PROJECTNAME}
+    source_environment: dev_environment.yaml
+    workflowId: ${WORKFLOWID}
 pool:
   vmImage: ubuntu-latest
 
