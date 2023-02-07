@@ -3,4 +3,4 @@ tenant:
   port: "443"                                       # webMthodsIO Integration port
   importer_username: "refplatform"                     # webMthodsIO Integration user  
   exporter_username: "refplatform"                     # webMthodsIO Integration user  
-  type: "DEV" 
+  type: "DEV"                                         #Dev
