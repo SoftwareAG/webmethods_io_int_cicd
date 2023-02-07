@@ -4,7 +4,10 @@
 # https://aka.ms/yaml
 
 trigger: none
-
+parameters:
+  projectName: ${PROJECTNAME}
+  source_environment: dev_environment.yaml
+  workflowId: ${WORKFLOWID}
 pool:
   vmImage: ubuntu-latest
 
