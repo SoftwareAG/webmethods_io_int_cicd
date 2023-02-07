@@ -28,7 +28,7 @@ steps:
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
     echo ${EXPORT_URL}
     echo ${PWD}
-    curl --location --request POST '${EXPORT_URL}' \
+    curl --location --request POST ${EXPORT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
     --header 'Authorization: Basic cmVmcGxhdGZvcm06TWFuYWdlMTIzJg==' \
