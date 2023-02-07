@@ -20,8 +20,8 @@ pool:
 
 steps:
 - script: 
-    echo ${projectName}
-    echo ${workflowID}
+    echo ${PROJECTNAME}
+    echo ${WORKFLOWID}
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
     echo ${EXPORT_URL}
