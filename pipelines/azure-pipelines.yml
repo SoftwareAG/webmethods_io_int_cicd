@@ -1,4 +1,4 @@
-# Starter pipeline
+# Export workflow pipeline
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -6,12 +6,25 @@
 trigger:
 - main
 
+resources:
+  repositories:
+  - repository: A
+    type: git
+    name: MyProject/A
+    ref: main
+    trigger:
+    - dev
+
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: 
+    echo ${projectName}
+    echo ${workflowID}
+    echo ${LOCAL_DEV_URL}
+    EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
+  displayName: 'Export Workflow'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
