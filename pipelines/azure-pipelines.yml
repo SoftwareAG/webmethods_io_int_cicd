@@ -8,10 +8,10 @@ trigger:
 
 resources:
   repositories:
-  - repository: A
+  - repository: webMethodsIO_Integration
     type: git
-    name: MyProject/A
-    ref: main
+    name: webMethodsIO_Integration/webMethodsIO_Integration
+    ref: dev
     trigger:
     - dev
 
@@ -25,6 +25,8 @@ steps:
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
   displayName: 'Export Workflow'
+
+- checkout: webMethodsIO_Integration
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
