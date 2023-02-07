@@ -25,6 +25,7 @@ steps:
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/:project/workflows/:workflow/export
     echo ${EXPORT_URL}
+    echo ${pwd}
   displayName: 'Export Workflow'
 
 - checkout: webMethodsIO_Integration
