@@ -19,7 +19,7 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: 
+- script: |
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
     echo ${LOCAL_DEV_URL}
