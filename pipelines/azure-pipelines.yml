@@ -10,25 +10,6 @@ pool:
 
 steps:
 - bash: |
-    if [ -z "$PROJECTNAME" ]; then
-      echo "##vso[task.logissue type=error;]Missing template parameter \"Project name\""
-      echo "##vso[task.complete result=Failed;]"
-    fi
-    if [ -z "$SOURCE_ENVIRONMENT" ]; then
-      echo "##vso[task.logissue type=error;]Missing template parameter \"source_environment\""
-      echo "##vso[task.complete result=Failed;]"
-    fi
-    if [ -z "$WORKFLOWID" ]; then
-      echo "##vso[task.logissue type=error;]Missing template parameter \"Workflow ID\""
-      echo "##vso[task.complete result=Failed;]"
-    fi
-  env:
-    PROJECTNAME: ${{parameters.projectName}}
-    SOURCE_ENVIRONMENT: ${{parameters.source_environment}}
-    APIID: ${{parameters.workflowId}}
-  displayName: Check for required parameters
-
-- bash: |
     echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/${{parameters.source_environment}}`"
     echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/${{parameters.source_environment}}`"
     echo "##vso[task.setvariable variable=exporter_user]`yq -e ".tenant.exporter_username" configs/${{parameters.source_environment}}`"
