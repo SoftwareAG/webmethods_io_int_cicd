@@ -82,6 +82,8 @@ steps:
     pwd
     ls -ltr
     cd ../wmio_project_a
+    pwd
+    ls -ltr
     git config user.email "noemail.com"
     git config user.name "refPlatform"
     git add $(Build.BuildNumber).zip
