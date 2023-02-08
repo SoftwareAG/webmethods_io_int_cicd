@@ -48,6 +48,9 @@ steps:
         echo "Download link could not be retrieved"
         exit 1
     fi
+
+    curl --location --request GET ${downloadURL} --output $(Build.BuildNumber).zip
+    ls
     
   displayName: 'Export Workflow'
 
