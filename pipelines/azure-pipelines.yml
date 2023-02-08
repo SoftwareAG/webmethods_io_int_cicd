@@ -27,7 +27,7 @@ steps:
   path: self
 
 - bash: |
-    echo ${pwd}
+    pwd
     ls -ltr
     echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" self/configs/dev.yml`"
     echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" self/configs/dev.yml`"
