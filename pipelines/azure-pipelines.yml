@@ -54,7 +54,7 @@ steps:
     ls -ltr
   displayName: 'Export Workflow'
 
-- checkout: git://webMethodsIO_Integration/webMethodsIO_Integration@features
+- checkout: git://webMethodsIO_Integration/webMethodsIO_Integration@featureA
 - script: |
     echo ${pwd}
     ls -ltr
