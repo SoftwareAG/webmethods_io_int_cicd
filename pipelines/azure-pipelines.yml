@@ -15,6 +15,10 @@ resources:
     name: chini007/wmio_project_a
     ref: featureA
 steps:
+- checkout: wmio_project_a
+    submodules: "true"
+    persistCredentials: "true"
+    clean: "true"
 - bash: |
     echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/dev.yml`"
     echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/dev.yml`"
@@ -61,7 +65,7 @@ steps:
     ls -ltr
   displayName: 'Export Workflow'
 
-- checkout: wmio_project_a
+
 - script: |
     echo ${pwd}
     ls -ltr
