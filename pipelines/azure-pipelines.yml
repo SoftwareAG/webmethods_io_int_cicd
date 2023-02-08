@@ -22,12 +22,15 @@ steps:
 
 - script: |
     echo $(source_environment_hostname)
-    PORT=`yq -e ".tenant.port" configs/dev.yml`
-    EXPORTER_USERNAME=`yq -e ".tenant.exporter_username" configs/dev.yml`
+    echo $(source_environment_port)
+    echo $(exporter_user)
+    echo $(source_type)
     echo ${PROJECTNAME}
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
+    echo ${LOCAL_DEV_URL}
+    LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
     echo ${EXPORT_URL}
