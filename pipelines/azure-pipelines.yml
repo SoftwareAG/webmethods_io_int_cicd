@@ -33,13 +33,15 @@ steps:
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
     echo ${EXPORT_URL}
     echo ${PWD}
-    curl  --location --request POST ${EXPORT_URL} \
+    output=$(curl  --location --request POST ${EXPORT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
     --data-raw '{
     "name": "Workflow_A",
     "description": "Something"
-    } -u $(exporter_user):$(exporter_password)'
+    } -u $(exporter_user):$(exporter_password)')
+
+    echo ${output}
   displayName: 'Export Workflow'
 
 - script: |
