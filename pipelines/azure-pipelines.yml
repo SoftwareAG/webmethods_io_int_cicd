@@ -15,8 +15,6 @@ steps:
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/dev.yml`"
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(projectName)"
     echo $(System.DefaultWorkingDirectory)
-    echo $(source_environment_hostname)
-    echo ${SOURCE_ENVIRONMENT_HOSTNAME}
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
 
@@ -25,11 +23,9 @@ steps:
     echo $(source_environment_port)
     echo $(exporter_user)
     echo $(source_type)
-    echo ${PROJECTNAME}
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
-    echo ${LOCAL_DEV_URL}
     LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
@@ -38,7 +34,7 @@ steps:
     curl --location --request POST ${EXPORT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    --header 'Authorization: Basic cmVmcGxhdGZvcm06TWFuYWdlMTIzJg==' \
+    -u $(exporter_user):$(exporter_password) \
     --data-raw '{
     "name": "Workflow_A",
     "description": "Something"
