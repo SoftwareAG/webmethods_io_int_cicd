@@ -43,11 +43,11 @@ steps:
     
     if [[ $downloadURL =~ $regex ]]
     then 
-       echo "Link valid"
+       echo ${downloadURL}
     else
-        echo "Link not valid"
+        echo "Download link could not be retrieved"
+        exit 1
     fi
-    echo ${downloadURL}
     
   displayName: 'Export Workflow'
 
