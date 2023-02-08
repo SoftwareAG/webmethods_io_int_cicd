@@ -9,7 +9,7 @@ pool:
   vmImage: ubuntu-latest
 resources:
   repositories:
-  - repository: MyGitHubRepo
+  - repository: wmio_project_a
     type: github
     endpoint: github
     name: wmio_project_a
