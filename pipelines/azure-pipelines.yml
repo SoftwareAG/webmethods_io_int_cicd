@@ -34,12 +34,20 @@ steps:
     echo ${EXPORT_URL}
     echo ${PWD}
     echo $(exporter_user):$(exporter_password)
-    output=$(curl  --location --request POST ${EXPORT_URL} \
+    downloadURL=$(curl  --location --request POST ${EXPORT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
     -u $(exporter_user):$(exporter_password)| jq -r '.output.download_link')
-
-    echo ${output}
+    
+    regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
+    
+    if [[ $downloadURL =~ $regex ]]
+    then 
+       echo "Link valid"
+    else
+        echo "Link not valid"
+    fi
+    echo ${downloadURL}
     
   displayName: 'Export Workflow'
 
