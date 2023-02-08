@@ -71,17 +71,17 @@ steps:
         echo "Download link could not be retrieved"
         exit 1
     fi
-    mkdir $(Build.BuildNumber)
-    cd $(Build.BuildNumber)
+    
+    cd ../wmio_project_a
     curl --location --request GET ${downloadURL} --output $(Build.BuildNumber).zip
     ls -ltr
   displayName: 'Export Workflow'
 
 
 - script: |
-    echo ${pwd}
+    pwd
     ls -ltr
-    cd $(Build.BuildNumber)
+    cd ../wmio_project_a
     git config user.email "noemail.com"
     git config user.name "refPlatform"
     git add $(Build.BuildNumber).zip
