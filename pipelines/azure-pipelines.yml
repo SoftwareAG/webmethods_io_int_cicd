@@ -40,6 +40,8 @@ steps:
     -u $(exporter_user):$(exporter_password))
 
     echo ${output}
+    downloadURL=`jq -r '.download_link' ${output}`
+    echo ${downloadURL}
   displayName: 'Export Workflow'
 
 - script: |
