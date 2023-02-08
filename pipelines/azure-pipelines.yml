@@ -10,10 +10,10 @@ pool:
 
 resources:
   repositories:
-  - repository: wmio_project_a
-    type: github
-    name: wmio_project_a
-    ref: feature
+  - repository: webMethodsIO_Integration
+    type: git
+    name: webMethodsIO_Integration
+
 
 steps:
 - bash: |
