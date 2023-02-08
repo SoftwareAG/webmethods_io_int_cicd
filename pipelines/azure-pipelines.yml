@@ -88,5 +88,5 @@ steps:
     git config user.name "refPlatform"
     git add $(Build.BuildNumber).zip
     git commit -m "push the wmio exported back to repository from pipeline"
-    git push chini007/wmio_project_a HEAD:featureA
+    git push
   displayName: 'Commit the code to feature branch'
