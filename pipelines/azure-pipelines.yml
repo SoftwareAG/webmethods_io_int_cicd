@@ -24,9 +24,11 @@ steps:
     echo $(exporter_user)
     echo $(source_type)
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
+    export_password=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$export_password")
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
-    echo $(exporter_user):$(export_password)
+    CREDENTIALS=$(exporter_user):$(export_password)@
+    echo ${CREDENTIALS}
     LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
