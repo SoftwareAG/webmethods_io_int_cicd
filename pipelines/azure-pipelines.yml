@@ -19,12 +19,6 @@ steps:
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
-resources:
-  repositories:
-  - repository: webMethodsIO_Integration
-      type: git
-      name: webMethodsIO_Integration/webMethodsIO_Integration
-      ref: featureA
 - script: |
     echo $(source_environment_hostname)
     echo $(source_environment_port)
@@ -60,10 +54,7 @@ resources:
     ls -ltr
   displayName: 'Export Workflow'
 
-- checkout: webMethodsIO_Integration
-  submodules: "true"
-  persistCredentials: "true"
-  clean: "true"
+
 - script: |
     git config user.name ${export_user}
     git add $(Build.BuildNumber).zip
