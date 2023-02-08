@@ -37,7 +37,7 @@ steps:
     output=$(curl  --location --request POST ${EXPORT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    -u $(exporter_user):$(exporter_password)| jq -r '..download_link')
+    -u $(exporter_user):$(exporter_password)| jq -r '.output.download_link')
 
     echo ${output}
     
