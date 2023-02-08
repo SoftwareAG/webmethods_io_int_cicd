@@ -20,6 +20,7 @@ steps:
     echo "##vso[task.setvariable variable=exporter_user]`yq -e ".tenant.exporter_username" configs/dev.yml`"
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/dev.yml`"
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
+    echo ${PROJECTNAME}
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-${PROJECTNAME}"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -31,7 +32,6 @@ steps:
     echo $(exporter_user)
     echo $(source_type)
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
-
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
   
@@ -55,13 +55,12 @@ steps:
         echo "Download link could not be retrieved"
         exit 1
     fi
-
     mkdir $(Build.BuildNumber)
     cd $(Build.BuildNumber)
     curl --location --request GET ${downloadURL} --output $(Build.BuildNumber).zip
     ls -ltr
-
   displayName: 'Export Workflow'
+
 - checkout: webMethodsIO_Integration
   submodules: "true"
   persistCredentials: "true"
