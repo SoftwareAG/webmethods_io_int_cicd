@@ -24,7 +24,8 @@ steps:
     echo $(exporter_user)
     echo $(source_type)
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
-    export_password=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$export_password")
+    EXPORT_PASSWORD=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$EXPORT_PASSWORD")
+    echo ${EXPORT_PASSWORD}
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
     CREDENTIALS=$(exporter_user):$(export_password)
