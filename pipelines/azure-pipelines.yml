@@ -56,7 +56,7 @@ steps:
 
 
 - script: |
-    git config --global user.email "no@email.com"
+    git config user.email "no@email.com"
     git config user.name ${export_user}
     git add $(Build.BuildNumber).zip
     git commit -m "push the wmio exported back to repository from pipeline"
