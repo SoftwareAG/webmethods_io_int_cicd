@@ -10,9 +10,9 @@ pool:
 
 resources:
   repositories:
-  - repository: webMethodsIO_Integration
-    type: git
-    name: webMethodsIO_Integration/webMethodsIO_Integration
+  - repository: wmio_project_a
+    type: github
+    name: wmio_project_a
     ref: feature
 
 steps:
@@ -70,6 +70,7 @@ steps:
     cd $(Build.BuildNumber)
     git config user.email "noemail.com"
     git config user.name "wmio_ci_pipeline"
+    git checkout feature
     git add $(Build.BuildNumber).zip
     git commit -m "push the wmio exported back to repository from pipeline"
   displayName: 'Run a multi-line script'
