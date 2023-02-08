@@ -10,7 +10,7 @@ pool:
 steps:
 - bash: |
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(projectName)"
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Update Build Number'
 
 - script: |
