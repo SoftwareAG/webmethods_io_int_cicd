@@ -61,14 +61,13 @@ steps:
     ls -ltr
   displayName: 'Export Workflow'
 
-
+- checkout: wmio_project_a
 - script: |
     echo ${pwd}
     ls -ltr
     cd $(Build.BuildNumber)
     git config user.email "noemail.com"
     git config user.name "refPlatform"
-    git checkout -b featureA
     git add $(Build.BuildNumber).zip
     git commit -m "push the wmio exported back to repository from pipeline"
     git push -u origin featureA
