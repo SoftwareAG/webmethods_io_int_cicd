@@ -46,7 +46,7 @@ steps:
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
 
-- script: | 
+- bash: | 
     curl --location --request POST ${EXPORT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
