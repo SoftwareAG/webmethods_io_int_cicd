@@ -50,7 +50,7 @@ steps:
     fi
 
     curl --location --request GET ${downloadURL} --output $(Build.BuildNumber).zip
-    ls
+    ls -ltr
     
   displayName: 'Export Workflow'
 
