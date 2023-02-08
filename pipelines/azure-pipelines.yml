@@ -11,12 +11,13 @@ steps:
 - bash: |
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(projectName)"
   workingDirectory: '$(System.DefaultWorkingDirectory)'
-  displayName: 'Get Environment Tenant Details'
+  displayName: 'Update Build Number'
 
 - script: |
     HOSTNAME=`yq -e ".tenant.hostname" configs/dev.yml`
     PORT=`yq -e ".tenant.port" configs/dev.yml`
     EXPORTER_USERNAME=`yq -e ".tenant.exporter_username" configs/dev.yml`
+    echo ${HOSTNAME}
     echo "##vso[task.setvariable variable=source_environment_hostname]${HOSTNAME}"
     echo "##vso[task.setvariable variable=source_environment_port]${PORT}"
     echo "##vso[task.setvariable variable=(exporter_username)]${EXPORTER_USERNAME}"
@@ -30,7 +31,7 @@ steps:
     echo ${EXPORT_URL}
     echo ${PWD}
   workingDirectory: '$(System.DefaultWorkingDirectory)'
-  displayName: 'Reading Variable'
+  displayName: 'Get Environment Tenant Details'
 
 - script: | 
     curl --location --request POST ${EXPORT_URL} \
