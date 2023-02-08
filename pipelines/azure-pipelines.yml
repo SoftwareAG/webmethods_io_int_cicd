@@ -13,7 +13,7 @@ steps:
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Update Build Number'
 
-- script: |
+- bash: |
     HOSTNAME=`yq -e ".tenant.hostname" configs/dev.yml`
     PORT=`yq -e ".tenant.port" configs/dev.yml`
     EXPORTER_USERNAME=`yq -e ".tenant.exporter_username" configs/dev.yml`
