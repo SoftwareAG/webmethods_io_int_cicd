@@ -54,7 +54,6 @@ steps:
     ls -ltr
   displayName: 'Export Workflow'
 
-- checkout: webMethodsIO_Integration
 
 - script: |
     echo ${pwd}
