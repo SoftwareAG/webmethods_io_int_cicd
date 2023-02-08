@@ -23,7 +23,7 @@ steps:
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
     echo ${PROJECTNAME}
     echo ${WORKFLOWID}
-    echo $(source_environment_hostname):$(source_environment_port)
+    echo $(source_environment_hostname)
     LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
     echo ${LOCAL_DEV_URL}
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
