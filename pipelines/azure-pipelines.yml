@@ -7,12 +7,6 @@ trigger: none
 
 pool:
   vmImage: ubuntu-latest
-resources:
-  repositories:
-  - repository: webMethodsIO_Integration
-    type: git
-    name: webMethodsIO_Integration/webMethodsIO_Integration
-    ref: featureA
 steps:
 - bash: |
     echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/dev.yml`"
