@@ -15,7 +15,7 @@ steps:
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/dev.yml`"
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
     echo ${PROJECTNAME}
-    echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(projectName)"
+    echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-${PROJECTNAME}"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
