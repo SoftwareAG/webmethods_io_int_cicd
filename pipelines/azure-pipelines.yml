@@ -61,10 +61,7 @@ steps:
     ls -ltr
   displayName: 'Export Workflow'
 
-- checkout: wmio_project_a
-  submodules: "true"
-  persistCredentials: "true"
-  clean: "true"
+
 - script: |
     echo ${pwd}
     ls -ltr
