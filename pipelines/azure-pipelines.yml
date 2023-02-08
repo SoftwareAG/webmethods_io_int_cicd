@@ -40,7 +40,7 @@ steps:
     EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
     echo ${EXPORT_URL}
     echo ${PWD}
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
+
   displayName: 'Get Environment Tenant Details'
 
 - script: | 
