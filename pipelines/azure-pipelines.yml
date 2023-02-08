@@ -21,11 +21,7 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
-    HOSTNAME=`yq -e ".tenant.hostname" configs/dev.yml`
-    echo "##vso[task.setvariable variable=source_environment_hostname]${HOSTNAME}"
-    echo ${source_environment_hostname}
     echo $(source_environment_hostname)
-    echo $source_environment_hostname
     PORT=`yq -e ".tenant.port" configs/dev.yml`
     EXPORTER_USERNAME=`yq -e ".tenant.exporter_username" configs/dev.yml`
     echo ${PROJECTNAME}
