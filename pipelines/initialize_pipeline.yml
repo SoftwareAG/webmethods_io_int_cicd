@@ -56,7 +56,7 @@ steps:
           git add README.md
           git commit -m "first commit"
           git branch -M main
-          git remote add origin git@github.com:chini007/$(repoName).git
+          git remote add origin https://github.com/chini007/wmio_project_b.git
           git push -u origin main
 
       else
