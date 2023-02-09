@@ -9,17 +9,17 @@ pool:
   vmImage: ubuntu-latest
 resources:
   repositories:
-  - repository: wmio_project_a
+  - repository: $(repo_name)
     type: github
     endpoint: github
-    name: chini007/wmio_project_a
-    ref: featureA
+    name: $(repo_path)
+    ref: $(feature_branch_name)
 steps:
-- checkout: wmio_project_a
+- checkout: $(repo_name)
   submodules: "true"
   persistCredentials: "true"
   clean: "true"
-  path: wmio_project_a
+  path: $(repo_name)
 - checkout: self
   submodules: "true"
   persistCredentials: "true"
@@ -79,11 +79,7 @@ steps:
 
 
 - script: |
-    pwd
-    ls -ltr
     cd ../wmio_project_a
-    pwd
-    ls -ltr
     git config user.email "noemail.com"
     git config user.name "refPlatform"
     git add $(Build.BuildNumber).zip
