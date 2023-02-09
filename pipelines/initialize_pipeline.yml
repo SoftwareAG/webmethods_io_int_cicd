@@ -48,9 +48,17 @@ steps:
       ###### GitHub
 
       git remote add origin git@github.com:$(repo_user)/$(repoName).git
-      json={'name':'$(repoName)'}
-      echo ${json}
-      curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
+
+      exists=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.id')
+      if [ -z "$exists" ]
+      then
+          echo "Repo does not exists, creating ..."
+          curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
+      else
+          echo "Repo already exixts with id: \$var"
+          exit 0
+      fi  
+
       
       
   displayName: 'Create a repo and required branches'
