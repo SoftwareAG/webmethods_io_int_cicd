@@ -73,7 +73,7 @@ steps:
     fi
     
     cd ../$(repo_name)
-    curl --location --request GET ${downloadURL} --output $(Build.BuildNumber).zip
+    curl --location --request GET ${downloadURL} --output $(workflowId).zip
     ls -ltr
   displayName: 'Export Workflow'
 
@@ -83,7 +83,7 @@ steps:
     git config user.email "noemail.com"
     git config user.name "refPlatform"
     git add $(Build.BuildNumber).zip
-    git commit -m "push the wmio exported back to repository from pipeline"
+    git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
     git push origin HEAD:$(feature_branch_name)
   displayName: 'Commit the code to feature branch'
 
