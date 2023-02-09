@@ -44,7 +44,10 @@ steps:
       git branch -m main
       git add README.md
       git commit -m "first commit"
-      git remote add origin git@github.com:chini007/$(repoName).git
+      
+      ###### Only for GitHub
+
+      git remote add origin git@github.com:$(repo_user)/$(repoName).git
       json={'name':'$(repoName)'}
       echo ${json}
       curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
