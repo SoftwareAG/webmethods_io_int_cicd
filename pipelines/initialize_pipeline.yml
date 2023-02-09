@@ -52,7 +52,7 @@ steps:
           echo "# wmio_project_b" >> README.md
           git init
           git config user.email "noemail.com"
-          git config user.name "refPlatform"
+          git config user.name "chini007"
           git add README.md
           git commit -m "first commit"
           git branch -M main
