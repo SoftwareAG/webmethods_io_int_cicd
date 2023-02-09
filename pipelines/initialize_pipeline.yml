@@ -55,6 +55,7 @@ steps:
           git remote add origin git@github.com:$(repo_user)/$(repoName).git
 
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
+          git push origin main
       else
           echo "Repo already exixts with id:" ${id}
           exit 0
