@@ -97,5 +97,4 @@ steps:
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)../$(repo_name)'
     Contents: '$(Build.BuildNumber).zip' 
-    #RemoveSourceFolder: # Optional
   displayName: 'Remove the Export after successfull Commit'
