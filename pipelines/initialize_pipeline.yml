@@ -35,7 +35,7 @@ steps:
     script: |
       # Write your commands here
       cd ../
-      mkdir -p projectRepo
+      mkdir -p $(repoName)
       cd projectRepo
       touch README.md
       git config user.email "noemail.com"
@@ -43,8 +43,8 @@ steps:
       git init
       git add README.md
       git commit -m "first commit"
-      git remote add origin chini007@github.com:chini007/$(repoName).git
-      git push origin HEAD:main
+      git remote add origin git@github.com:chini007/$(repoName).git
+      curl -u chini007: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 https://api.github.com/user/repos -d '{"name":$(repoName)}'
       echo 'Hello world'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
