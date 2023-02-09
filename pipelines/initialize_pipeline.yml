@@ -61,7 +61,12 @@ steps:
           git push -u origin production
 
           git checkout -b dev production
+          git commit -m "first commit"
+          git push -u origin dev
+
           git checkout -b qa production
+          git commit -m "first commit"
+          git push -u origin qa
           
 
       else
