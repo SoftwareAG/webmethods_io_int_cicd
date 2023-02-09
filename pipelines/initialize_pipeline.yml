@@ -58,8 +58,7 @@ steps:
           git add README.md
           git commit -m "first commit"
           git branch -M main
-          git config --global --add url."git@github.com:".insteadOf "https://github.com/"
-          git remote add origin https://github.com/chini007/wmio_project_b.git
+          git remote add origin https://chini007:$(PAT)@github.com/chini007/wmio_project_b.git
           git push -u origin main
 
       else
