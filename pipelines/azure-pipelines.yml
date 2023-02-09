@@ -9,7 +9,7 @@ pool:
   vmImage: ubuntu-latest
 resources:
   repositories:
-  - repository: $(repo_name)
+  - repository: projectRepo
     type: github
     endpoint: github
     name: $(repo_path)
