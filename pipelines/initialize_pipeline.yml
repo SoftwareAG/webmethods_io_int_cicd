@@ -40,7 +40,7 @@ steps:
 
       id=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.id')
       echo ${id}
-      if [ -n "$id" ]
+      if [ "$id" == null ]
       then
           echo "Repo does not exists, creating ..."
           mkdir -p $(repoName)
