@@ -45,7 +45,7 @@ steps:
       git add README.md
       git commit -m "first commit"
       
-      ###### Only for GitHub
+      ###### GitHub
 
       git remote add origin git@github.com:$(repo_user)/$(repoName).git
       json={'name':'$(repoName)'}
