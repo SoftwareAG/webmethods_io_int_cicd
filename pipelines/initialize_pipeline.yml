@@ -13,11 +13,20 @@ steps:
   persistCredentials: "true"
   clean: "true"
   path: self
+
+- bash: |
+    pwd
+    ls -ltr
+    cd self
+    ls -ltr
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  displayName: 'Check Location'
 - task: Bash@3
   inputs:
     filePath: '../self/pipelines/scripts/loadCofig.sh'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
+  displayName: 'Get Environment Tenant Details'
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -35,3 +44,4 @@ steps:
       echo 'Hello world'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
+    
