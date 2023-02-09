@@ -55,7 +55,7 @@ steps:
           echo "Repo does not exists, creating ..."
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
       else
-          echo "Repo already exixts with id: \$var"
+          echo "Repo already exixts with id:" ${id}
           exit 0
       fi  
 
