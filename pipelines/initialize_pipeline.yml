@@ -35,29 +35,29 @@ steps:
 - script: |
       # Write your commands here
       cd ../
-      mkdir -p $(repoName)
-      cd $(repoName)
-      touch README.md
-      git init
-      git config user.email "noemail.com"
-      git config user.name "refPlatform"
-      git branch -m main
-      git add README.md
-      git commit -m "first commit"
-      
-      ###### GitHub
-
-      git remote add origin git@github.com:$(repo_user)/$(repoName).git
-
-      exists=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.id')
-      if [ -z "$exists" ]
+      id=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.id')
+      echo ${id}
+      if [ -z "$id" ]
       then
           echo "Repo does not exists, creating ..."
+          mkdir -p $(repoName)
+          cd $(repoName)
+          touch README.md
+          git init
+          git config user.email "noemail.com"
+          git config user.name "refPlatform"
+          git branch -m main
+          git add README.md
+          git commit -m "first commit"
+          git remote add origin git@github.com:$(repo_user)/$(repoName).git
+
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
       else
           echo "Repo already exixts with id:" ${id}
           exit 0
-      fi  
+      fi
+      
+        
 
       
       
