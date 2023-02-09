@@ -19,6 +19,7 @@ steps:
     ls -ltr
     cd self
     ls -ltr
+    ls -ltr ./pipelines/
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Check Location'
 - task: Bash@3
