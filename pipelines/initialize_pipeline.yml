@@ -7,11 +7,6 @@ trigger: none
 
 pool:
   vmImage: ubuntu-latest
-resources:
-  repositories:
-  - repository: projectRepo
-    type: github
-    endpoint: github
 steps:
 - checkout: self
   submodules: "true"
@@ -23,66 +18,20 @@ steps:
     filePath: '../self/pipelines/scripts/loadCofig.sh'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
-
-
-- bash: |
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
-  displayName: 'Get Environment Tenant Details'
-- script: |
-    echo $(source_environment_hostname)
-    echo $(source_environment_port)
-    echo $(exporter_user)
-    echo $(source_type)
-    PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$PROJECTNAME")
-    echo ${PROJECTNAME}
-    echo ${WORKFLOWID}
-  
-    LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
-    echo ${LOCAL_DEV_URL}
-    EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${PROJECTNAME}/workflows/${WORKFLOWID}/export
-    echo ${EXPORT_URL}
-    echo ${PWD}
-    echo $(exporter_user):$(exporter_password)
-    downloadURL=$(curl  --location --request POST ${EXPORT_URL} \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    -u $(exporter_user):$(exporter_password)| jq -r '.output.download_link')
-    
-    regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
-    
-    if [[ $downloadURL =~ $regex ]]
-    then 
-       echo ${downloadURL}
-    else
-        echo "Download link could not be retrieved"
-        exit 1
-    fi
-    
-    cd ../$(repo_name)
-    mkdir -p assets/workflows
-    cd assets/workflows
-    curl --location --request GET ${downloadURL} --output $(workflowId).zip
-    ls -ltr
-  displayName: 'Export Workflow'
-
-
-- script: |
-    cd ../$(repo_name)
-    git config user.email "noemail.com"
-    git config user.name "refPlatform"
-    git add .
-    git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
-    git push origin HEAD:$(feature_branch_name)
-  displayName: 'Commit the code to feature branch'
-
-- task: PublishBuildArtifacts@1
+- task: Bash@3
   inputs:
-    pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repo_name)'
-    artifactName: '$(project_name)_$(workflowId)_export'
-  displayName: 'Publishing the export'
-
-- task: DeleteFiles@1
-  inputs:
-    SourceFolder: '$(System.DefaultWorkingDirectory)../$(repo_name)'
-    Contents: './*' 
-  displayName: 'Remove the Export after successfull Commit'
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      cd ../
+      mkdir -p projectRepo
+      cd projectRepo
+      touch README.md
+      git init
+      git add README.md
+      git commit -m "first commit"
+      git remote add origin chini007@github.com:chini007/$(repoName).git
+      git push -u origin master
+      echo 'Hello world'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    failOnStderr: true
