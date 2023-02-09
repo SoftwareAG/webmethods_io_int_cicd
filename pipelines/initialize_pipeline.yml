@@ -46,20 +46,20 @@ steps:
           mkdir -p $(repoName)
           cd $(repoName)
 
-
+          #### Create empty repo
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
-                    touch README.md
+          
+          #### Initiatialite and push to main
           echo "# wmio_project_b" >> README.md
-          
           git init
-          
           git config user.email "noemail.com"
-          git config user.name "chini007"
+          git config user.name "$(repo_user)"
           git add README.md
           git commit -m "first commit"
           git branch -M main
-          git remote add origin https://chini007:$(PAT)@github.com/chini007/wmio_project_b.git
+          git remote add origin https://$(repo_user):$(PAT)@github.com/chini007/$(repoName).git
           git push -u origin main
+
 
       else
           echo "Repo already exixts with id:" ${id}
