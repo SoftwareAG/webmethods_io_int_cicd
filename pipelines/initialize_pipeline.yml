@@ -24,7 +24,7 @@ steps:
   displayName: 'Check Location'
 - task: Bash@3
   inputs:
-    filePath: './pipelines/scripts/loadCofig.sh'
+    filePath: '../self/pipelines/scripts/loadConfig.sh'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
   displayName: 'Get Environment Tenant Details'
