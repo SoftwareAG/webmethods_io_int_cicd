@@ -86,3 +86,10 @@ steps:
     git commit -m "push the wmio exported back to repository from pipeline"
     git push origin HEAD:$(feature_branch_name)
   displayName: 'Commit the code to feature branch'
+  
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publishing the export'
