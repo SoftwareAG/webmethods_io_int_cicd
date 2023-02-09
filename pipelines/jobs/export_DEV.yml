@@ -9,7 +9,7 @@ jobs:
   resources:
   repositories:
   - repository: webMethodsIO_Integration
-    type: git
+    type: github
     name: webMethodsIO_Integration/webMethodsIO_Integration
     ref: dev
   steps:
