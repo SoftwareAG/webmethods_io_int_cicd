@@ -34,7 +34,7 @@ steps:
       # Write your commands here
       cd ../
       mkdir -p $(repoName)
-      cd projectRepo
+      cd $(repoName)
       touch README.md
       git config user.email "noemail.com"
       git config user.name "refPlatform"
