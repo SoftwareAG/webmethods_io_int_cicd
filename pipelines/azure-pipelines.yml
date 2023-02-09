@@ -15,7 +15,7 @@ resources:
     name: $(repo_path)
     ref: $(feature_branch_name)
 steps:
-- checkout: $(repo_name)
+- checkout: projectRepo
   submodules: "true"
   persistCredentials: "true"
   clean: "true"
