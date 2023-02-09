@@ -48,7 +48,16 @@ steps:
 
 
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
-          
+                    touch README.md
+          git init
+          git config user.email "noemail.com"
+          git config user.name "refPlatform"
+          git branch -m main
+          git add .
+          git commit -m "first commit"
+          git remote add origin git@github.com:$(repo_user)/$(repoName).git
+          git push origin main
+
       else
           echo "Repo already exixts with id:" ${id}
           exit 0
