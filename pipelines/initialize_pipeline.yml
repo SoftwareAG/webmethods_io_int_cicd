@@ -60,6 +60,9 @@ steps:
           git remote add origin https://$(repo_user):$(PAT)@github.com/chini007/$(repoName).git
           git push -u origin production
 
+          git checkout -b dev production
+          git checkout -b qa production
+          
 
       else
           echo "Repo already exixts with id:" ${id}
