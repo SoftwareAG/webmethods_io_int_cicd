@@ -91,7 +91,7 @@ steps:
 
 - task: PublishBuildArtifacts@1
   inputs:
-    pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repo_name)/$(Build.BuildNumber).zip'
+    pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repo_name)/*'
     artifactName: '$(project_name)_$(workflowId)_export'
   displayName: 'Publishing the export'
 
