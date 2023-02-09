@@ -44,7 +44,7 @@ steps:
       git add README.md
       git commit -m "first commit"
       git remote add origin chini007@github.com:chini007/$(repoName).git
-      git push -u origin main
+      git push origin HEAD:main
       echo 'Hello world'
     workingDirectory: '$(System.DefaultWorkingDirectory)'
     failOnStderr: true
