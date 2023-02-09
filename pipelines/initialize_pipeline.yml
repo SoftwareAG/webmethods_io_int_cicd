@@ -39,10 +39,11 @@ steps:
       git init
       git config user.email "noemail.com"
       git config user.name "refPlatform"
+      git branch -m main
       git add README.md
       git commit -m "first commit"
       git remote add origin git@github.com:chini007/$(repoName).git
-      json={"name":"$(repoName)""}
+      json={"name":"$(repoName)"}
       echo ${json}
       curl -u chini007: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 https://api.github.com/user/repos -d '${json}'
       echo 'Hello world'
