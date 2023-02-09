@@ -73,6 +73,8 @@ steps:
     fi
     
     cd ../$(repo_name)
+    mkdir -p assets/workflows
+    cd assets/workflows
     curl --location --request GET ${downloadURL} --output $(workflowId).zip
     ls -ltr
   displayName: 'Export Workflow'
@@ -82,7 +84,7 @@ steps:
     cd ../$(repo_name)
     git config user.email "noemail.com"
     git config user.name "refPlatform"
-    git add $(Build.BuildNumber).zip
+    git add .
     git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
     git push origin HEAD:$(feature_branch_name)
   displayName: 'Commit the code to feature branch'
@@ -96,5 +98,5 @@ steps:
 - task: DeleteFiles@1
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)../$(repo_name)'
-    Contents: '$(Build.BuildNumber).zip' 
+    Contents: './*' 
   displayName: 'Remove the Export after successfull Commit'
