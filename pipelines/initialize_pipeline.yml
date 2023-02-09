@@ -36,9 +36,9 @@ steps:
       mkdir -p $(repoName)
       cd $(repoName)
       touch README.md
+      git init
       git config user.email "noemail.com"
       git config user.name "refPlatform"
-      git init
       git add README.md
       git commit -m "first commit"
       git remote add origin git@github.com:chini007/$(repoName).git
