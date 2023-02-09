@@ -56,10 +56,5 @@ steps:
           echo "Repo already exixts with id:" ${id}
           exit 0
       fi
-      
-        
-
-      
-      
   displayName: 'Create a repo and required branches'
   
