@@ -90,6 +90,7 @@ steps:
       PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
       if [ $(init) == true ]
+      then
         ######## Check Project Exists 
         echo "Check and create Project"
         name=$(curl --location --request GET ${PROJECT_URL} \
