@@ -101,7 +101,7 @@ steps:
             projectName=$(curl --location --request POST ${PROJECT_URL} \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
-            --data-raw { "name": ""$(repo_name)"", "description": "Created by Automated CI for feature branch" -u $(exporter_user):$(exporter_password))
+            --data-raw '{ "name": ""$(repo_name)"", "description": "Created by Automated CI for feature branch"}'' -u $(exporter_user):$(exporter_password))
             echo ${projectName}
 
           else
