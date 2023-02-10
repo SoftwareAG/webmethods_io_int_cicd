@@ -82,11 +82,14 @@ steps:
 - script: |
 
       cd ../
+      LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
+      echo ${LOCAL_DEV_URL}
+      PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
       if [ $(init) == true ]
         ######## Check Project Exists 
         echo "Check and create Project"
-        name=$(curl --location --request GET 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects/wmio_project_b' \
+        name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
                 -u $(exporter_user):$(exporter_password)) | jq -r '.output.name')
         echo ${name}
