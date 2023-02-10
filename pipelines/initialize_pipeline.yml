@@ -98,7 +98,7 @@ steps:
             echo "Project does not exists, creating ..."
 
             #### Create project in the tenant
-            json = { "name": ""$(repo_name)"", "description": "Created by Automated CI for feature branch"}
+            json="{ "name": ""$(repo_name)"", "description": "Created by Automated CI for feature branch"}"
             echo ${json}
             projectName=$(curl --location --request POST ${PROJECT_URL} \
             --header 'Content-Type: application/json' \
