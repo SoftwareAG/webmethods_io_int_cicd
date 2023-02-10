@@ -103,6 +103,7 @@ steps:
         fi
       else
         ######## Create a feature branch from prod 
+        echo "Check and sync feature branch from Prod"
           mkdir -p $(repoName)
           cd $(repoName)
           git checkout -b $(feature_branch_name) production
