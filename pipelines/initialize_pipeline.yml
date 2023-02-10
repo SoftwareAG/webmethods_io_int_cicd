@@ -116,6 +116,7 @@ steps:
           git clone  https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
           cd $(repoName)
           git checkout -b $(feature_branch_name) production
+          ls -ltr
       fi
 
   
