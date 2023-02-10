@@ -69,7 +69,7 @@ steps:
           git checkout -b $(feature_branch_name) production
           git commit -m "first commit"
           git push -u origin $(feature_branch_name)
-
+          echo "Repo creation done !!!"
       else
           echo "Repo already exixts with name:" ${name}
           echo "##vso[task.setvariable variable=init]false"
