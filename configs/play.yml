@@ -1,0 +1,6 @@
+tenant:
+  hostname: "insrsaeu.int-aws-de.webmethods.io"   # webMthodsIO Integration hostname or ip address
+  port: "443"                                       # webMthodsIO Integration port
+  importer_username: "refplatform"                     # webMthodsIO Integration user  
+  exporter_username: "refplatform"                     # webMthodsIO Integration user  
+  type: "PLAY"                                         #Dev
