@@ -110,7 +110,7 @@ steps:
         fi
       else
         ######## Create a feature branch from prod 
-        echo "Check and sync feature branch from Prod"
+        echo "Repo Exists, So Check and sync feature branch from Prod"
         
           rm -rf ./$(repoName)
 
