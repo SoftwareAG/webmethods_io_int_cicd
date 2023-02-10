@@ -5,6 +5,9 @@ trigger: none
 
 pool:
   vmImage: ubuntu-latest
+variables:
+- name: init
+  value: true
 steps:
 - checkout: self
   submodules: "true"
@@ -31,7 +34,6 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
-      # Write your commands here
       cd ../
       
       ########GitHub 
@@ -72,7 +74,38 @@ steps:
 
       else
           echo "Repo already exixts with id:" ${name}
+          echo "##vso[task.setvariable variable=init]false"
           exit 0
       fi
   displayName: 'Create a repo and required branches'
   
+- script: |
+
+      cd ../
+      if [ "$(init)" == true ]
+        ######## Check Project Exists 
+
+        name=$(curl --location --request GET 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects/wmio_project_b' \
+                --header 'Accept: application/json' \
+                -u $(exporter_user):$(exporter_password)) | jq -r '.output.name')
+        echo ${name}
+        if [ "$name" == null ]
+        then
+            echo "Repo does not exists, creating ..."
+
+            #### Create project in the tenant
+            curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
+
+        else
+            echo "Projecxt already exixts with id:" ${name}
+            exit 0
+        fi
+      else
+        ######## Create a feature branch from prod 
+          mkdir -p $(repoName)
+          cd $(repoName)
+          git checkout -b $(feature_branch_name) production
+      fi
+
+  
+  displayName: 'Create a repo and required branches'
