@@ -86,7 +86,7 @@ steps:
       if [ $(init) == true ]
       then
         ######## Check Project Exists 
-        echo "Check and create Project"
+        echo "Check Project exists"
         name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
                 -u $(exporter_user):$(exporter_password) | jq -r '.output.name')
@@ -96,7 +96,7 @@ steps:
             echo "Project does not exists, creating ..."
 
             #### Create project in the tenant
-            projectName=(curl --location --request POST ${PROJECT_URL} \
+            projectName=$(curl --location --request POST ${PROJECT_URL} \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
             --data-raw '{ "name": $(repo_name), "description": "Created by Automated CI for feature branch"}' -u $(exporter_user):$(exporter_password))
