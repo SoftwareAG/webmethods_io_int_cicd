@@ -94,7 +94,7 @@ steps:
         echo "Check and create Project"
         name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
-                -u $(exporter_user):$(exporter_password)) | jq -r '.output.name')
+                -u $(exporter_user):$(exporter_password) | jq -r '.output.name')
         echo ${name}
         if [ "$name" == null ]
         then
