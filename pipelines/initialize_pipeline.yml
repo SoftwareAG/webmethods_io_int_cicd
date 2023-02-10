@@ -117,7 +117,8 @@ steps:
           git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
           cd $(repoName)
           branchExists=(git ls-remote --exit-code --heads origin $(feature_branch_name))
-          if [ ${branchExists} == 0 ]
+          echo ${branchExists}
+          if [ ${branchExists} -eq 0 ]
           then
               echo "Branch $(feature_branch_name) already exists"
           else
