@@ -136,4 +136,4 @@ steps:
       fi
 
   
-  displayName: 'Create a repo and required branches'
+  displayName: 'Create / Sychronize the projects'
