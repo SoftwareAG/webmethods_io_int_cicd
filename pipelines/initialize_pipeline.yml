@@ -111,8 +111,10 @@ steps:
       else
         ######## Create a feature branch from prod 
         echo "Check and sync feature branch from Prod"
+        
           mkdir -p $(repoName)
           cd $(repoName)
+          git clone  https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
           git checkout -b $(feature_branch_name) production
       fi
 
