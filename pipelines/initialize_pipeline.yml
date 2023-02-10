@@ -116,6 +116,8 @@ steps:
           git clone  https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
           cd $(repoName)
           git checkout -b $(feature_branch_name) production
+          git add .
+          git commit -m "Synching from Prod for feature branch:"$(feature_branch_name) 
           ls -ltr
       fi
 
