@@ -82,11 +82,10 @@ steps:
 - script: |
 
       cd ../
-      echo ${{ variables.init }}
-      echo $(init)
-      if [ "$(init)" == true ]
-        ######## Check Project Exists 
 
+      if [ $(init) == true ]
+        ######## Check Project Exists 
+        echo "Check and create Project"
         name=$(curl --location --request GET 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects/wmio_project_b' \
                 --header 'Accept: application/json' \
                 -u $(exporter_user):$(exporter_password)) | jq -r '.output.name')
