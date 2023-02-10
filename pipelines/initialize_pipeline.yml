@@ -135,7 +135,6 @@ steps:
               git commit -m "Synching from Prod for feature branch:"$(feature_branch_name) 
               git push -u origin $(feature_branch_name)
           fi
-          
-          ls -ltr
+
       fi
   displayName: 'Create / Sychronize the projects'
