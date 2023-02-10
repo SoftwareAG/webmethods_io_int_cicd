@@ -82,6 +82,8 @@ steps:
 - script: |
 
       cd ../
+      echo ${{ variables.init }}
+      echo §(init)
       if [ "$(init)" == true ]
         ######## Check Project Exists 
 
