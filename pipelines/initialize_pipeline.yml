@@ -114,6 +114,7 @@ steps:
         if [ -z "$(ASSETID)" ]; then
           echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
           echo "##vso[task.complete result=Failed;]"
+          exit 1
         fi
         
           rm -rf ./$(repoName)
