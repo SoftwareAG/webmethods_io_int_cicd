@@ -113,7 +113,7 @@ steps:
         echo "Check and sync feature branch from Prod"
         
 
-          git clone  https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
+          git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
           cd $(repoName)
           branchExists=(git ls-remote --exit-code --heads origin $(repoName))
           if [ ${branchExists} == 0 ]
