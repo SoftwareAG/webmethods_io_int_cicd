@@ -99,12 +99,13 @@ steps:
             echo "Project does not exists, creating ..."
 
             #### Create project in the tenant
-            projectName=(curl --location --request POST 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects' \
+            projectName=(curl --location --request POST ${PROJECT_URL} \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
-            --data-raw '{ "name": "$(repo_name)", "description": "Created by Automated CI for feature branch"}' -u $(exporter_user):$(exporter_password) | jq -r '.output.name')    
+            --data-raw '{ "name": $(repo_name), "description": "Created by Automated CI for feature branch"}' -u $(exporter_user):$(exporter_password))
+            echo ${projectName}
 
-        else
+          else
             echo "Projecxt already exixts with name:" ${name}
             exit 0
         fi
