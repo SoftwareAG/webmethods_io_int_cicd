@@ -83,7 +83,7 @@ steps:
 
       cd ../
       echo ${{ variables.init }}
-      echo §(init)
+      echo $(init)
       if [ "$(init)" == true ]
         ######## Check Project Exists 
 
