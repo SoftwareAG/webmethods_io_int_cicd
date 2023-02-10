@@ -8,8 +8,7 @@ pool:
 variables:
 - name: init
   value: true
-- name: source_environment_hostname
-  value: 
+
 steps:
 - checkout: self
   submodules: "true"
@@ -85,7 +84,7 @@ steps:
 
       cd ../
      
-      echo ${{source_environment_hostname}}
+      
       LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
       echo ${LOCAL_DEV_URL}
       PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
