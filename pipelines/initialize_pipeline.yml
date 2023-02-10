@@ -8,6 +8,8 @@ pool:
 variables:
 - name: init
   value: true
+- name: source_environment_hostname
+  value: 
 steps:
 - checkout: self
   submodules: "true"
