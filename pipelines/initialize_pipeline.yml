@@ -138,7 +138,11 @@ steps:
               git push -u origin $(feature_branch_name)
               ls -ltr ./assets/workflows
               echo "IMPORT here"
-              
+              if ["$(assetType)" == "Workflow"]; then
+                  FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
+              else
+                  FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
+              fi
               importedName:$(curl --location --request POST 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects/Test Project/workflow-import' \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
