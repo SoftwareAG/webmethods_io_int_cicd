@@ -107,7 +107,7 @@ steps:
         fi
       else
         ######## Create a feature branch from prod 
-        echo "Repo Exists, So Check and sync feature branch from Prod"
+        echo "Repo Exists, Check and sync feature branch from Prod"
         if [ -z "$(ASSETID)" ]; then
           echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
           echo "##vso[task.complete result=Failed;]"
