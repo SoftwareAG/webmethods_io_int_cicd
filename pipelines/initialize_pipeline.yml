@@ -141,9 +141,11 @@ steps:
               if ["$(assetType)" == "workflow"]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
                   cd ./assets/workflows
+                  ls -ltr
               else
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
                   cd ./assets/flowservices
+                  ls -ltr
               fi
               importedName:$(curl --location --request POST $(FLOW_URL) \
                               --header 'Content-Type: multipart/form-data' \
