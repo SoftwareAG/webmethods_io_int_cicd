@@ -133,7 +133,7 @@ steps:
           then
               echo "Branch $(feature_branch_name) already exists"
           else
-              echo "Branch does not exists ....."
+              echo "Branch does not exists."
               git config user.email "noemail.com"
               git config user.name $(repo_user)
               git checkout -b $(feature_branch_name) production
