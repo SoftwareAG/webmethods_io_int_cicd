@@ -136,17 +136,19 @@ steps:
               git add .
               git commit -m "Synching from Prod for feature branch:"$(feature_branch_name) 
               git push -u origin $(feature_branch_name)
-              ls -ltr ./assets/workflows
+              
               echo "IMPORT here"
-              if ["$(assetType)" == "Workflow"]; then
+              if ["$(assetType)" == "workflow"]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
+                  cd ./assets/workflows
               else
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
+                  cd ./assets/flowservices
               fi
-              importedName:$(curl --location --request POST 'https://insrsaeu.int-aws-de.webmethods.io/apis/v1/rest/projects/Test Project/workflow-import' \
+              importedName:$(curl --location --request POST $(FLOW_URL) \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@".$(assetID).zip"' -u $(exporter_user):$(exporter_password) | jq -r 'output.id' )    
+                              --form 'recipe=@"./$(assetID).zip"' -u $(exporter_user):$(exporter_password) | jq -r 'output.id' )    
 
           fi
       fi
