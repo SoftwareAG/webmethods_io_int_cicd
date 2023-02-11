@@ -93,10 +93,8 @@ steps:
                 --header 'Accept: application/json' \
                 -u $(exporter_user):$(exporter_password) | jq -r '.output.name')
         echo ${name}
-        if [ "$name" == null ]
-        then
+        if [ "$name" == null ]; then
             echo "Project does not exists, creating ..."
-
             #### Create project in the tenant
             json='{ "name": "'$(repoName)'", "description": "Created by Automated CI for feature branch"}'
             projectName=$(curl --location --request POST ${PROJECT_URL} \
@@ -128,9 +126,8 @@ steps:
           git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
           cd $(repoName)
           branchExists=$(git ls-remote --exit-code --heads origin $(feature_branch_name))
-          echo ${branchExists}
-          if ["$branchExists" != null && "$branchExists" != " " ];
-          then
+
+          if ["$branchExists" != null && "$branchExists" != " " ]; then
               echo "Branch $(feature_branch_name) already exists"
           else
               echo "Branch does not exists."
