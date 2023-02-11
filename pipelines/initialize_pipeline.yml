@@ -85,8 +85,7 @@ steps:
       echo ${LOCAL_DEV_URL}
       PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       echo $(init)
-      if [ $(init) == true ]
-      then
+      if [ $(init) == true ]; then
         ######## Check Project Exists 
         echo "Check Project exists"
         name=$(curl --location --request GET ${PROJECT_URL} \
