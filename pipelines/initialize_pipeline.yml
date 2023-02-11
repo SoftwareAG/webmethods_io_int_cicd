@@ -143,6 +143,6 @@ steps:
               ls -ltr ./assets/workflows
               echo "IMPORT here"
           fi
-
       fi
   displayName: 'Create / Sychronize the projects'
+  failOnStderr: true
