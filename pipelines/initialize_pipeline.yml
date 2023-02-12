@@ -88,7 +88,7 @@ steps:
       if [ $(init) == true ]; then
         ######## Check & Create Project 
         chmod 777 ./pipelines/scripts/*.sh
-      ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
+      ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName)
         : '
         echo #### Commented Out
         echo "Check Project exists"
@@ -147,7 +147,7 @@ steps:
               # Project Check
               chmod 777 ../self/pipelines/scripts/*.sh
               echo "Check and create Project"
-              ../self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
+              ../self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName) 
       
 
               # Import
