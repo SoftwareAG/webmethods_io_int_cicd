@@ -141,6 +141,11 @@ steps:
               git push -u origin $(feature_branch_name)
               
               # Project Check
+              : '
+              echo "Should not come"
+              echo "me too"
+              '
+
               echo "Check and create Project"
               ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
       
