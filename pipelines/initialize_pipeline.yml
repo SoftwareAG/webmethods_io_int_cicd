@@ -163,11 +163,16 @@ steps:
                   echo "Flowservice Import:" ${FLOW_URL}
                   ls -ltr
               fi
-              importedName:$(curl --location --request POST ${FLOW_URL} \
+              importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@"./$(assetID).zip"' -u $(exporter_user):$(exporter_password) | jq -r '.output.id // empty' )    
-
+                              --form 'recipe=@"./$(assetID).zip"' -u $(exporter_user):$(exporter_password))    
+              if [[ ! -z "$importedName" ]];   then
+                  echo "Import failed:" ${importedName}
+              else
+                      echo "Import Succeeded:" ${importedName}
+              
+              fi
           fi
       fi
   displayName: 'Create / Sychronize the projects'
