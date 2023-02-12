@@ -114,8 +114,8 @@ steps:
           exit 1
         fi
                 
-        if [ -z "$(type)" ]; then
-          echo "##vso[task.logissue type=error;]Missing parameter \"type\""
+        if [ -z "$(assetType)" ]; then
+          echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
           echo "##vso[task.complete result=Failed;]"
           exit 1
         fi
