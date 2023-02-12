@@ -118,7 +118,7 @@ steps:
               echo "Branch $(feature_branch_name) already exists"
           else
               # Creating Feature Branch 
-              echo "Branch does not exists. Creating Branch"
+              echo "Branch does not exists. Creating Branch ..."
               git config user.email "noemail.com"
               git config user.name "$(repo_user)"
               git checkout -b $(feature_branch_name) production
@@ -127,10 +127,9 @@ steps:
               git push -u origin $(feature_branch_name)
               # Project Check
               chmod 777 ../self/pipelines/scripts/*.sh
-              echo "Check and create Project"
+              echo "Check and create Project ..."
               ../self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName) 
               # Import
-              echo "Importing ...."
               if [ "$(assetType)" == "workflow" ]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
                   cd ./assets/workflows
@@ -145,7 +144,7 @@ steps:
               
               FILE=./$(assetID).zip
               if [ -f "$FILE" ]; then
-                  echo "$FILE exists."
+                  echo "$FILE exists. Importing ..."
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
