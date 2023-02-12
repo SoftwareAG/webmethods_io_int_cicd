@@ -144,7 +144,7 @@ steps:
               git push -u origin $(feature_branch_name)
               
               # Project Check
-              ls -ltr ./pipelines
+              ls -ltr
               echo "Check and create Project"
               ./pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
       
