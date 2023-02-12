@@ -126,7 +126,7 @@ steps:
           cd $(repoName)
           branchExists=$(git ls-remote --exit-code --heads origin $(feature_branch_name))
 
-          if ["$branchExists" != null && "$branchExists" != " "]; then
+          if [ "$branchExists" != null && "$branchExists" != " " ]; then
               echo "Branch $(feature_branch_name) already exists"
           else
               echo "Branch does not exists."
