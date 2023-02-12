@@ -144,6 +144,8 @@ steps:
               
               FILE=./$(assetID).zip
               if [ -f "$FILE" ]; then
+              ####### Check if asset with this name, an asset exist
+
                   echo "$FILE exists. Importing ..."
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
