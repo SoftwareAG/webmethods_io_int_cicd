@@ -51,7 +51,8 @@ echo "Check Project exists"
             projectName=$(curl --location --request POST ${PROJECT_URL} \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
-            --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '.')
+            --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '.output.name')
+            echo ${projectName}
         else
             echo "Projecxt already exixts with name:" ${name}
             exit 0
