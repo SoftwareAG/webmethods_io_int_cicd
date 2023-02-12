@@ -47,7 +47,6 @@ echo "Check Project exists"
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
             --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '.output.name')
-            echo ${projectName}
         else
             echo "Projecxt already exixts with name:" ${name}
             exit 0
