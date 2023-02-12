@@ -87,6 +87,7 @@ steps:
       echo $(init)
       if [ $(init) == true ]; then
         ######## Check & Create Project 
+        chmod 777 ./pipelines/scripts/*.sh
       ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
         : '
         echo #### Commented Out
@@ -144,7 +145,7 @@ steps:
               git push -u origin $(feature_branch_name)
               
               # Project Check
-              ls -ltr ../self/pipelines
+              chmod 777 ../self/pipelines/scripts/*.sh
               echo "Check and create Project"
               ../self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
       
