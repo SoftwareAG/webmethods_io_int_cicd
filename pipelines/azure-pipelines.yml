@@ -55,11 +55,15 @@ steps:
     echo ${LOCAL_DEV_URL}
     if [ "$(assetType)" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflows/$(assetID)/export
+        cd ../$(repoName)
+        mkdir -p ./assets/workflows
         cd ./assets/workflows
         echo "Workflow Import:" ${FLOW_URL}
         ls -ltr
     else
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flowservices/${assetID}/export
+        cd ../$(repoName)
+        mkdir -p ./assets/flowservices
         cd ./assets/flowservices
         echo "Flowservice Import:" ${FLOW_URL}
         ls -ltr
@@ -83,10 +87,7 @@ steps:
         exit 1
     fi
     
-    cd ../$(repoName)
-    mkdir -p assets/workflows
-    cd assets/workflows
-    curl --location --request GET ${downloadURL} --output $(workflowId).zip
+    curl --location --request GET ${downloadURL} --output $(assetID).zip
     ls -ltr
   displayName: 'Export Workflow'
 
