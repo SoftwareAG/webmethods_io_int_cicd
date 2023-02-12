@@ -35,19 +35,19 @@ repoName=$4
 
 
 echo "Check Project exists"
-        name=$(curl --location --request GET ${PROJECT_URL} \
-                --header 'Accept: application/json' \
-                -u ${exporter_user}:${exporter_password} | jq -r '.output.name // empty')
-    
-        if [ -z "$name" ];   then
-            echo "Project does not exists, creating"
-            #### Create project in the tenant
-            json='{ "name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
-            projectName=$(curl --location --request POST ${PROJECT_URL} \
-            --header 'Content-Type: application/json' \
-            --header 'Accept: application/json' \
-            --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '.output.name')
-        else
-            echo "Projecxt already exixts with name:" ${name}
-            exit 0
-        fi
+name=$(curl --location --request GET ${PROJECT_URL} \
+        --header 'Accept: application/json' \
+        -u ${exporter_user}:${exporter_password} | jq -r '.output.name // empty')
+
+if [ -z "$name" ];   then
+    echo "Project does not exists, creating"
+    #### Create project in the tenant
+    json='{ "name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
+    projectName=$(curl --location --request POST ${PROJECT_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '.output.name')
+else
+    echo "Projecxt already exixts with name:" ${name}
+    exit 0
+fi
