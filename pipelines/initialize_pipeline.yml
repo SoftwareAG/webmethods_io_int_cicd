@@ -86,6 +86,7 @@ steps:
       PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       echo $(init)
       if [ $(init) == true ]; then
+        echo "New repo created"
         ######## Check & Create Project 
         chmod 777 ./pipelines/scripts/*.sh
       ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName)
