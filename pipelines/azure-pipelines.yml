@@ -53,11 +53,22 @@ steps:
   
     LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
     echo ${LOCAL_DEV_URL}
-    EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflows/${WORKFLOWID}/export
-    echo ${EXPORT_URL}
+    if [ "$(assetType)" == "workflow" ]; then
+        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflows/$(assetID)/export
+        cd ./assets/workflows
+        echo "Workflow Import:" ${FLOW_URL}
+        ls -ltr
+    else
+        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flowservices/${assetID}/export
+        cd ./assets/flowservices
+        echo "Flowservice Import:" ${FLOW_URL}
+        ls -ltr
+    fi    
+
+    echo ${FLOW_URL}
     echo ${PWD}
     echo $(exporter_user):$(exporter_password)
-    downloadURL=$(curl  --location --request POST ${EXPORT_URL} \
+    downloadURL=$(curl  --location --request POST ${FLOW_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
     -u $(exporter_user):$(exporter_password)| jq -r '.output.download_link')
