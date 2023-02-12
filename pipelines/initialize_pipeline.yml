@@ -116,12 +116,17 @@ steps:
               # Creating Feature Branch 
               echo "Branch does not exists. Creating Branch"
               git config user.email "noemail.com"
+              echo "1"
               git config user.name "$(repo_user)"
+              echo "2"
               git checkout -b $(feature_branch_name) production
+              echo "3"
               git add .
+              echo "4"
               git commit -m "Synching from Prod for feature branch $(feature_branch_name)"
+              echo "5"
               git push -u origin $(feature_branch_name)
-              
+              echo "6"
               # Project Check
               chmod 777 ../self/pipelines/scripts/*.sh
               echo "Check and create Project"
