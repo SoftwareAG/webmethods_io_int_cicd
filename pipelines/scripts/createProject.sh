@@ -44,7 +44,7 @@ echo "Check Project exists"
                 --header 'Accept: application/json' \
                 -u ${exporter_user}:${exporter_password} | jq -r '.output.name // empty')
     
-        if [[ ! -z "$name" ]]; then; then
+        if [[ ! -z "$name" ]]; then
             echo "Project does not exists, creating"
             #### Create project in the tenant
             json='{ "name": "'${repoName}'", "description": "Created by Automated CI for feature branch"}'
