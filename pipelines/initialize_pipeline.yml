@@ -141,10 +141,12 @@ steps:
               if ["$(assetType)" == "workflow"]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
                   cd ./assets/workflows
+                  echo "Workflow Import:" $(FLOW_URL)
                   ls -ltr
               else
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
                   cd ./assets/flowservices
+                  echo "Flowservice Import:" $(FLOW_URL)
                   ls -ltr
               fi
               importedName:$(curl --location --request POST $(FLOW_URL) \
