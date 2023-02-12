@@ -31,20 +31,27 @@ repoName=$4
       exit 1
     fi
 
+echo "URL:" ${PROJECT_URL}
+echo "exporter_user:" ${exporter_user}
+echo "exporter_password:" ${exporter_password}
+echo "repoName:" ${repoName}
+
+
+
 
 echo "Check Project exists"
         name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
-                -u $(exporter_user):$(exporter_password) | jq -r '.output.name')
+                -u ${exporter_user}:${exporter_password} | jq -r '.output.name')
         echo ${name}
         if [ "$name" == null ]; then
             echo "Project does not exists, creating ..."
             #### Create project in the tenant
-            json='{ "name": "'$(repoName)'", "description": "Created by Automated CI for feature branch"}'
+            json='{ "name": "' ${repoName}'", "description": "Created by Automated CI for feature branch"}'
             projectName=$(curl --location --request POST ${PROJECT_URL} \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
-            --data-raw "$json" -u $(exporter_user):$(exporter_password)| jq '.')
+            --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '.')
         else
             echo "Projecxt already exixts with name:" ${name}
             exit 0
