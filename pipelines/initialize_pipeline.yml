@@ -131,7 +131,8 @@ steps:
           if [ "$branchExists" != null && "$branchExists" != " " ]; then
               echo "Branch $(feature_branch_name) already exists"
           else
-              echo "Branch does not exists"
+              # Creating Feature Branch 
+              echo "Branch does not exists. Creating Branch"
               git config user.email "noemail.com"
               git config user.name "$(repo_user)"
               git checkout -b $(feature_branch_name) production
@@ -139,6 +140,12 @@ steps:
               git commit -m "Synching from Prod for feature branch:"$(feature_branch_name) 
               git push -u origin $(feature_branch_name)
               
+              # Project Check
+              echo "Check and create Project"
+              ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
+      
+
+              # Import
               echo "IMPORT here"
               if [ "$(assetType)" == "workflow" ]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
