@@ -9,6 +9,7 @@
 PROJECT_URL=$1
 exporter_user=$2
 exporter_password=$3
+repoName=$4
 
     if [ -z "$PROJECT_URL" ]; then
       echo "Missing template parameter PROJECT_URL"
@@ -25,6 +26,10 @@ exporter_password=$3
       exit 1
     fi
 
+    if [ -z "$repoName" ]; then
+      echo "Missing template parameter repoName"
+      exit 1
+    fi
 
 
 echo "Check Project exists"
