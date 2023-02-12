@@ -86,8 +86,8 @@ steps:
       PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       echo $(init)
       if [ $(init) == true ]; then
-        ######## Check Project Exists
-         
+        ######## Check & Create Project 
+      ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
         echo "Check Project exists"
         name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
