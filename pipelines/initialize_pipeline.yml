@@ -89,27 +89,6 @@ steps:
         ######## Check & Create Project 
         chmod 777 ./pipelines/scripts/*.sh
       ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName)
-        : '
-        echo #### Commented Out
-        echo "Check Project exists"
-        name=$(curl --location --request GET ${PROJECT_URL} \
-                --header 'Accept: application/json' \
-                -u $(exporter_user):$(exporter_password) | jq -r '.output.name')
-        echo ${name}
-        if [ "$name" == null ]; then
-            echo "Project does not exists, creating ..."
-            #### Create project in the tenant
-            json='{ "name": "'$(repoName)'", "description": "Created by Automated CI for feature branch"}'
-            projectName=$(curl --location --request POST ${PROJECT_URL} \
-            --header 'Content-Type: application/json' \
-            --header 'Accept: application/json' \
-            --data-raw "$json" -u $(exporter_user):$(exporter_password)| jq '.')
-        else
-            echo "Projecxt already exixts with name:" ${name}
-            exit 0
-        fi
-                echo #### Commented Out Till here.
-        ' 
 
       else
         ######## Create a feature branch from prod 
