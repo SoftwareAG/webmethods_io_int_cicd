@@ -120,7 +120,7 @@ steps:
               git config user.name "$(repo_user)"
               git checkout -b $(feature_branch_name) production
               git add .
-              git commit -m "Synching from Prod for feature branch:"$(feature_branch_name) 
+              git commit -m "Synching from Prod for feature branch $(feature_branch_name)"
               git push -u origin $(feature_branch_name)
               
               # Project Check
