@@ -138,7 +138,7 @@ steps:
               git push -u origin $(feature_branch_name)
               
               echo "IMPORT here"
-              if ["$(assetType)" == "workflow"]; then
+              if [ "$(assetType)" == "workflow" ]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
                   cd ./assets/workflows
                   echo "Workflow Import:" $(FLOW_URL)
