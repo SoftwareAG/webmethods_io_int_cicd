@@ -146,7 +146,7 @@ steps:
               # Project Check
               ls -ltr
               echo "Check and create Project"
-              ./pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
+              ../self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
       
 
               # Import
