@@ -88,6 +88,7 @@ steps:
       if [ $(init) == true ]; then
         ######## Check & Create Project 
       ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) 
+        : '
         echo "Check Project exists"
         name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
@@ -105,6 +106,7 @@ steps:
             echo "Projecxt already exixts with name:" ${name}
             exit 0
         fi
+        '
       else
         ######## Create a feature branch from prod 
         echo "Repo Exists, Check and sync feature branch from Prod"
