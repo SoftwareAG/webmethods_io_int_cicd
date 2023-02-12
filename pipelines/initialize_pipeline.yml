@@ -86,7 +86,8 @@ steps:
       PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       echo $(init)
       if [ $(init) == true ]; then
-        ######## Check Project Exists 
+        ######## Check Project Exists
+         
         echo "Check Project exists"
         name=$(curl --location --request GET ${PROJECT_URL} \
                 --header 'Accept: application/json' \
@@ -100,8 +101,7 @@ steps:
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
             --data-raw "$json" -u $(exporter_user):$(exporter_password)| jq '.')
-            
-          else
+        else
             echo "Projecxt already exixts with name:" ${name}
             exit 0
         fi
@@ -129,7 +129,7 @@ steps:
           if [ "$branchExists" != null && "$branchExists" != " " ]; then
               echo "Branch $(feature_branch_name) already exists"
           else
-              echo "Branch does not exists."
+              echo "Branch does not exists"
               git config user.email "noemail.com"
               git config user.name "$(repo_user)"
               git checkout -b $(feature_branch_name) production
