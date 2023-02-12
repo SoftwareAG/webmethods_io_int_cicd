@@ -141,15 +141,15 @@ steps:
               if [ "$(assetType)" == "workflow" ]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
                   cd ./assets/workflows
-                  echo "Workflow Import:" $(FLOW_URL)
+                  echo "Workflow Import:" ${FLOW_URL}
                   ls -ltr
               else
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
                   cd ./assets/flowservices
-                  echo "Flowservice Import:" $(FLOW_URL)
+                  echo "Flowservice Import:" ${FLOW_URL}
                   ls -ltr
               fi
-              importedName:$(curl --location --request POST $(FLOW_URL) \
+              importedName:$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
                               --form 'recipe=@"./$(assetID).zip"' -u $(exporter_user):$(exporter_password) | jq -r 'output.id' )    
