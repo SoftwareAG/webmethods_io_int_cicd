@@ -56,6 +56,16 @@ steps:
   
     LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
     echo ${LOCAL_DEV_URL}
+
+    cd $(repoName)
+    chmod 777 ../self/pipelines/scripts/*.sh    
+    
+    ###### Exporting
+    echo "Exporting asset ..."
+    ../self/pipelines/scripts/exportAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR}
+
+
+    : '
     if [ "$(assetType)" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflows/$(assetID)/export
         cd ../$(repoName)
@@ -91,6 +101,7 @@ steps:
     fi
     
     curl --location --request GET ${downloadURL} --output $(assetID).zip
+    '
     ls -ltr
   displayName: 'Export Asset'
 
