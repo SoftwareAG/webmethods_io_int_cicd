@@ -98,7 +98,7 @@ steps:
 - script: |
     cd ../$(repoName)
     git config user.email "noemail.com"
-    git config user.name "refPlatform"
+    git config user.name "$(exporter_user)"
     git add .
     git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
     git push origin HEAD:$(feature_branch_name)
