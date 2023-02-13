@@ -49,7 +49,7 @@ steps:
     echo $(source_type)
     repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
     echo $(repoName)
-    echo ${assetID}
+    echo $(assetID)
     
     pwd
     cd $(System.DefaultWorkingDirectory)/../
