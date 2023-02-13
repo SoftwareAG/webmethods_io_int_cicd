@@ -92,7 +92,7 @@ steps:
     
     curl --location --request GET ${downloadURL} --output $(assetName).zip
     ls -ltr
-  displayName: 'Export Workflow'
+  displayName: 'Export Asset'
 
 
 - script: |
