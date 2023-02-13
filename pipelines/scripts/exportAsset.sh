@@ -52,7 +52,10 @@ HOME_DIR=$7
 pwd
 ls -ltr
 
-if [ "${assetType}" == "workflow" ]; then
+echo ${assetType}
+
+
+    if [ "${assetType}" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
         cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/workflows
