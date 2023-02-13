@@ -49,12 +49,12 @@ if [ -z "$name" ];   then
     --header 'Accept: application/json' \
     --data-raw "$json" -u ${admin_user}:${admin_password})
 
-    namecreated=echo $json | jq -r '.output.name // empty'
+    namecreated=echo $projectName | jq -r '.output.name // empty'
 
     if [ ! -z "$namecreated" ]; then
-        echo "Project created successfully:" ${json}
+        echo "Project created successfully:" ${projectName}
     else
-        echo "Project creation failed:" ${json}
+        echo "Project creation failed:" ${projectName}
         exit 1
     fi
 else
