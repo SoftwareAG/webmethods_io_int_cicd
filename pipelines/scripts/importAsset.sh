@@ -83,7 +83,7 @@ echo ${formKey}
                               --header 'Accept: application/json' \
                               --form ${formKey} -u ${admin_user}:${admin_password})    
 
-                  name=echo $importedName | jq -r '.output.name // empty'
+                  name=echo "$importedName" | jq -r '.output.name // empty'
                   if [ -z "$name" ];   then
                       echo "Import failed:" ${importedName}
                   else
