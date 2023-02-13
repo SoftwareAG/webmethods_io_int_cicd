@@ -81,7 +81,7 @@ echo ${formKey}
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form ${formKey} -u ${admin_user}:${admin_password}| jq -r '.output  // empty')    
+                              --form ${formKey} -u ${admin_user}:${admin_password} | jq -r '.output  // empty')    
                   if [ -z "$importedName" ];   then
                       echo "Import failed:" ${importedName}
                   else
