@@ -13,7 +13,7 @@ resources:
     type: github
     endpoint: github
     name: $(repoPath)
-    ref: $(feature_branch_name)
+    ref: dev
 steps:
 - checkout: projectRepo
   submodules: "true"
