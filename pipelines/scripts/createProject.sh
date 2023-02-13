@@ -6,13 +6,13 @@
 #                                                                           #
 #############################################################################
 
-PROJECT_URL=$1
+LOCAL_DEV_URL=$1
 exporter_user=$2
 exporter_password=$3
 repoName=$4
 
-    if [ -z "$PROJECT_URL" ]; then
-      echo "Missing template parameter PROJECT_URL"
+    if [ -z "$LOCAL_DEV_URL" ]; then
+      echo "Missing template parameter LOCAL_DEV_URL"
       exit 1
     fi
     
@@ -32,7 +32,7 @@ repoName=$4
     fi
 
 
-
+PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
 echo "Check Project exists"
 name=$(curl --location --request GET ${PROJECT_URL} \
