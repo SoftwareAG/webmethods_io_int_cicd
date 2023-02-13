@@ -47,8 +47,11 @@ if [ -z "$name" ];   then
     projectName=$(curl --location --request POST ${PROJECT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    --data-raw "$json" -u ${admin_user}:${admin_password}| jq -r '.output  // empty')
-    if [ ! -z "$json" ]; then
+    --data-raw "$json" -u ${admin_user}:${admin_password})
+
+    namecreated=echo $json | jq -r '.output.name // empty'
+
+    if [ ! -z "$namecreated" ]; then
         echo "Project created successfully:" ${json}
     else
         echo "Project creation failed:" ${json}
