@@ -79,8 +79,7 @@ if [ "${assetType}" = "workflow" ]; then
     
     regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     
-    if [[ $downloadURL =~ $regex ]]
-    then 
+    if [[ $downloadURL =~ $regex ]]; then 
        echo ${downloadURL}
     else
         echo "Download link could not be retrieved"
