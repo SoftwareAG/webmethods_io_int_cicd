@@ -68,6 +68,8 @@ ls -ltr
 
 
 FILE=./${assetID}.zip
+formKey="'recipe=@$FILE'"
+echo ${formKey}
               if [ -f "$FILE" ]; then
               ####### Check if asset with this name, an asset exist
 
@@ -75,7 +77,7 @@ FILE=./${assetID}.zip
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@"./${assetID}.zip"' -u ${admin_user}:${admin_password})    
+                              --form ${formKey} -u ${admin_user}:${admin_password})    
                   if [ -z "$importedName" ];   then
                       echo "Import failed:" ${importedName}
                   else
