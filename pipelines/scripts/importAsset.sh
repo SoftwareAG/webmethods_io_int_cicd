@@ -47,14 +47,14 @@ assetType=$6
 
 pwd
 ls -ltr
-
+cd ${repoName}
     if [ "$(assetType)" == "workflow" ]; then
-        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
+        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
         cd ./assets/workflows
         echo "Workflow Import:" ${FLOW_URL}
         ls -ltr
     else
-        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
+        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
         cd ./assets/flowservices
         echo "Flowservice Import:" ${FLOW_URL}
         ls -ltr
@@ -62,7 +62,7 @@ ls -ltr
 
     echo ${FLOW_URL}
     echo ${PWD}
-    echo $(admin_user):$(admin_password)
+    echo ${admin_user}:${admin_password}
 
 
 
@@ -74,7 +74,7 @@ FILE=./$(assetID).zip
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@"./$(assetID).zip"' -u $(admin_user):$(admin_password))    
+                              --form 'recipe=@"./${assetID}.zip"' -u ${admin_user}:${admin_password})    
                   if [ -z "$importedName" ];   then
                       echo "Import failed:" ${importedName}
                   else
