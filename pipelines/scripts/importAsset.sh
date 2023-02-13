@@ -14,6 +14,8 @@ repoName=$4
 assetID=$5
 assetType=$6
 
+HOME_DIR=.
+
 
     if [ -z "$LOCAL_DEV_URL" ]; then
       echo "Missing template parameter LOCAL_DEV_URL"
@@ -48,14 +50,14 @@ assetType=$6
 pwd
 ls -ltr
 cd ${repoName}
-    if [ "$(assetType)" == "workflow" ]; then
+    if [ "${assetType}" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-        cd ./assets/workflows
+        cd ${HOME_DIR}/assets/workflows
         echo "Workflow Import:" ${FLOW_URL}
         ls -ltr
     else
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-        cd ./assets/flowservices
+        cd ${HOME_DIR}/assets/flowservices
         echo "Flowservice Import:" ${FLOW_URL}
         ls -ltr
     fi    
@@ -74,7 +76,7 @@ FILE=./$(assetID).zip
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@"./${assetID}.zip"' -u ${admin_user}:${admin_password})    
+                              --form 'recipe=@""'./${assetID}.zip'""' -u ${admin_user}:${admin_password})    
                   if [ -z "$importedName" ];   then
                       echo "Import failed:" ${importedName}
                   else
