@@ -51,8 +51,9 @@ steps:
     echo $(repoName)
     echo ${assetID}
     
-    
-    cd $(System.DefaultWorkingDirectory)../
+    pwd
+    cd $(System.DefaultWorkingDirectory)/../
+    ls -ltr
     chmod 777 ./self/pipelines/scripts/*.sh    
     
     #### Check and create Project
