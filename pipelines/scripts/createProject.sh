@@ -7,8 +7,8 @@
 #############################################################################
 
 LOCAL_DEV_URL=$1
-exporter_user=$2
-exporter_password=$3
+admin_user=$2
+admin_password=$3
 repoName=$4
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -16,13 +16,13 @@ repoName=$4
       exit 1
     fi
     
-    if [ -z "$exporter_user" ]; then
-      echo "Missing template parameter exporter_user"
+    if [ -z "$admin_user" ]; then
+      echo "Missing template parameter admin_user"
       exit 1
     fi
 
-    if [ -z "$exporter_password" ]; then
-      echo "Missing template parameter exporter_password"
+    if [ -z "$admin_password" ]; then
+      echo "Missing template parameter admin_password"
       exit 1
     fi
 
@@ -37,7 +37,7 @@ PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 echo "Check Project exists"
 name=$(curl --location --request GET ${PROJECT_URL} \
         --header 'Accept: application/json' \
-        -u ${exporter_user}:${exporter_password} | jq -r '.output.name // empty')
+        -u ${admin_user}:${admin_password} | jq -r '.output.name // empty')
 
 if [ -z "$name" ];   then
     echo "Project does not exists. Creating ..."
@@ -46,7 +46,7 @@ if [ -z "$name" ];   then
     projectName=$(curl --location --request POST ${PROJECT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    --data-raw "$json" -u ${exporter_user}:${exporter_password}| jq -r '. // empty')
+    --data-raw "$json" -u ${admin_user}:${admin_password}| jq -r '. // empty')
     if [ ! -z "$json" ]; then
         echo "Projecxt created successfully:" ${json}
     else

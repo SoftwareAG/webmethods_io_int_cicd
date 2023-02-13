@@ -8,8 +8,8 @@
 #############################################################################
 
 LOCAL_DEV_URL=$1
-exporter_user=$2
-exporter_password=$3
+admin_user=$2
+admin_password=$3
 repoName=$4
 assetID=$5
 assetType=$6
@@ -20,13 +20,13 @@ assetType=$6
       exit 1
     fi
     
-    if [ -z "$exporter_user" ]; then
-      echo "Missing template parameter exporter_user"
+    if [ -z "$admin_user" ]; then
+      echo "Missing template parameter admin_user"
       exit 1
     fi
 
-    if [ -z "$exporter_password" ]; then
-      echo "Missing template parameter exporter_password"
+    if [ -z "$admin_password" ]; then
+      echo "Missing template parameter admin_password"
       exit 1
     fi
 
@@ -62,7 +62,7 @@ ls -ltr
 
     echo ${FLOW_URL}
     echo ${PWD}
-    echo $(exporter_user):$(exporter_password)
+    echo $(admin_user):$(admin_password)
 
 
 
@@ -74,7 +74,7 @@ FILE=./$(assetID).zip
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@"./$(assetID).zip"' -u $(exporter_user):$(exporter_password))    
+                              --form 'recipe=@"./$(assetID).zip"' -u $(admin_user):$(admin_password))    
                   if [ -z "$importedName" ];   then
                       echo "Import failed:" ${importedName}
                   else

@@ -1,6 +1,5 @@
 tenant:
   hostname: "nokroeger.int-aws-us.webmethods.io"   # webMthodsIO Integration hostname or ip address
   port: "443"                                       # webMthodsIO Integration port
-  importer_username: "srinivasan.sabaphat"                     # webMthodsIO Integration user  
-  exporter_username: "srinivasan.sabaphat"                     # webMthodsIO Integration user  
+  admin_username: "srinivasan.sabaphat"                     # webMthodsIO Integration user  
   type: "DEV"                                         #Dev
