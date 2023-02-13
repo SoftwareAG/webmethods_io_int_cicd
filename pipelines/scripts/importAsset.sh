@@ -68,7 +68,7 @@ cd ${repoName}
 
 
 
-FILE=./$(assetID).zip
+FILE=./${assetID}.zip
               if [ -f "$FILE" ]; then
               ####### Check if asset with this name, an asset exist
 
