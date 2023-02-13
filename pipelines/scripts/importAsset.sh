@@ -68,7 +68,6 @@ ls -ltr
 
 
 FILE=./${assetID}.zip
-#formKey="'recipe="\"@${FILE}\""'"
 formKey="recipe=@"${FILE}
 echo ${formKey}
               if [ -f "$FILE" ]; then
