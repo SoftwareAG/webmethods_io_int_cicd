@@ -15,7 +15,7 @@ assetID=$5
 assetType=$6
 
 
-    if [ -z "$FLOW_URL" ]; then
+    if [ -z "$LOCAL_DEV_URL" ]; then
       echo "Missing template parameter LOCAL_DEV_URL"
       exit 1
     fi
