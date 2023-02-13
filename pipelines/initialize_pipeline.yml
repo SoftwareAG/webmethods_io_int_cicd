@@ -83,7 +83,6 @@ steps:
       cd ../
       LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
       echo ${LOCAL_DEV_URL}
-      PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
       echo $(init)
       if [ $(init) == true ]; then
         echo "New repo created"
@@ -91,7 +90,7 @@ steps:
         ls -ltr
         ######## Check & Create Project 
         chmod 777 ./self/pipelines/scripts/*.sh
-      ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName)
+      ./self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(exporter_user) $(exporter_password) $(repoName)
 
       else
         ######## Create a feature branch from prod 
@@ -128,7 +127,7 @@ steps:
               # Project Check
               chmod 777 ../self/pipelines/scripts/*.sh
               echo "Check and create Project ..."
-              ../self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName) 
+              ../self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(exporter_user) $(exporter_password) $(repoName) 
               # Import
               if [ "$(assetType)" == "workflow" ]; then
                   FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
