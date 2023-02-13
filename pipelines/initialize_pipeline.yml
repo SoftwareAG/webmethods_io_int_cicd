@@ -133,38 +133,6 @@ steps:
                   echo "Importing asset ..."
               ../self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType)  ${HOME_DIR}
 
-              : '
-              if [ "$(assetType)" == "workflow" ]; then
-                  FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflow-import
-                  cd ./assets/workflows
-                  echo "Workflow Import:" ${FLOW_URL}
-                  ls -ltr
-              else
-                  FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flow-import
-                  cd ./assets/flowservices
-                  echo "Flowservice Import:" ${FLOW_URL}
-                  ls -ltr
-              fi
-              
-              FILE=./$(assetID).zip
-              if [ -f "$FILE" ]; then
-              ####### Check if asset with this name, an asset exist
-
-                  echo "$FILE exists. Importing ..."
-                  importedName=$(curl --location --request POST ${FLOW_URL} \
-                              --header 'Content-Type: multipart/form-data' \
-                              --header 'Accept: application/json' \
-                              --form 'recipe=@"./$(assetID).zip"' -u $(admin_user):$(admin_password))    
-                  if [ -z "$importedName" ];   then
-                      echo "Import failed:" ${importedName}
-                  else
-                          echo "Import Succeeded:" ${importedName}
-                  
-                  fi
-              else
-                echo "$FILE does not exists, Nothing to import"
-              fi
-            '
               
           fi
       fi
