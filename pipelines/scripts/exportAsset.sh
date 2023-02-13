@@ -1,5 +1,4 @@
 #!/bin/sh
-
 #############################################################################
 #                                                                           #
 # exportAsset.sh : Export asset from a project                    #
@@ -53,7 +52,8 @@ pwd
 ls -ltr
 
 echo ${assetType}
-if [ "${assetType}" == "workflow" ]; then
+
+if [ ${assetType} == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
         cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/workflows
