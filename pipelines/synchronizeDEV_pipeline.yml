@@ -56,10 +56,10 @@ steps:
     chmod 777 ../self/pipelines/scripts/*.sh    
     
     #### Check and create Project
-    ./self/pipelines/scripts/createProject.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName)
+    ./self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(exporter_user) $(exporter_password) $(repoName)
 
     echo "Check and create Project ..."
-    ./self/pipelines/scripts/importAsset.sh ${PROJECT_URL} $(exporter_user) $(exporter_password) $(repoName) $(assetID) $(assetType)
+    ./self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(exporter_user) $(exporter_password) $(repoName) $(assetID) $(assetType)
 
 
   displayName: 'Import Asset'
