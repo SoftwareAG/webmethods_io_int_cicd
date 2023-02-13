@@ -107,7 +107,7 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repoName)'
-    artifactName: '$(project_name)_$(workflowId)_export'
+    artifactName: '$(project_name)_$(assetID)_export'
   displayName: 'Publishing the export'
 
 - task: DeleteFiles@1
