@@ -51,7 +51,7 @@ steps:
           echo "# wmio_project_b" >> README.md
           git init
           git config user.email "noemail.com"
-          git config user.name "$(repo_user)"
+          git config user.name "$(devUser)"
           git add README.md
           git commit -m "first commit"
           git branch -M production
@@ -119,7 +119,7 @@ steps:
               # Creating Feature Branch 
               echo "Branch does not exists. Creating Branch ..."
               git config user.email "noemail.com"
-              git config user.name "$(repo_user)"
+              git config user.name "$(devUser)"
               git checkout -b $(feature_branch_name) production
               git add .
               git commit -m "Synching from Prod for feature branch $(feature_branch_name)"
