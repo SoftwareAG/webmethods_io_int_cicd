@@ -1,0 +1,117 @@
+# Export workflow pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+resources:
+  repositories:
+  - repository: projectRepo
+    type: github
+    endpoint: github
+    name: $(repoPath)
+    ref: $(feature_branch_name)
+steps:
+- checkout: projectRepo
+  submodules: "true"
+  persistCredentials: "true"
+  clean: "true"
+  path: $(repoName)
+- checkout: self
+  submodules: "true"
+  persistCredentials: "true"
+  clean: "true"
+  path: self
+  
+
+- bash: |
+    pwd
+    cd ../self
+    pwd
+    ls -ltr
+    echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/play.yml`"
+    echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/play.yml`"
+    echo "##vso[task.setvariable variable=exporter_user]`yq -e ".tenant.exporter_username" configs/play.yml`"
+    echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/play.yml`"
+    PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
+    echo ${PROJECTNAME}
+    echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-${PROJECTNAME}"
+    echo $(System.DefaultWorkingDirectory)
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  displayName: 'Get Environment Tenant Details'
+- script: |
+    echo $(source_environment_hostname)
+    echo $(source_environment_port)
+    echo $(exporter_user)
+    echo $(source_type)
+    repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
+    echo $(repoName)
+    echo ${assetID}
+    
+    #### Get assetID for matching assetName 
+
+  
+    LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
+    echo ${LOCAL_DEV_URL}
+    if [ "$(assetType)" == "workflow" ]; then
+        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/workflows/$(assetID)/export
+        cd ../$(repoName)
+        mkdir -p ./assets/workflows
+        cd ./assets/workflows
+        echo "Workflow Export:" ${FLOW_URL}
+        ls -ltr
+    else
+        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/$(repoName)/flowservices/${assetID}/export
+        cd ../$(repoName)
+        mkdir -p ./assets/flowservices
+        cd ./assets/flowservices
+        echo "Flowservice Export:" ${FLOW_URL}
+        ls -ltr
+    fi    
+
+    echo ${FLOW_URL}
+    echo ${PWD}
+    echo $(exporter_user):$(exporter_password)
+    downloadURL=$(curl  --location --request POST ${FLOW_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u $(exporter_user):$(exporter_password)| jq -r '.output.download_link')
+    
+    regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
+    
+    if [[ $downloadURL =~ $regex ]]
+    then 
+       echo ${downloadURL}
+    else
+        echo "Download link could not be retrieved"
+        exit 1
+    fi
+    
+    curl --location --request GET ${downloadURL} --output $(assetName).zip
+    ls -ltr
+  displayName: 'Export Asset'
+
+
+- script: |
+    cd ../$(repoName)
+    git config user.email "noemail.com"
+    git config user.name "$(exporter_user)"
+    git add .
+    git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
+    git push origin HEAD:$(feature_branch_name)
+  displayName: 'Commit the code to feature branch'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repoName)'
+    artifactName: '$(repoName)_$(assetID)_export'
+  displayName: 'Publishing the export'
+
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)../$(repoName)'
+    Contents: './*' 
+  displayName: 'Remove the Export after successfull Commit'
