@@ -54,14 +54,14 @@ ls -ltr
 
 if [ "${assetType}" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
-        cd ../${repoName}
+        cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/workflows
         cd ./assets/workflows
         echo "Workflow Export:" ${FLOW_URL}
         ls -ltr
     else
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flowservices/${assetID}/export
-        cd ../${repoName}
+        cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/flowservices
         cd ./assets/flowservices
         echo "Flowservice Export:" ${FLOW_URL}
