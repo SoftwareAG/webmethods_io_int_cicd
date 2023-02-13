@@ -49,7 +49,6 @@ HOME_DIR=.
 
 pwd
 ls -ltr
-cd ${repoName}
     if [ "${assetType}" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
         cd ${HOME_DIR}/assets/workflows
