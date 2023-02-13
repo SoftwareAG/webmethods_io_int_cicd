@@ -53,7 +53,7 @@ steps:
     
     
     cd $(System.DefaultWorkingDirectory)../
-    chmod 777 ../self/pipelines/scripts/*.sh    
+    chmod 777 ./self/pipelines/scripts/*.sh    
     
     #### Check and create Project
     echo "Check and create Project ..."
