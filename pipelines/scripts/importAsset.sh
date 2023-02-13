@@ -13,8 +13,7 @@ admin_password=$3
 repoName=$4
 assetID=$5
 assetType=$6
-
-HOME_DIR=.
+HOME_DIR=$7
 
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -47,16 +46,21 @@ HOME_DIR=.
       exit 1
     fi
 
+    if [ -z "$HOME_DIR" ]; then
+      echo "Missing template parameter HOME_DIR"
+      exit 1
+    fi
+
 pwd
 ls -ltr
     if [ "${assetType}" == "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-        cd ${HOME_DIR}/assets/workflows
+        cd ${HOME_DIR}/${repoName}/assets/workflows
         echo "Workflow Import:" ${FLOW_URL}
         ls -ltr
     else
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-        cd ${HOME_DIR}/assets/flowservices
+        cd ${HOME_DIR}/${repoName}/assets/flowservices
         echo "Flowservice Import:" ${FLOW_URL}
         ls -ltr
     fi    
