@@ -75,7 +75,7 @@ FILE=./${assetID}.zip
                   importedName=$(curl --location --request POST ${FLOW_URL} \
                               --header 'Content-Type: multipart/form-data' \
                               --header 'Accept: application/json' \
-                              --form 'recipe=@""'./${assetID}.zip'""' -u ${admin_user}:${admin_password})    
+                              --form 'recipe=@"./${assetID}.zip"' -u ${admin_user}:${admin_password})    
                   if [ -z "$importedName" ];   then
                       echo "Import failed:" ${importedName}
                   else
