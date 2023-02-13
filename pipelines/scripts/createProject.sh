@@ -47,14 +47,14 @@ if [ -z "$name" ];   then
     projectName=$(curl --location --request POST ${PROJECT_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    --data-raw "$json" -u ${admin_user}:${admin_password}| jq -r '. // empty')
+    --data-raw "$json" -u ${admin_user}:${admin_password}| jq -r '.output  // empty')
     if [ ! -z "$json" ]; then
-        echo "Projecxt created successfully:" ${json}
+        echo "Project created successfully:" ${json}
     else
-        echo "Projecxt creation failed:" ${json}
+        echo "Project creation failed:" ${json}
         exit 1
     fi
 else
-    echo "Projecxt already exixts with name:" ${name}
+    echo "Project already exixts with name:" ${name}
     exit 0
 fi
