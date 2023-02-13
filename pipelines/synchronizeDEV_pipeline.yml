@@ -34,7 +34,7 @@ steps:
     ls -ltr
     echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/dev.yml`"
     echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/dev.yml`"
-    echo "##vso[task.setvariable variable=exporter_user]`yq -e ".tenant.exporter_username" configs/dev.yml`"
+    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/dev.yml`"
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/dev.yml`"
     repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
     echo $(repoName)
@@ -45,7 +45,7 @@ steps:
 - script: |
     echo $(source_environment_hostname)
     echo $(source_environment_port)
-    echo $(exporter_user)
+    echo $(admin_user)
     echo $(source_type)
     repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
     echo $(repoName)
@@ -57,10 +57,10 @@ steps:
     
     #### Check and create Project
     echo "Check and create Project ..."
-    ./self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(exporter_user) $(exporter_password) $(repoName)
+    ./self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
 
     echo "Importing asset ..."
-    ./self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(exporter_user) $(exporter_password) $(repoName) $(assetID) $(assetType)
+    ./self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType)
 
 
   displayName: 'Import Asset'
