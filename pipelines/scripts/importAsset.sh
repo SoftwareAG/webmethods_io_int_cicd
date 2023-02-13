@@ -53,7 +53,7 @@ HOME_DIR=$7
 
 pwd
 ls -ltr
-    if [ "${assetType}" == "workflow" ]; then
+    if [ "${assetType}" = "workflow" ]; then
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
         cd ${HOME_DIR}/${repoName}/assets/workflows
         echo "Workflow Import:" ${FLOW_URL}
