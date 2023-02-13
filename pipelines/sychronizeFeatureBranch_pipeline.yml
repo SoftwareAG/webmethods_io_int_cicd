@@ -78,7 +78,7 @@ steps:
     downloadURL=$(curl  --location --request POST ${FLOW_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    -u $(admin_user):$(exporter_password)| jq -r '.output.download_link')
+    -u $(admin_user):$(admin_password)| jq -r '.output.download_link')
     
     regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     
@@ -98,7 +98,7 @@ steps:
 - script: |
     cd ../$(repoName)
     git config user.email "noemail.com"
-    git config user.name "$(exporter_user)"
+    git config user.name "$(admin_user)"
     git add .
     git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
     git push origin HEAD:$(feature_branch_name)
