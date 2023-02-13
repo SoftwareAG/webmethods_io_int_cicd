@@ -50,8 +50,8 @@ if [ -z "$name" ];   then
     --header 'Accept: application/json' \
     --data-raw "$json" -u ${admin_user}:${admin_password})
 
-    namecreated=echo "$projectName" | jq -r '.output.name // empty'
-
+    namecreated=$(jq '.output.name // empty' <<< "$projectName" )
+    #namecreated=echo "$projectName" | jq -r '.output.name // empty'
     echo ${namecreated}
 
     if [ ! -z "$namecreated" ]; then
