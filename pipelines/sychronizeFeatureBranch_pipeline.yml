@@ -90,7 +90,7 @@ steps:
         exit 1
     fi
     
-    curl --location --request GET ${downloadURL} --output $(assetName).zip
+    curl --location --request GET ${downloadURL} --output $(assetID).zip
     ls -ltr
   displayName: 'Export Asset'
 
