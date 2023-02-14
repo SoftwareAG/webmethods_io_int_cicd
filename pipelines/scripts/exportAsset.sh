@@ -75,7 +75,7 @@ if [ "${assetType}" = "workflow" ]; then
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
 
-    downloadURL=$(echo "$linkJson" | jq  '.output.download_link // empty')
+    downloadURL=$(echo "$linkJson" | jq -r '.output.download_link')
     
     regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     
