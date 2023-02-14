@@ -4,7 +4,7 @@
 # exportAsset.sh : Export asset from a project                    #
 #                                                                           #
 #############################################################################
-IFS=$' \t\r\n'
+
 LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
