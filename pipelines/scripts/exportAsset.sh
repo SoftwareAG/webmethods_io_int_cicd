@@ -69,9 +69,7 @@ if [ "${assetType}" = "workflow" ]; then
         ls -ltr
     fi    
 
-    echo ${FLOW_URL}
-    echo ${PWD}
-    echo ${admin_user}:${admin_password}
+  
     linkJson=$(curl  --location --request POST ${FLOW_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
@@ -89,12 +87,12 @@ if [ "${assetType}" = "workflow" ]; then
         exit 1
     fi
     
-    downloadJson=$(curl --location --request GET ${downloadURL} --output ${assetID}.zip)
+  (curl --location --request GET ${downloadURL} --output ${assetID}.zip
 
     FILE=./${assetID}.zip
     if [ -f "$FILE" ]; then
         echo "Download succeeded:" ls -ltr ./${assetID}.zip
     else
-        echo "Download failed:" ${downloadJson}
+        echo "Download failed"
     fi
 
