@@ -64,7 +64,6 @@ steps:
     ###### Exporting
     echo "Exporting asset ..."
     ../self/pipelines/scripts/exportAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR}
-    ls -ltr
   displayName: 'Export Asset'
 
 
