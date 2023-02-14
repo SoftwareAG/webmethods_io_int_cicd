@@ -37,25 +37,25 @@ steps:
     echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/play.yml`"
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/play.yml`"
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
-    echo ${PROJECTNAME}
+    #echo ${PROJECTNAME}
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-${PROJECTNAME}"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
 - script: |
-    echo $(source_environment_hostname)
-    echo $(source_environment_port)
-    echo $(admin_user)
-    echo $(source_type)
+    #echo $(source_environment_hostname)
+    #echo $(source_environment_port)
+    #echo $(admin_user)
+    #echo $(source_type)
     repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
-    echo $(repoName)
-    echo ${assetID}
+    #echo $(repoName)
+    #echo ${assetID}
     
 
 
   
     LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
-    echo ${LOCAL_DEV_URL}
+    #echo ${LOCAL_DEV_URL}
     HOME_DIR=$(System.DefaultWorkingDirectory)/../
     cd $(System.DefaultWorkingDirectory)/../
     cd $(repoName)
