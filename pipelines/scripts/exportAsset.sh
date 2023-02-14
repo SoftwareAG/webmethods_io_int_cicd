@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #############################################################################
 #                                                                           #
 # exportAsset.sh : Export asset from a project                    #
@@ -76,7 +76,6 @@ if [ "${assetType}" = "workflow" ]; then
     -u ${admin_user}:${admin_password})
 
     downloadURL=$(echo "$linkJson" | jq  '.output.download_link // empty')
-    echo ${downloadURL}
     
     regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     
