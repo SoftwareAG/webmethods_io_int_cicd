@@ -87,7 +87,7 @@ if [ "${assetType}" = "workflow" ]; then
         exit 1
     fi
     
-  downloadJsron=$(curl --location --request GET "${downloadURL}" --output ${assetID}.zip)
+  curl --location --request GET ${downloadURL} --output ${assetID}.zip
 
     FILE=./${assetID}.zip
     if [ -f "$FILE" ]; then
