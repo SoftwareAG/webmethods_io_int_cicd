@@ -89,11 +89,11 @@ if [ "${assetType}" = "workflow" ]; then
         exit 1
     fi
     
-    downloadJson=${curl --location --request GET ${downloadURL} --output ${assetID}.zip}
+    downloadJson=$(curl --location --request GET ${downloadURL} --output ${assetID}.zip)
 
     FILE=./${assetID}.zip
     if [ -f "$FILE" ]; then
-        echo "Download succeeded:" ls -ltr ./{assetID}
+        echo "Download succeeded:" ls -ltr ./${assetID}.zip
     else
         echo "Download failed:" ${downloadJson}
     fi
