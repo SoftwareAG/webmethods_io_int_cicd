@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #############################################################################
 #                                                                           #
 # exportAsset.sh : Export asset from a project                    #
@@ -79,7 +79,7 @@ if [ "${assetType}" = "workflow" ]; then
     
     regex='^(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]\.[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]$'
     
-    if [ $downloadURL =~ $regex ]; then 
+    if [[ $downloadURL =~ $regex ]]; then 
        echo ${downloadURL}
     else
         echo "Download link could not be retrieved"
