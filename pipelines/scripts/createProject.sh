@@ -51,7 +51,7 @@ if [ -z "$name" ];   then
     --data-raw "$json" -u ${admin_user}:${admin_password})
 
     namecreated=$(echo "$projectName" | jq  '.output.name // empty')
-    echo ${namecreated}
+ 
 
     if [ ! -z "$namecreated" ]; then
         echo "Project created successfully:" ${projectName}

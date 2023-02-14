@@ -72,19 +72,29 @@ if [ "${assetType}" = "workflow" ]; then
     echo ${FLOW_URL}
     echo ${PWD}
     echo ${admin_user}:${admin_password}
-    downloadURL=$(curl  --location --request POST ${FLOW_URL} \
+    linkJson=$(curl  --location --request POST ${FLOW_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
-    -u ${admin_user}:${admin_password}| jq -r '.output.download_link')
+    -u ${admin_user}:${admin_password})
+
+    downloadURL=$(echo "$downloadURL" | jq  '.output.download_link // empty')
+    echo ${downloadURL}
     
     regex='^(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]\.[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]$'
     
     if [[ $downloadURL =~ $regex ]]; then 
-       echo ${downloadURL}
+       echo "Valid Download link retreived:"${downloadURL}
     else
-        echo "Download link could not be retrieved"
+        echo "Download link retreival Failed:" ${linkJson}
         exit 1
     fi
     
-    curl --location --request GET ${downloadURL} --output ${assetID}.zip
-    
+    downloadJson=${curl --location --request GET ${downloadURL} --output ${assetID}.zip}
+
+    FILE=./${assetID}.zip
+    if [ -f "$FILE" ]; then
+        echo "Download succeeded:" ls -ltr ./{assetID}
+    else
+        echo "Download failed:" ${downloadJson}
+    fi
+
