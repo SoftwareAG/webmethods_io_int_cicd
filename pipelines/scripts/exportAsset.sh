@@ -80,7 +80,7 @@ if [ "${assetType}" = "workflow" ]; then
     downloadURL=$(echo "$linkJson" | jq  '.output.download_link // empty')
     echo ${downloadURL}
     
-    regex='^(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]\.[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]$'
+    regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     
     if [[ $downloadURL =~ $regex ]]; then 
        echo "Valid Download link retreived:"${downloadURL}
