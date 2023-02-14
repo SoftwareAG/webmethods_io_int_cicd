@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #############################################################################
 #                                                                           #
 # exportAsset.sh : Export asset from a project                    #
