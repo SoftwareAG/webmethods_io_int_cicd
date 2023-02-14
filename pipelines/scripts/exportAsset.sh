@@ -85,13 +85,12 @@ if [ "${assetType}" = "workflow" ]; then
         echo "Download link retreival Failed:" ${linkJson}
         exit 1
     fi
-    #downloadURL=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "${downloadURL}")
-    curl --location --request GET "${downloadURL}" --output ${assetID}.zip
+    downloadJson=$(curl --location --request GET "${downloadURL}" --output ${assetID}.zip)
 
     FILE=./${assetID}.zip
     if [ -f "$FILE" ]; then
         echo "Download succeeded:" ls -ltr ./${assetID}.zip
     else
-        echo "Download failed"
+        echo "Download failed:"${downloadJson}
     fi
 
