@@ -11,7 +11,7 @@ resources:
     type: github
     endpoint: github
     name: $(repoPath)
-    ref: dev
+    ref: featureA
 steps:
 - checkout: projectRepo
   submodules: "true"
