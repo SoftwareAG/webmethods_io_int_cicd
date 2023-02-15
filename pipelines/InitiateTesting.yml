@@ -40,7 +40,8 @@ steps:
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
 
-- script: echo Hello, world!
+- script: |
+    npm install -g newman
   displayName: 'Run a one-line script'
 
 - script: |
