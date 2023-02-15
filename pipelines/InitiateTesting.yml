@@ -41,15 +41,8 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
-    
-    #npm config set fund false
-    #npm install -g npm@latest
-    #npm install uuid@latest
-    #npm install -g newman
-  displayName: 'Install newman'
-
-- script: |
     cd ../${repoName}
+    ls -ltr
     newman run ./resources/test/wmio_test.json -e ./resources/test/environments/play.json --reporters cli,junit --reporter-junit-export $$(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
   displayName: 'Run newman'
 - task: PublishTestResults@2
