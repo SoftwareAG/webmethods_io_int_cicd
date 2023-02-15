@@ -41,10 +41,11 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
-    npm config set fund false
-    npm install -g npm@latest
-    npm install uuid@latest
-    npm install -g newman
+    
+    #npm config set fund false
+    #npm install -g npm@latest
+    #npm install uuid@latest
+    #npm install -g newman
   displayName: 'Install newman'
 
 - script: |
