@@ -44,7 +44,7 @@ steps:
     pwd
     cd ./$(repoName)
     ls -ltr
-    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/play.json --reporters cli,junit --reporter-junit-export $$(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
+    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/play.json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
   displayName: 'Run newman'
 - task: PublishTestResults@2
   inputs:
