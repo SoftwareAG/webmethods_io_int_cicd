@@ -41,6 +41,7 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
+    npm install -g npm@latest
     npm install -g newman
   displayName: 'Install newman'
 
