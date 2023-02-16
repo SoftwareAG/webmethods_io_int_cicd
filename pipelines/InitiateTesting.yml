@@ -51,13 +51,13 @@ steps:
     cd ../$(repoName)
     pwd
     ls -ltr
-    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/$(resources.triggeringAlias).json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
-    ls -ltr $(System.DefaultWorkingDirectory)/$(resources.triggeringAlias)/results/
+    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/${source}.json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/${source}/results/junitReport.xml
+    ls -ltr $(System.DefaultWorkingDirectory)/${source}/results/
   displayName: 'Run newman'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/junit*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)/$(resources.triggeringAlias)/results'
+    searchFolder: '$(System.DefaultWorkingDirectory)/${source}/results'
     failTaskOnFailedTests: true
     testRunTitle: '$(resources.triggeringAlias) Test Run'
