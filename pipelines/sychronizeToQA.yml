@@ -1,0 +1,77 @@
+# Export workflow pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+resources:
+  repositories:
+  - repository: projectRepo
+    type: github
+    endpoint: github
+    name: $(repoPath)
+    ref: qa
+steps:
+- checkout: projectRepo
+  submodules: "true"
+  persistCredentials: "true"
+  clean: "true"
+  path: $(repoName)
+- checkout: self
+  submodules: "true"
+  persistCredentials: "true"
+  clean: "true"
+  path: self
+  
+
+- bash: |
+    pwd
+    cd ../self
+    pwd
+    ls -ltr
+    echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/qa.yml`"
+    echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/qa.yml`"
+    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/qa.yml`"
+    echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/qa.yml`"
+    repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
+    echo $(repoName)
+    echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
+    echo $(System.DefaultWorkingDirectory)
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  displayName: 'Get Environment Tenant Details'
+- script: |
+    echo $(source_environment_hostname)
+    echo $(source_environment_port)
+    echo $(admin_user)
+    echo $(source_type)
+    repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
+    echo $(repoName)
+    echo $(assetID)
+    LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
+    
+    pwd
+    HOME_DIR=$(System.DefaultWorkingDirectory)/../
+    cd $(System.DefaultWorkingDirectory)/../
+    ls -ltr
+    cd $(repoName)
+    chmod 777 ../self/pipelines/scripts/*.sh    
+    
+    #### Check and create Project
+    echo "Check and create Project ..."
+    ../self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
+
+    echo "Importing asset ..."
+    ../self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR}
+
+
+  displayName: 'Import Asset'
+
+
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(System.DefaultWorkingDirectory)../$(repoName)'
+    Contents: './*' 
+  displayName: 'Remove the Export after successfull Commit'
