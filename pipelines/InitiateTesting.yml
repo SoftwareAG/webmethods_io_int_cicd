@@ -7,11 +7,14 @@ pool:
   vmImage: ubuntu-latest
 resources:
   pipelines:
-  - pipeline: TestPipelineDev
+  - pipeline: dev
     source: sychronizeToDEV
     trigger: true
-  - pipeline: TestPipelinePlay
+  - pipeline: play
     source: synchronize_FeatureBranch
+    trigger: true
+  - pipeline: play
+    source: sychronizeToQA
     trigger: true
   repositories:
   - repository: projectRepo
