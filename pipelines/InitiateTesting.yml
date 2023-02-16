@@ -7,11 +7,11 @@ pool:
   vmImage: ubuntu-latest
 resources:
   pipelines:
-  - pipeline: Test_play_env
+  - pipeline: play
     source: synchronize_FeatureBranch
     trigger: true
     
-  - pipeline: Test_dev_env
+  - pipeline: dev
     source: sychronizeToDEV
     trigger: true
 
