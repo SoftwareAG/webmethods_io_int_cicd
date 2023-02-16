@@ -35,6 +35,7 @@ steps:
     pwd
     cd ../self
     pwd
+    echo $(resources.triggeringAlias)
     ls -ltr
     echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/play.yml`"
     echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/play.yml`"
