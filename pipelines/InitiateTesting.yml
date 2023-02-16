@@ -33,7 +33,7 @@ steps:
   clean: "true"
   path: self
   
-- bash: |
+- script: |
     pwd
     cd ../self
     pwd
