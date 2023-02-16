@@ -41,9 +41,8 @@ steps:
   displayName: 'Get Environment Tenant Details'
 
 - script: |
+    cd ../$(repoName)
     pwd
-    ls -ltr
-    cd ./$(repoName)
     ls -ltr
     newman run ./resources/test/wmio_test.json -e ./resources/test/environments/play.json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
   displayName: 'Run newman'
