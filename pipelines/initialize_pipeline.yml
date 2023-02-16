@@ -26,6 +26,7 @@ steps:
     echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/play.yml`"
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/play.yml`"
     echo "##vso[task.setvariable variable=repo_user]`yq -e ".repo.user" configs/repo.yml`"
+    echo "##vso[task.setvariable variable=repo_host]`yq -e ".repo.host" configs/repo.yml`"
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -48,14 +49,14 @@ steps:
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
           
           #### Initiatialite and push to main
-          echo "# wmio_project_b" >> README.md
+          echo "# $(repoName)" >> README.md
           git init
           git config user.email "noemail.com"
           git config user.name "$(devUser)"
           git add README.md
           git commit -m "first commit"
           git branch -M production
-          git remote add origin https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
+          git remote add origin https://$(repo_user):$(PAT)@$(repo_host)/$(repo_user)/$(repoName).git
           git push -u origin production
 
           git checkout -b dev production
