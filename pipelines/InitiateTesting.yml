@@ -7,12 +7,14 @@ pool:
   vmImage: ubuntu-latest
 resources:
   pipelines:
-  - pipeline: dev
-    source: sychronizeToDEV
-    trigger: true
   - pipeline: play
     source: synchronize_FeatureBranch
     trigger: true
+    
+  - pipeline: dev
+    source: sychronizeToDEV
+    trigger: true
+
   repositories:
   - repository: projectRepo
     type: github
