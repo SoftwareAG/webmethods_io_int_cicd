@@ -58,6 +58,6 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/junit*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)/$(source_type)/results'
+    searchFolder: '$(System.DefaultWorkingDirectory)/$(resources.triggeringAlias)/results'
     failTaskOnFailedTests: true
-    testRunTitle: '$(source_type) Test Run'
+    testRunTitle: '$(resources.triggeringAlias) Test Run'
