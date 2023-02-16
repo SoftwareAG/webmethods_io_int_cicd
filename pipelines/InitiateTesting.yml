@@ -33,7 +33,7 @@ steps:
   clean: "true"
   path: self
   
-- script: |
+- bash: |
     pwd
     cd ../self
     pwd
@@ -41,7 +41,11 @@ steps:
     echo ${source}
     if [ -z "$source" ]; then
       source=$(echo $(environment))
-      echo ${source}
+      echo "##vso[task.setvariable variable=source_type]${source}
+      echo $(source_type)
+    else
+      echo "##vso[task.setvariable variable=source_type]$(resources.triggeringAlias)
+      $(source_type)
     fi
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -51,13 +55,13 @@ steps:
     cd ../$(repoName)
     pwd
     ls -ltr
-    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/${source}.json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/${source}/results/junitReport.xml
-    ls -ltr $(System.DefaultWorkingDirectory)/${source}/results/
+    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/$(source_type).json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
+    ls -ltr $(System.DefaultWorkingDirectory)/$(source_type)/results/
   displayName: 'Run newman'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/junit*.xml'
-    searchFolder: '$(System.DefaultWorkingDirectory)/${source}/results'
+    searchFolder: '$(System.DefaultWorkingDirectory)/$(source_type)/results'
     failTaskOnFailedTests: true
-    testRunTitle: '$(resources.triggeringAlias) Test Run'
+    testRunTitle: '$(source_type) Test Run'
