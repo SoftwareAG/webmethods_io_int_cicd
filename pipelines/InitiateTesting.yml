@@ -13,9 +13,6 @@ resources:
   - pipeline: play
     source: synchronize_FeatureBranch
     trigger: true
-  - pipeline: qa
-    source: sychronizeToQA
-    trigger: true
   repositories:
   - repository: projectRepo
     type: github
