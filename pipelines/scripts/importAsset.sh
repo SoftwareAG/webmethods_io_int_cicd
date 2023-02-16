@@ -67,7 +67,7 @@ ls -ltr
 
     echo ${FLOW_URL}
     echo ${PWD}
-    echo ${admin_user}:${admin_password}
+   
 
 
 

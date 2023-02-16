@@ -48,8 +48,7 @@ HOME_DIR=$7
       echo "Missing template parameter HOME_DIR"
       exit 1
     fi
-pwd
-ls -ltr
+
 
 echo ${assetType}
 
