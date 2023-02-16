@@ -14,10 +14,6 @@ resources:
   - pipeline: dev
     source: sychronizeToDEV
     trigger: true
-  
-  - pipeline: qa
-    source: sychronizeToQA
-    trigger: true
 
   repositories:
   - repository: projectRepo
