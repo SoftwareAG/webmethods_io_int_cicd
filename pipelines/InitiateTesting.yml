@@ -6,6 +6,13 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 resources:
+  pipelines:
+  - pipeline: TestPipelineDev
+    source: sychronizeToDEV
+    trigger: true
+  - pipeline: TestPipelinePlay
+    source: synchronize_FeatureBranch
+    trigger: true
   repositories:
   - repository: projectRepo
     type: github
