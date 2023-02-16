@@ -52,7 +52,7 @@ steps:
     pwd
     ls -ltr
     newman run ./resources/test/wmio_test.json -e ./resources/test/environments/$(resources.triggeringAlias).json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
-    ls -ltr $(System.DefaultWorkingDirectory)/$(source_type)/results/
+    ls -ltr $(System.DefaultWorkingDirectory)/$(resources.triggeringAlias)/results/
   displayName: 'Run newman'
 - task: PublishTestResults@2
   inputs:
