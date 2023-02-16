@@ -36,6 +36,7 @@ steps:
 - bash: |
     cd ../self
     source=$(echo $(resources.triggeringAlias))
+    
     if [ -z "$source" ]; then
       source=$(echo $(environment))
       echo "##vso[task.setvariable variable=source_type]${source}"
