@@ -8,11 +8,15 @@ pool:
 resources:
   pipelines:
   - pipeline: play
-    source: synchronize_FeatureBranch
+    source: synchronizeToFeatureBranch
     trigger: true
     
   - pipeline: dev
     source: sychronizeToDEV
+    trigger: true
+  
+  - pipeline: qa
+    source: sychronizeToQA
     trigger: true
 
   repositories:
@@ -42,12 +46,6 @@ steps:
     if [ -z "$source" ]; then
       source=$(echo $(environment))
       echo ${source}
-    else
-      echo ${source}
-      if [ "${source}" = "Test_play_env" ]; then
-          source="play"
-      fi
-          
     fi
 
     ls -ltr
