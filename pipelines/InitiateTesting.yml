@@ -13,7 +13,7 @@ resources:
   - pipeline: play
     source: synchronize_FeatureBranch
     trigger: true
-  - pipeline: play
+  - pipeline: qa
     source: sychronizeToQA
     trigger: true
   repositories:
@@ -40,10 +40,10 @@ steps:
     pwd
     echo $(resources.triggeringAlias)
     ls -ltr
-    echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/play.yml`"
-    echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/play.yml`"
-    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/play.yml`"
-    echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/play.yml`"
+    echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/$(resources.triggeringAlias).yml`"
+    echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/$(resources.triggeringAlias).yml`"
+    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/$(resources.triggeringAlias).yml`"
+    echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/$(resources.triggeringAlias).yml`"
     repoName=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
     echo $(repoName)
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
@@ -55,7 +55,7 @@ steps:
     cd ../$(repoName)
     pwd
     ls -ltr
-    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/play.json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
+    newman run ./resources/test/wmio_test.json -e ./resources/test/environments/$(resources.triggeringAlias).json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
     ls -ltr $(System.DefaultWorkingDirectory)/$(source_type)/results/
   displayName: 'Run newman'
 - task: PublishTestResults@2
