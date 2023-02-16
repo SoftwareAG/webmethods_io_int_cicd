@@ -50,6 +50,7 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '$(System.DefaultWorkingDirectory)/$(source_type)/Results/*.xml'
+    testResultsFiles: '**/junit*.xml'
+    searchFolder: '$(System.DefaultWorkingDirectory)/$(source_type)/results'
     failTaskOnFailedTests: true
     testRunTitle: '$(source_type) Test Run'
