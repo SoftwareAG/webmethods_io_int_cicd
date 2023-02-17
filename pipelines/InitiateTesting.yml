@@ -53,6 +53,10 @@ steps:
 
 - script: |
     cd ../$(repoName)
+    echo $(source_type)
+    echo "newman run ./resources/test/wmio_test.json -e ./resources/test/environments/$(source_type).json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
+    ls -ltr $(System.DefaultWorkingDirectory)/$(source_type)/results/"    
+
     newman run ./resources/test/wmio_test.json -e ./resources/test/environments/$(source_type).json --reporters cli,junit --reporter-junit-export $(System.DefaultWorkingDirectory)/$(source_type)/results/junitReport.xml
     ls -ltr $(System.DefaultWorkingDirectory)/$(source_type)/results/
   displayName: 'Run newman'
