@@ -14,13 +14,18 @@ resources:
   - pipeline: dev
     source: sychronizeToDEV
     trigger: true
-
+  repositories:
+  - repository: projectRepo
+    type: github
+    endpoint: github
+    name: $(repoPath)
+    ref: feature*
 steps:
-#- checkout: projectRepo
-#  submodules: "true"
-#  persistCredentials: "true"
-#  clean: "true"
-#  path: $(repoName)
+- checkout: projectRepo
+  submodules: "true"
+  persistCredentials: "true"
+  clean: "true"
+  path: $(repoName)
 - checkout: self
   submodules: "true"
   persistCredentials: "true"
@@ -33,12 +38,9 @@ steps:
     
     if [ -z "$source" ]; then
       source=$(echo $(environment))
-      echo "##vso[task.setvariable variable=source_type]${source}"
-      git clone -b $(branch) https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
       cd $(repoName)
-    else
-      echo "##vso[task.setvariable variable=source_type]$(resources.triggeringAlias)"
     fi
+    echo "##vso[task.setvariable variable=source_type]${source}"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
