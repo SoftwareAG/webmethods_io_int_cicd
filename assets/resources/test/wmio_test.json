@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "8089b52d-918f-4301-a89e-80a8a16af418",
+		"name": "WM_IO_TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5524634"
+	},
+	"item": [
+		{
+			"name": "Request1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"requestName=request.name+\"_\";\r",
+							"n = pm.environment.get(requestName+\"numberOfAssertions\");\r",
+							"console.log(\"RequestName: \"+requestName+\" number of assertions: \"+n);\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check if all assertion fields are in response object\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    for (var i = 1; i <= n; i++) { \r",
+							"        key = requestName+\"fa_key\"+i;\r",
+							"        //console.log(\"Key name: \"+key)  //Uncomment these for debug\r",
+							"        //console.log(\"Key: \"+pm.variables.get(key)); //Uncomment these for debug\r",
+							"        //var keyValue = eval(\"responseJson.\"+pm.variables.get(key));\r",
+							"        var keyValue = eval(\"responseJson.\"+pm.environment.get(key));\r",
+							"        //console.log(\"Value: \"+keyValue); //Uncomment these for debug\r",
+							"        pm.expect(keyValue).not.eql(\"undefined\");\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Checking all assertion values\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    for (var i = 1; i <= n; i++) { \r",
+							"        key = requestName+\"fa_key\"+i;\r",
+							"        value = requestName+\"fa_value\"+i;\r",
+							"        //keyToCheck=pm.variables.get(key);\r",
+							"        keyToCheck=pm.environment.get(key);\r",
+							"        //var responseValue = eval(\"responseJson.\"+pm.variables.get(key));\r",
+							"        var responseValue = eval(\"responseJson.\"+pm.environment.get(key));\r",
+							"        console.log('Key: '+keyToCheck); //Uncomment these for debug\r",
+							"        console.log('Value: '+responseValue); //Uncomment these for debug\r",
+							"        //pm.expect( responseValue).to.eql(pm.variables.get(value));\r",
+							"        pm.expect( responseValue).to.eql(pm.environment.get(value));\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/runflow/run/sync/2wDVGWrF16",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"runflow",
+						"run",
+						"sync",
+						"2wDVGWrF16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {\r",
+							"     pm.response.to.be.ok;\r",
+							"     pm.response.to.be.withBody;\r",
+							"     pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"requestName=request.name+\"_\";\r",
+							"n = pm.environment.get(requestName+\"numberOfAssertions\");\r",
+							"console.log(\"RequestName: \"+requestName+\" number of assertions: \"+n);\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Check if all assertion fields are in response object\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    for (var i = 1; i <= n; i++) { \r",
+							"        key = requestName+\"fa_key\"+i;\r",
+							"        //console.log(\"Key name: \"+key)  //Uncomment these for debug\r",
+							"        //console.log(\"Key: \"+pm.variables.get(key)); //Uncomment these for debug\r",
+							"        //var keyValue = eval(\"responseJson.\"+pm.variables.get(key));\r",
+							"        var keyValue = eval(\"responseJson.\"+pm.environment.get(key));\r",
+							"        //console.log(\"Value: \"+keyValue); //Uncomment these for debug\r",
+							"        pm.expect(keyValue).not.eql(\"undefined\");\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Checking all assertion values\", () => {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    for (var i = 1; i <= n; i++) { \r",
+							"        key = requestName+\"fa_key\"+i;\r",
+							"        value = requestName+\"fa_value\"+i;\r",
+							"        //keyToCheck=pm.variables.get(key);\r",
+							"        keyToCheck=pm.environment.get(key);\r",
+							"        //var responseValue = eval(\"responseJson.\"+pm.variables.get(key));\r",
+							"        var responseValue = eval(\"responseJson.\"+pm.environment.get(key));\r",
+							"        //console.log('Key: '+keyToCheck); //Uncomment these for debug\r",
+							"        //console.log('Value: '+responseValue); //Uncomment these for debug\r",
+							"        //pm.expect( responseValue).to.eql(pm.variables.get(value));\r",
+							"        pm.expect( responseValue).to.eql(pm.environment.get(value));\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/apis/v1/rest/projects/:project/flows/:flow/run",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"apis",
+						"v1",
+						"rest",
+						"projects",
+						":project",
+						"flows",
+						":flow",
+						"run"
+					],
+					"variable": [
+						{
+							"key": "project",
+							"value": "wmio_project_c"
+						},
+						{
+							"key": "flow",
+							"value": "SampleFlowService"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{user}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -1,0 +1,75 @@
+{
+	"id": "4bd7aa59-3149-45ea-8159-516cb8d4f2bd",
+	"name": "dev",
+	"values": [
+		{
+			"key": "url",
+			"value": "https://nokroeger.int-aws-us.webmethods.io",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user",
+			"value": "srinivasan.sabaphat",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "password",
+			"value": "Manage123!",
+			"type": "secret",
+			"enabled": true
+		},
+		{
+			"key": "Request1_fa_key1",
+			"value": "uuid",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request1_fa_value1",
+			"value": "ABCD CDEF",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request1_numberOfAssertions",
+			"value": "2",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request1_fa_key2",
+			"value": "data.message",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request1_fa_value2",
+			"value": "success",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request2_fa_key1",
+			"value": "output.cars[0].model",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request2_fa_value1",
+			"value": "Ford",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "Request2_numberOfAssertions",
+			"value": "1",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2023-02-17T08:58:45.906Z",
+	"_postman_exported_using": "Postman/10.6.7"
+}
