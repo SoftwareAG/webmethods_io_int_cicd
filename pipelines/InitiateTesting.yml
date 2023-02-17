@@ -9,17 +9,23 @@ resources:
   pipelines:
   - pipeline: play
     source: synchronizeToFeatureBranch
-    trigger: true
-    
+    trigger:
+      branches:
+        include:
+        - feature*
+
   - pipeline: dev
     source: sychronizeToDEV
-    trigger: true
+    trigger: 
+      branches:
+        include:
+        - dev
   repositories:
   - repository: projectRepo
     type: github
     endpoint: github
     name: $(repoPath)
-    ref: feature*
+    ref: $(branch)
 steps:
 - checkout: projectRepo
   submodules: "true"
