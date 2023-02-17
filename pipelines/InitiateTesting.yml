@@ -9,17 +9,12 @@ resources:
   pipelines:
   - pipeline: play
     source: synchronizeToFeatureBranch
-    trigger:
-      branches:
-        include:
-        - feature*
+    trigger: true
 
   - pipeline: dev
     source: sychronizeToDEV
-    trigger: 
-      branches:
-        include:
-        - dev
+    trigger: true
+
   repositories:
   - repository: projectRepo
     type: github
