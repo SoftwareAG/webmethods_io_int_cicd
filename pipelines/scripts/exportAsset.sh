@@ -49,8 +49,14 @@ synchProject=$8
       exit 1
     fi
 
+echo "${@: -1}"
+
 function echod(){
-  #echo $1
+  
+  if [ "${@: -1}" = "debug" ]; then
+    echo $1
+  fi
+
 }
 
 function exportAsset(){
