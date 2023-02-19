@@ -49,6 +49,10 @@ synchProject=$8
       exit 1
     fi
 
+function echod(){
+  echo $1
+}
+
 function exportAsset(){
 
 LOCAL_DEV_URL=$1
@@ -62,12 +66,12 @@ HOME_DIR=$7
 echo ${assetType}
 
 if [[ $assetType = workflow* ]]; then
-        echo $assetType
+        echod $assetType
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
         cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/workflows
         cd ./assets/workflows
-        echo "Workflow Export:" ${FLOW_URL}
+        echod "Workflow Export:" ${FLOW_URL}
         ls -ltr
     else
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
@@ -89,7 +93,7 @@ if [[ $assetType = workflow* ]]; then
     regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
     
     if [[ $downloadURL =~ $regex ]]; then 
-       echo "Valid Download link retreived:"${downloadURL}
+       echod "Valid Download link retreived:"${downloadURL}
     else
         echo "Download link retreival Failed:" ${linkJson}
         exit 1
@@ -106,8 +110,8 @@ cd ${HOME_DIR}/${repoName}
 
 }  
 if [ ${synchProject} == true ]; then
-  echo "Listing All Assets"
-  echo $assetType
+  echod "Listing All Assets"
+  echod $assetType
   PROJECT_LIST_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/assets
 
   projectListJson=$(curl  --location --request GET ${PROJECT_LIST_URL} \
@@ -117,18 +121,18 @@ if [ ${synchProject} == true ]; then
   
   
   for item in $(jq  -c -r '.output.workflows[]' <<< "$projectListJson"); do
-    echo "Inside Workflow Loop"
+    echod "Inside Workflow Loop"
     assetID=$item
     assetType=workflow
-    echo $assetID
+    echod $assetID
     exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
   done
 
   for item in $(jq  -c -r '.output.flows[]' <<< "$projectListJson"); do
-    echo "Inside FS Loop"
+    echod "Inside FS Loop"
     assetID=$item
     assetType=flowservice
-    echo $assetID
+    echod $assetID
     exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
   done
 else
