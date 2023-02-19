@@ -110,8 +110,7 @@ steps:
           fi
         else
           echo "Project Initialize"
-          exit 0
-        fi  
+       fi  
           rm -rf ./$(repoName)
 
           git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
