@@ -141,6 +141,7 @@ steps:
                     base_name=$(basename ${filename})
                     echo $base_name
                     base_name=${filename##*/}
+                    base_name=${base_name%.*}
                     echo $base_name
                   done
               else
