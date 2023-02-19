@@ -96,7 +96,7 @@ steps:
       else
         ######## Create a feature branch from prod 
         echo "Repo Exists, Check and sync feature branch from Prod"
-        if ["$(synchProject)" = "false"]; then
+        if [ $(synchProject) == false]; then
           echo "Patch Initialize"
           if [ -z "$(assetID)" ]; then
             echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
