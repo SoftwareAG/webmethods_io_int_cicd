@@ -135,10 +135,11 @@ steps:
               # Import
               if [ $(synchProject) == true ]; then
                   echo "Listing files"
-                  pwd
-                  ls -ltr
+
                   for filename in ./assets/*/*.zip; do 
                     echo "$filename" 
+                    base_name=$(basename ${filename})
+                    echo $base_name
                   done
               else
                   echo "Importing asset ..."
