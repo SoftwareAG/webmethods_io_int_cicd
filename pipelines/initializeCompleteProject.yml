@@ -57,6 +57,7 @@ steps:
           
           #### Initiatialite and push to main
           echo "# $(repoName)" >> README.md
+          mkdir -p .github
           mkdir -p .github/workflows
           cp ../self/assets/github/workflows/dev.yml ./github/workflows/
           git init
