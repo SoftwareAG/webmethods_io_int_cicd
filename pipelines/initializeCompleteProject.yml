@@ -84,7 +84,6 @@ steps:
       LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
       echo ${LOCAL_DEV_URL}
       HOME_DIR=$(System.DefaultWorkingDirectory)/../
-      echo $(init)
       if [ $(init) == true ]; then
         echo "New repo created"
         pwd
