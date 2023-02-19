@@ -13,6 +13,7 @@ assetID=$5
 assetType=$6
 HOME_DIR=$7
 synchProject=$8
+debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
       echo "Missing template parameter LOCAL_DEV_URL"
@@ -53,7 +54,7 @@ echo "${@: -1}"
 
 function echod(){
   
-  if [ "${@: -1}" == "debug" ]; then
+  if [ "$debug" == "debug" ]; then
     echo $1
   fi
 
