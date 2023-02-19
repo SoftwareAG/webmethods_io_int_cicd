@@ -12,7 +12,7 @@ repoName=$4
 assetID=$5
 assetType=$6
 HOME_DIR=$7
-
+synchProject=$8
 
     if [ -z "$LOCAL_DEV_URL" ]; then
       echo "Missing template parameter LOCAL_DEV_URL"
@@ -49,10 +49,20 @@ HOME_DIR=$7
       exit 1
     fi
 
+function exportAsset(){
+
+LOCAL_DEV_URL=$1
+admin_user=$2
+admin_password=$3
+repoName=$4
+assetID=$5
+assetType=$6
+HOME_DIR=$7
 
 echo ${assetType}
 
-if [ "${assetType}" = "workflow" ]; then
+if [[ $assetType = workflow* ]]; then
+        echo $assetType
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
         cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/workflows
@@ -92,4 +102,29 @@ if [ "${assetType}" = "workflow" ]; then
     else
         echo "Download failed:"${downloadJson}
     fi
+
+}  
+if [ ${synchProject} == true ]; then
+  echo "Listing All Assets"
+  echo $assetType
+  PROJECT_LIST_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/assets
+
+  projectListJson=$(curl  --location --request GET ${PROJECT_LIST_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u ${admin_user}:${admin_password})
+  
+  workflowArray=$(echo "$projectListJson" | jq -r '.output.workflows')
+
+  for item in "${workflowArray[@]}"; do
+    #assetID=$(jq --raw-output '.original_name' <<< "$item")
+    #assetType="workflow"
+    # do your stuff
+    echo "Inside Loop"
+    echo §item
+  done
+else
+  exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+fi  
+
 
