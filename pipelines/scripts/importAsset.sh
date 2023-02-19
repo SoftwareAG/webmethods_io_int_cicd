@@ -83,12 +83,12 @@ function importAsset() {
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
       cd ${HOME_DIR}/${repoName}/assets/workflows
       echod "Workflow Import:" ${FLOW_URL}
-      ls -ltr
+      echod $(ls -ltr)
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd ${HOME_DIR}/${repoName}/assets/flowservices
       echod "Flowservice Import:" ${FLOW_URL}
-      echo $(ls -ltr)
+      echod $(ls -ltr)
   fi    
       echod ${FLOW_URL}
       echod ${PWD}

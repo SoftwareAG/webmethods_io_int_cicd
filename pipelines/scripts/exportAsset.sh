@@ -82,14 +82,14 @@ if [[ $assetType = workflow* ]]; then
         mkdir -p ./assets/workflows
         cd ./assets/workflows
         echod "Workflow Export:" ${FLOW_URL}
-        ls -ltr
+        echod $(ls -ltr)
     else
         FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
         cd ${HOME_DIR}/${repoName}
         mkdir -p ./assets/flowservices
         cd ./assets/flowservices
         echo "Flowservice Export:" ${FLOW_URL}
-        ls -ltr
+        echod $(ls -ltr)
     fi    
 
   
