@@ -136,7 +136,7 @@ steps:
               if [ $(synchProject) == true ]; then
                   echo "Listing files"
                   pwd
-                  ls -ltr ./assets/
+                  ls -ltr
                   for filename in ./assets/*/*.zip; do 
                     echo "$filename" 
                   done
