@@ -50,7 +50,7 @@ synchProject=$8
     fi
 
 function echod(){
-  echo $1
+  #echo $1
 }
 
 function exportAsset(){
