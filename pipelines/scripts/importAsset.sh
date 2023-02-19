@@ -60,43 +60,43 @@ if [ ${synchProject} == true ]; then
       base_name=${base_name%.*}
       echo $base_name
       echo $parent_name
-      import ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
     done
 else
-  import ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+  importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 fi  
 
 
-function import() {
-LOCAL_DEV_URL=$1
-admin_user=$2
-admin_password=$3
-repoName=$4
-assetID=$5
-assetType=$6
-HOME_DIR=$7
-synchProject=$8
+function importAsset() {
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
 
-echo ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+  echo ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 
-pwd
-ls -ltr
-if [ "${assetType}" = workflow* ]; then
-    FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
-    cd ${HOME_DIR}/${repoName}/assets/workflows
-    echo "Workflow Import:" ${FLOW_URL}
-    ls -ltr
-else
-    FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
-    cd ${HOME_DIR}/${repoName}/assets/flowservices
-    echo "Flowservice Import:" ${FLOW_URL}
-    ls -ltr
-fi    
-    echo ${FLOW_URL}
-    echo ${PWD}
-FILE=./${assetID}.zip
-formKey="recipe=@"${FILE}
-echo ${formKey}
+  pwd
+  ls -ltr
+  if [ "${assetType}" = workflow* ]; then
+      FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
+      cd ${HOME_DIR}/${repoName}/assets/workflows
+      echo "Workflow Import:" ${FLOW_URL}
+      ls -ltr
+  else
+      FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
+      cd ${HOME_DIR}/${repoName}/assets/flowservices
+      echo "Flowservice Import:" ${FLOW_URL}
+      ls -ltr
+  fi    
+      echo ${FLOW_URL}
+      echo ${PWD}
+  FILE=./${assetID}.zip
+  formKey="recipe=@"${FILE}
+  echo ${formKey}
   if [ -f "$FILE" ]; then
   ####### Check if asset with this name, an asset exist
 
