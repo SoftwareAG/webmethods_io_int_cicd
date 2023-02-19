@@ -15,10 +15,8 @@ resources:
     endpoint: github
     name: $(repoPath)
     ref: dev
-    trigger:
-      branches:
-        include:
-        - dev
+    pr:
+      - dev
 steps:
 - checkout: projectRepo
   submodules: "true"
