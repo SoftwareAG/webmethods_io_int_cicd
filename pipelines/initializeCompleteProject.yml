@@ -48,14 +48,14 @@ steps:
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
           secretJson='{"encrypted_value":"'"$(AZURE_TOKEN)"'","key_id":"012345678912345678"}'
           echo ${secretJson}
-          
+         : ' 
           curl \
             -X PUT \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -u $(repo_user):$(PAT) https://api.github.com/repos/$(repoPath)/actions/secrets/AZURE_DEVOPS_TOKEN \
             -d '{"encrypted_value":"'"$(AZURE_TOKEN)"'"}'
-          
+          '
           #### Initiatialite and push to main
           echo "# $(repoName)" >> README.md
           mkdir -p .github
