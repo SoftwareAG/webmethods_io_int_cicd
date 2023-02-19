@@ -53,7 +53,7 @@ echo "${@: -1}"
 
 function echod(){
   
-  if [ "${@: -1}" = "debug" ]; then
+  if [ "${@: -1}" == "debug" ]; then
     echo $1
   fi
 
