@@ -100,6 +100,7 @@ function importAsset() {
   else
     echo "$FILE does not exists, Nothing to import"
   fi
+cd -
 }
 
 if [ ${synchProject} == true ]; then
