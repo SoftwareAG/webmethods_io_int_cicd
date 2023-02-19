@@ -96,18 +96,22 @@ steps:
       else
         ######## Create a feature branch from prod 
         echo "Repo Exists, Check and sync feature branch from Prod"
-        if [ -z "$(assetID)" ]; then
-          echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
-          echo "##vso[task.complete result=Failed;]"
-          exit 1
-        fi
-                
-        if [ -z "$(assetType)" ]; then
-          echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
-          echo "##vso[task.complete result=Failed;]"
-          exit 1
-        fi
-        
+        if ["$(synchProject)" = "false"]; then
+          echo "Patch Initialize"
+          if [ -z "$(assetID)" ]; then
+            echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
+            echo "##vso[task.complete result=Failed;]"
+            exit 1
+          fi
+                  
+          if [ -z "$(assetType)" ]; then
+            echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
+            echo "##vso[task.complete result=Failed;]"
+            exit 1
+          fi
+        else
+          echo "Project Initialize"
+        fi  
           rm -rf ./$(repoName)
 
           git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
