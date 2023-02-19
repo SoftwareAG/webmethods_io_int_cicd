@@ -14,6 +14,7 @@ repoName=$4
 assetID=$5
 assetType=$6
 HOME_DIR=$7
+synchProject=$8
 
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -50,6 +51,17 @@ HOME_DIR=$7
       echo "Missing template parameter HOME_DIR"
       exit 1
     fi
+
+if [ ${synchProject} == true ]; then
+  echo "Listing files"
+  for filename in ./assets/*/*.zip; do 
+      base_name=${filename##*/}
+      base_name=${base_name%.*}
+      echo $base_name
+    done
+  exit 0
+fi
+
 
 pwd
 ls -ltr
