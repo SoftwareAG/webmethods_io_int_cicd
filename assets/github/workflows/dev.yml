@@ -1,0 +1,21 @@
+name: CI
+
+# Run this workflow every time a commit gets pushed to main or a pull request gets opened against main
+on:
+  pull_request:
+    branches: 
+      - dev
+
+jobs:
+    build:
+        name: Call Azure Pipeline
+        runs-on: ubuntu-latest
+        steps:
+        - name: Azure Pipelines Action
+          uses: Azure/pipelines@v1
+          with:
+            azure-devops-project-url: https://dev.azure.com/insrsa/webMethodsIO_Integration
+            azure-pipeline-name: 'sychronizeToDEV'
+            azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+            # azure-pipeline-variables:  '{"repoName": "wmio_project_c", "repoPath": "chini007/wmio_project_c"}' # optional stringified json
+            
