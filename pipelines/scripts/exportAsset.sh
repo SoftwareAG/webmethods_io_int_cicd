@@ -50,7 +50,10 @@ debug=${@: -1}
       exit 1
     fi
 
-echo "${@: -1}"
+  if [ "$debug" == "debug" ]; then
+    echo "......Running in Debug mode ......"
+  fi
+
 
 function echod(){
   

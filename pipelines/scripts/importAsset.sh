@@ -15,6 +15,7 @@ assetID=$5
 assetType=$6
 HOME_DIR=$7
 synchProject=$8
+debug=${@: -1}
 
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -51,6 +52,20 @@ synchProject=$8
       echo "Missing template parameter HOME_DIR"
       exit 1
     fi
+
+if [ "$debug" == "debug" ]; then
+    echo "......Running in Debug mode ......"
+  fi
+
+
+function echod(){
+  
+  if [ "$debug" == "debug" ]; then
+    echo $1
+  fi
+
+}
+
 function importAsset() {
   LOCAL_DEV_URL=$1
   admin_user=$2
@@ -61,25 +76,25 @@ function importAsset() {
   HOME_DIR=$7
   synchProject=$8
 
-  pwd
-  ls -ltr
+  echod $(pwd)
+  echod $(ls -ltr)
   echo "AssetType:" $assetType
   if [[ $assetType = workflow* ]]; then
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflow-import
       cd ${HOME_DIR}/${repoName}/assets/workflows
-      echo "Workflow Import:" ${FLOW_URL}
+      echod "Workflow Import:" ${FLOW_URL}
       ls -ltr
   else
       FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flow-import
       cd ${HOME_DIR}/${repoName}/assets/flowservices
-      echo "Flowservice Import:" ${FLOW_URL}
-      ls -ltr
+      echod "Flowservice Import:" ${FLOW_URL}
+      echo $(ls -ltr)
   fi    
-      echo ${FLOW_URL}
-      echo ${PWD}
+      echod ${FLOW_URL}
+      echod ${PWD}
   FILE=./${assetID}.zip
   formKey="recipe=@"${FILE}
-  echo ${formKey}
+  echod ${formKey}
   if [ -f "$FILE" ]; then
   ####### Check if asset with this name, an asset exist
 
@@ -103,13 +118,13 @@ cd ${HOME_DIR}/${repoName}
 }
 
 if [ ${synchProject} == true ]; then
-  echo "Listing files"
+  echod "Listing files"
   for filename in ./assets/*/*.zip; do 
       base_name=${filename##*/}
       parent_name="$(basename "$(dirname "$filename")")"
       base_name=${base_name%.*}
-      echo $base_name
-      echo $parent_name
+      echod $base_name
+      echod $parent_name
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} 
     done
 else
