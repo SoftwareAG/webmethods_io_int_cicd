@@ -102,6 +102,7 @@ if [[ $assetType = workflow* ]]; then
     else
         echo "Download failed:"${downloadJson}
     fi
+cd ${HOME_DIR}/${repoName}
 
 }  
 if [ ${synchProject} == true ]; then
@@ -116,11 +117,19 @@ if [ ${synchProject} == true ]; then
   
   
   for item in $(jq  -c -r '.output.workflows[]' <<< "$projectListJson"); do
-    #assetID=$(jq --raw-output '.original_name' <<< "$item")
-    #assetType="workflow"
-    # do your stuff
-    echo "Inside Loop"
-    echo $item
+    echo "Inside Workflow Loop"
+    assetID=$item
+    assetType=workflow
+    echo $assetID
+    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
+  done
+
+  for item in $(jq  -c -r '.output.flows[]' <<< "$projectListJson"); do
+    echo "Inside FS Loop"
+    assetID=$item
+    assetType=flowservice
+    echo $assetID
+    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
   done
 else
   exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
