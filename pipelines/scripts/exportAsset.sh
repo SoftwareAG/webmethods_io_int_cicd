@@ -114,7 +114,7 @@ if [ ${synchProject} == true ]; then
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
   
-  readarray -t workflowArray << $(echo "$projectListJson" | jq -r '.output.workflows')
+  readarray -t workflowArray < < $(echo "$projectListJson" | jq -r '.output.workflows')
 
   for item in "${workflowArray[@]}"; do
     #assetID=$(jq --raw-output '.original_name' <<< "$item")
