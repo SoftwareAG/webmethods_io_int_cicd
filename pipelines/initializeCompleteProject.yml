@@ -136,8 +136,9 @@ steps:
               if [ $(synchProject) == true ]; then
                   echo "Listing files"
                   pwd
-                  for FILE in ./assets/*/*.zip; do 
-                    echo -e "$FILE" 
+                  ls -ltr ./assets/
+                  for filename in ./assets/*/*.zip; do 
+                    echo "$filename" 
                   done
               else
                   echo "Importing asset ..."
