@@ -17,5 +17,5 @@ jobs:
             azure-devops-project-url: https://dev.azure.com/insrsa/webMethodsIO_Integration
             azure-pipeline-name: 'sychronizeToDEV'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            # azure-pipeline-variables:  '{"repoName": "wmio_project_c", "repoPath": "chini007/wmio_project_c"}' # optional stringified json
+            # azure-pipeline-variables:  '{"repoName": ${{ github.event.repository.name }}, "repoPath": ${{ github.repository }}' # optional stringified json
             
