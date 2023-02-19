@@ -100,7 +100,9 @@ function importAsset() {
   else
     echo "$FILE does not exists, Nothing to import"
   fi
-cd -
+cd ${HOME_DIR}
+echo "BACK"
+pwd
 }
 
 if [ ${synchProject} == true ]; then
