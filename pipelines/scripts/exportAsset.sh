@@ -115,7 +115,7 @@ if [ ${synchProject} == true ]; then
     -u ${admin_user}:${admin_password})
   
   
-  for item in $(jq '.output.workflows[]' <<< "$projectListJson"); do
+  for item in $(jq  -c -r '.output.workflows[]' <<< "$projectListJson"); do
     #assetID=$(jq --raw-output '.original_name' <<< "$item")
     #assetType="workflow"
     # do your stuff
