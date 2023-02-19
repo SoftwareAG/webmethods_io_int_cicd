@@ -61,8 +61,6 @@ function importAsset() {
   HOME_DIR=$7
   synchProject=$8
 
-  echo ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
-
   pwd
   ls -ltr
   if [ "${assetType}" = workflow* ]; then
@@ -100,9 +98,7 @@ function importAsset() {
   else
     echo "$FILE does not exists, Nothing to import"
   fi
-cd ${HOME_DIR}
-echo "BACK"
-pwd
+cd ${HOME_DIR}/${repoName}
 }
 
 if [ ${synchProject} == true ]; then
