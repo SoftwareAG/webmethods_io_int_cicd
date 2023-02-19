@@ -10,7 +10,7 @@ LOCAL_DEV_URL=$1
 admin_user=$2
 admin_password=$3
 repoName=$4
-
+debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
       echo "Missing template parameter LOCAL_DEV_URL"
@@ -31,6 +31,20 @@ repoName=$4
       echo "Missing template parameter repoName"
       exit 1
     fi
+
+ if [ "$debug" == "debug" ]; then
+    echo "......Running in Debug mode ......"
+  fi
+
+
+function echod(){
+  
+  if [ "$debug" == "debug" ]; then
+    echo $1
+  fi
+
+}
+
 
 
 PROJECT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
