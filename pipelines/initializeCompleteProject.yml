@@ -140,6 +140,8 @@ steps:
                     echo "$filename" 
                     base_name=$(basename ${filename})
                     echo $base_name
+                    base_name=${filename##*/}
+                    echo $base_name
                   done
               else
                   echo "Importing asset ..."
