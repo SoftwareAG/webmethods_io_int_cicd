@@ -61,10 +61,11 @@ if [ ${synchProject} == true ]; then
       echo $base_name
       echo $parent_name
       import ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
-
     done
-  exit 0
-fi
+else
+  import ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+fi  
+
 
 function import() {
 LOCAL_DEV_URL=$1
