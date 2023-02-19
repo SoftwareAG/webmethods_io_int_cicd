@@ -51,22 +51,6 @@ synchProject=$8
       echo "Missing template parameter HOME_DIR"
       exit 1
     fi
-
-if [ ${synchProject} == true ]; then
-  echo "Listing files"
-  for filename in ./assets/*/*.zip; do 
-      base_name=${filename##*/}
-      parent_name="$(basename "$(dirname "$filename")")"
-      base_name=${base_name%.*}
-      echo $base_name
-      echo $parent_name
-      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
-    done
-else
-  importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
-fi  
-
-
 function importAsset() {
   LOCAL_DEV_URL=$1
   admin_user=$2
@@ -117,3 +101,19 @@ function importAsset() {
     echo "$FILE does not exists, Nothing to import"
   fi
 }
+
+if [ ${synchProject} == true ]; then
+  echo "Listing files"
+  for filename in ./assets/*/*.zip; do 
+      base_name=${filename##*/}
+      parent_name="$(basename "$(dirname "$filename")")"
+      base_name=${base_name%.*}
+      echo $base_name
+      echo $parent_name
+      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+    done
+else
+  importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+fi  
+
+
