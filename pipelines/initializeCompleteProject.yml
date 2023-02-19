@@ -111,6 +111,7 @@ steps:
           fi
         else
           echo "Project Initialize"
+          exit 0
         fi  
           rm -rf ./$(repoName)
 
