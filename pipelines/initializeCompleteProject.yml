@@ -66,7 +66,7 @@ steps:
           git init
           git config user.email "noemail.com"
           git config user.name "$(devUser)"
-          git add *
+          git add .
           git commit -m "first commit"
           git branch -M production
           git remote add origin https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
