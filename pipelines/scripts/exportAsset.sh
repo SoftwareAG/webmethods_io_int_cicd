@@ -69,7 +69,7 @@ assetID=$5
 assetType=$6
 HOME_DIR=$7
 
-echo ${assetType}
+echod ${assetType}
 
 if [[ $assetType = workflow* ]]; then
         echod $assetType
