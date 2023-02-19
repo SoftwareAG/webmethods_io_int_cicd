@@ -46,7 +46,7 @@ steps:
 
           #### Create empty repo & SECRET
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
-          secretJson='{"encrypted_value":"'"$(AZURE_TOKEN)"'","key_id":"012345678912345678"}''
+          secretJson='{"encrypted_value":"'"$(AZURE_TOKEN)"'","key_id":"012345678912345678"}'
           echo ${secretJson}
           
           curl \
