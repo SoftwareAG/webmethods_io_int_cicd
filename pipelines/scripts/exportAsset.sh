@@ -121,7 +121,7 @@ if [ ${synchProject} == true ]; then
     #assetType="workflow"
     # do your stuff
     echo "Inside Loop"
-    echo §item
+    echo $item
   done
 else
   exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
