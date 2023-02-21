@@ -55,12 +55,19 @@ steps:
           #### Create empty repo & SECRET
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
           
-          keyId=$(curl -u $(repo_user):$(PAT) --location --request GET 'https://api.github.com/repos/$(repoPath)/actions/secrets/public-key' \
+          keyJson=$(curl -u $(repo_user):$(PAT) --location --request GET 'https://api.github.com/repos/$(repoPath)/actions/secrets/public-key' \
           --header 'X-GitHub-Api-Version: 2022-11-28' \
-          --header 'Accept: application/vnd.github+json'| jq -r '.key_id')
+          --header 'Accept: application/vnd.github+json')
+
+          keyId=$(echo "$keyJson" | jq -r '.key_id')
+          keyValue=$(echo "$keyJson" | jq -r '.key')
+          echo "Key:" ${keyId} ${keyValue}
+
+          encryptedValue=$(python3 ../self/pipelines/scripts/encryptGithubSecret.py $ ${keyValue} $(AZURE_TOKEN))
+          echo "Encrypted Token:" ${encryptedValue}
 
           
-          secretJson='{"encrypted_value":"'"$(AZURE_TOKEN)"'","key_id":"'"${keyId}"'"}'
+          secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
           echo ${secretJson}
          
           curl \
