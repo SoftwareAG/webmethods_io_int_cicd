@@ -19,7 +19,4 @@ def encrypt(public_key: str, secret_value: str) -> str:
     encrypted = sealed_box.encrypt(secret_value.encode("utf-8"))
     
     return b64encode(encrypted).decode("utf-8")
-
-print(pk, sv)
-
 print(encrypt(public_key=pk, secret_value=sv))
