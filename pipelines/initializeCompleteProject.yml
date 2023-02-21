@@ -63,7 +63,7 @@ steps:
           keyId=$(echo "$keyJson" | jq -r '.key_id')
           keyValue=$(echo "$keyJson" | jq -r '.key')
           echo "Key:" ${keyId} ${keyValue}
-          token=echo $(AZURE_TOKEN)
+          token=$(echo $(AZURE_TOKEN))
 
           encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py $ ${keyValue} ${token})
           echo "Encrypted Token:" ${encryptedValue}
