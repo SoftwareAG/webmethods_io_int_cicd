@@ -30,16 +30,7 @@ steps:
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
-# setup python environment
-- script: |
-    
-    python3.10 -m pip3 install --upgrade pip
-    pip3 install pynacl
-    chmod +x ./pipelines/scripts/github/encryptGithubSecret.py
 
-  displayName: 'Setup Python3 Environment'
-  workingDirectory: '$(System.DefaultWorkingDirectory)'
-  condition: succeeded()
 - script: |
       cd ../
       
@@ -53,40 +44,15 @@ steps:
           mkdir -p $(repoName)
           cd $(repoName)
 
-          #### Create empty repo & SECRET
+          #### Create empty repo
           curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
-
-          keyJson=$(curl -u $(repo_user):$(PAT) --location --request GET 'https://api.github.com/repos/$(repoPath)/actions/secrets/public-key' \
-          --header 'X-GitHub-Api-Version: 2022-11-28' \
-          --header 'Accept: application/vnd.github+json')
-
-          keyId=$(echo "$keyJson" | jq -r '.key_id')
-          keyValue=$(echo "$keyJson" | jq -r '.key')
-          token=$(echo $(AZURE_TOKEN))
-
-          encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py ${keyValue} ${token})
-         
-          
-          secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
-          
-          curl \
-            -X PUT \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            -u $(repo_user):$(PAT) https://api.github.com/repos/$(repoPath)/actions/secrets/AZURE_DEVOPS_TOKEN \
-            -d '{"encrypted_value":"'"$(AZURE_TOKEN)"'","key_id":"'"${keyId}"'"}'
           
           #### Initiatialite and push to main
           echo "# $(repoName)" >> README.md
-          mkdir -p .github
-          cd .github
-          mkdir -p workflows
-          cd ..
-          cp ../self/assets/github/workflows/dev.yml .github/workflows/
           git init
           git config user.email "noemail.com"
           git config user.name "$(devUser)"
-          git add .
+          git add README.md
           git commit -m "first commit"
           git branch -M production
           git remote add origin https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
@@ -103,13 +69,6 @@ steps:
           git checkout -b $(feature_branch_name) production
           git commit -m "first commit"
           git push -u origin $(feature_branch_name)
-
-          #Enable workflow
-           curl -u $(repo_user):$(PAT) -X PUT \
-              -H "Accept: application/vnd.github+json" \
-             -H "X-GitHub-Api-Version: 2022-11-28" \
-             https://api.github.com/user/repos/$(repoPath)/actions/workflows/dev.yml/enable
-
           echo "Repo creation done !!!"
       else
           echo "Repo already exixts with name:" ${name}
@@ -125,6 +84,7 @@ steps:
       LOCAL_DEV_URL=https://$(source_environment_hostname):$(source_environment_port)
       echo ${LOCAL_DEV_URL}
       HOME_DIR=$(System.DefaultWorkingDirectory)/../
+      echo $(init)
       if [ $(init) == true ]; then
         echo "New repo created"
         pwd
@@ -136,22 +96,18 @@ steps:
       else
         ######## Create a feature branch from prod 
         echo "Repo Exists, Check and sync feature branch from Prod"
-        if [ $(synchProject) != true ]; then
-          echo "Patch Initialize"
-          if [ -z "$(assetID)" ]; then
-            echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
-            echo "##vso[task.complete result=Failed;]"
-            exit 1
-          fi
-                  
-          if [ -z "$(assetType)" ]; then
-            echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
-            echo "##vso[task.complete result=Failed;]"
-            exit 1
-          fi
-        else
-          echo "Project Initialize"
-       fi  
+        if [ -z "$(assetID)" ]; then
+          echo "##vso[task.logissue type=error;]Missing parameter \"assetID\""
+          echo "##vso[task.complete result=Failed;]"
+          exit 1
+        fi
+                
+        if [ -z "$(assetType)" ]; then
+          echo "##vso[task.logissue type=error;]Missing parameter \"assetType\""
+          echo "##vso[task.complete result=Failed;]"
+          exit 1
+        fi
+        
           rm -rf ./$(repoName)
 
           git clone -b production https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
@@ -172,15 +128,13 @@ steps:
               # Project Check
               chmod +x ../self/pipelines/scripts/*.sh
               echo "Check and create Project ..."
-              ../self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
+              ../self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) 
               # Import
                   echo "Importing asset ..."
-              ../self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR} $(synchProject)
-          
+              ../self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType)  ${HOME_DIR}
+
               
           fi
       fi
-  displayName: 'Create / Sychronize the projects'
-  
-
+  displayName: 'Create / Synchronize the projects'
   
