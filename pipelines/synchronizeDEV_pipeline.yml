@@ -61,7 +61,7 @@ steps:
     cd $(System.DefaultWorkingDirectory)/../
     ls -ltr
     cd $(repoName)
-    chmod 777 ../self/pipelines/scripts/*.sh    
+    chmod +x ../self/pipelines/scripts/*.sh    
     
     #### Check and create Project
     echo "Check and create Project ..."

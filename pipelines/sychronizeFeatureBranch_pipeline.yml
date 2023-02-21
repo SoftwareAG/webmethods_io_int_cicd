@@ -59,7 +59,7 @@ steps:
     HOME_DIR=$(System.DefaultWorkingDirectory)/../
     cd $(System.DefaultWorkingDirectory)/../
     cd $(repoName)
-    chmod 777 ../self/pipelines/scripts/*.sh    
+    chmod +x ../self/pipelines/scripts/*.sh    
     
     ###### Exporting
     echo "Exporting asset ..."
