@@ -33,7 +33,7 @@ steps:
 # setup python environment
 - script: |
     python3.10 -m venv venv
-    python3.10 -m pip install --upgrade pip
+    python3.10 -m pip3 install --upgrade pip
     source venv/bin/activate
     #python3.10 -m pip3 install -r ./pipelines/scripts/github/pythonRequirement.cnf
     pip3 install PyNaCl
