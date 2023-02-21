@@ -30,7 +30,15 @@ steps:
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   displayName: 'Get Environment Tenant Details'
-
+# setup python environment
+- script: |
+    python3 -m venv venv
+    source venv/bin/activate
+    python3 -m pip install -r ./pipelines/scripts/github/pythonRequirement.cnf
+    python3 -m pip install -e .
+  displayName: 'Setup Python3 Environment'
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  condition: succeeded()
 - script: |
       cd ../
       
@@ -160,4 +168,6 @@ steps:
           fi
       fi
   displayName: 'Create / Sychronize the projects'
+  
+
   
