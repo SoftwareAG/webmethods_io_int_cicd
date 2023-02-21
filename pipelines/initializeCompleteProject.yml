@@ -62,16 +62,13 @@ steps:
 
           keyId=$(echo "$keyJson" | jq -r '.key_id')
           keyValue=$(echo "$keyJson" | jq -r '.key')
-          echo "Key:" ${keyId} ${keyValue}
           token=$(echo $(AZURE_TOKEN))
 
           encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py ${keyValue} ${token})
-          echo "Encrypted Token:" ${encryptedValue}
-
+         
           
           secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
-          echo ${secretJson}
-         
+          
           curl \
             -X PUT \
             -H "Accept: application/vnd.github+json" \
