@@ -36,6 +36,8 @@ steps:
     source venv/bin/activate
     python3 -m pip install -r ./pipelines/scripts/github/pythonRequirement.cnf
     chmod +x ./pipelines/scripts/github/encryptGithubSecret.py
+    python3 --version
+
   displayName: 'Setup Python3 Environment'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   condition: succeeded()
@@ -63,7 +65,7 @@ steps:
           keyValue=$(echo "$keyJson" | jq -r '.key')
           echo "Key:" ${keyId} ${keyValue}
 
-          encryptedValue=$(python3 ../self/pipelines/scripts/github/encryptGithubSecret.py $ ${keyValue} $(AZURE_TOKEN))
+          encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py $ ${keyValue} $(AZURE_TOKEN))
           echo "Encrypted Token:" ${encryptedValue}
 
           
