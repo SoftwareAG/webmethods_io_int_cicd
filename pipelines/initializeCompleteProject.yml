@@ -35,7 +35,7 @@ steps:
     python3 -m venv venv
     source venv/bin/activate
     python3 -m pip install -r ./pipelines/scripts/github/pythonRequirement.cnf
-    chmod 777 ./pipelines/scripts/github/encryptGithubSecret.py
+    chmod +x ./pipelines/scripts/github/encryptGithubSecret.py
   displayName: 'Setup Python3 Environment'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
   condition: succeeded()
