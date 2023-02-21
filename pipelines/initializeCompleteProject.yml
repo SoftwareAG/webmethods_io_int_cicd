@@ -32,13 +32,10 @@ steps:
   displayName: 'Get Environment Tenant Details'
 # setup python environment
 - script: |
-    #python3.10 -m venv venv
+    
     python3.10 -m pip3 install --upgrade pip
-    #source venv/bin/activate
-    #python3.10 -m pip3 install -r ./pipelines/scripts/github/pythonRequirement.cnf
     pip3 install pynacl
     chmod +x ./pipelines/scripts/github/encryptGithubSecret.py
-    python3 --version
 
   displayName: 'Setup Python3 Environment'
   workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -66,8 +63,9 @@ steps:
           keyId=$(echo "$keyJson" | jq -r '.key_id')
           keyValue=$(echo "$keyJson" | jq -r '.key')
           echo "Key:" ${keyId} ${keyValue}
+          token=echo $(AZURE_TOKEN)
 
-          encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py $ ${keyValue} $(AZURE_TOKEN))
+          encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py $ ${keyValue} ${token})
           echo "Encrypted Token:" ${encryptedValue}
 
           
