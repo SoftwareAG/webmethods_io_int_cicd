@@ -35,7 +35,8 @@ steps:
     python3.10 -m venv venv
     python3.10 -m pip install --upgrade pip
     source venv/bin/activate
-    python3.10 -m pip install -r ./pipelines/scripts/github/pythonRequirement.cnf
+    #python3.10 -m pip3 install -r ./pipelines/scripts/github/pythonRequirement.cnf
+    pip3 install PyNaCl
     chmod +x ./pipelines/scripts/github/encryptGithubSecret.py
     python3 --version
 
