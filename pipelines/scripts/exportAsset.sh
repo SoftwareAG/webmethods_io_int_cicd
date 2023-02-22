@@ -129,7 +129,7 @@ if [ ${synchProject} == true ]; then
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
   
-  
+  # Exporing Workflows
   for item in $(jq  -c -r '.output.workflows[]' <<< "$projectListJson"); do
     echod "Inside Workflow Loop"
     assetID=$item
@@ -137,7 +137,7 @@ if [ ${synchProject} == true ]; then
     echod $assetID
     exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
   done
-
+  # Exporting Flows
   for item in $(jq  -c -r '.output.flows[]' <<< "$projectListJson"); do
     echod "Inside FS Loop"
     assetID=$item
@@ -149,4 +149,20 @@ else
   exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 fi  
 
+#Expoting Accounts
 
+ACCOUNT_LIST_URL==${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/accounts
+accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u ${admin_user}:${admin_password})
+
+    accountexport=$(echo "$accountListJson" | jq '. // empty')
+      if [ -z "$accountexport" ];   then
+          echo "Account export failed:" ${accountListJson}
+      else
+          echo "Account export Succeeded:" ${accountListJson}
+          mkdir -p ./assets/accounts
+          cd ./assets/accounts
+          echo "$accountListJson" > user_accounts.json
+      fi
