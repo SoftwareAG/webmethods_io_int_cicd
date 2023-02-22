@@ -161,7 +161,7 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
       if [ -z "$accountexport" ];   then
           echo "Account export failed:" ${accountListJson}
       else
-          echo "Account export Succeeded:" ${accountListJson}
+          echo "Account export Succeeded"
           mkdir -p ./assets/accounts
           cd ./assets/accounts
           echo "$accountListJson" > user_accounts.json
