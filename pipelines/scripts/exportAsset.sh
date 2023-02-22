@@ -150,8 +150,13 @@ else
 fi  
 
 #Expoting Accounts
-
 ACCOUNT_LIST_URL==${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/accounts
+echo ${ACCOUNT_LIST_URL}
+echo "curl  --location --request GET ${ACCOUNT_LIST_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u ${admin_user}:${admin_password}"
+
 accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
