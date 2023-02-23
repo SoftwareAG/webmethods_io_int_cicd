@@ -4,7 +4,7 @@
 	"values": [
 		{
 			"key": "url",
-			"value": "https://insrsaeu.int-aws-de.webmethods.io",
+			"value": "https://insrsaaz.int-az-eu.webmethods.io",
 			"type": "default",
 			"enabled": true
 		},
