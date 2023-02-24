@@ -3,11 +3,15 @@
 
 trigger: none
 
+
+
 pool:
   vmImage: ubuntu-latest
+
 variables:
 - name: init
   value: true
+- group: repo_variables
 
 steps:
 - checkout: self
