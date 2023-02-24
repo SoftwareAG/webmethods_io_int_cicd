@@ -94,5 +94,7 @@ steps:
     queueBuildForUserThatTriggeredBuild: true
     useSameBranch: true
     storeInEnvironmentVariable: true
+    authenticationMethod: 'OAuth Token'
+    password: $(System.AccessToken)
     buildParameters: 
       'repoPath: $(repoPath), repoName:$(repoName), branch:$(feature_branch_name)'
