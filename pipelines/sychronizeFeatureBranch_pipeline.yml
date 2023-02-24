@@ -95,4 +95,4 @@ steps:
     useSameBranch: true
     storeInEnvironmentVariable: true
     buildParameters: 
-      'repoPath: $(repoPath), repoName:$(repoName)'
+      'repoPath: $(repoPath), repoName:$(repoName), branch:$(feature_branch_name)'
