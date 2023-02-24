@@ -88,3 +88,11 @@ steps:
     SourceFolder: '$(System.DefaultWorkingDirectory)../$(repoName)'
     Contents: './*' 
   displayName: 'Remove the Export after successfull Commit'
+- task: TriggerBuild@4
+  inputs:
+    buildDefinition: 'Test'
+    queueBuildForUserThatTriggeredBuild: true
+    useSameBranch: true
+    storeInEnvironmentVariable: true
+    buildParameters: 
+      'repoPath: $(repoPath), repoName:$(repoName)'
