@@ -99,4 +99,4 @@ steps:
     buildParameters: 
       'repoPath: $(repoPath), repoName:$(repoName), branch:$(feature_branch_name)'
   displayName: Trigger Test Pipeline
-  continueOnError: successded()
+  continueOnError: false
