@@ -96,6 +96,6 @@ steps:
     authenticationMethod: 'OAuth Token'
     password: $(System.AccessToken)
     buildParameters: 
-      'repoPath: $(repoPath), repoName:$(repoName), branch:$(feature_branch_name) environment:$(source_type)'
+      'repoPath: $(repoPath), repoName:$(repoName), branch:$(feature_branch_name), environment:$(source_type)'
   displayName: Trigger Test Pipeline
   continueOnError: false
