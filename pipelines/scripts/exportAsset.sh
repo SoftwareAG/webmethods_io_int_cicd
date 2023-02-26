@@ -183,7 +183,7 @@ if [ -z "$ppListExport" ];   then
       else
           mkdir -p ./assets/projectConfigs/parameters
           cd ./assets/projectConfigs/parameters
-          for item in $(jq  -c -r '.output.[]' <<< "$ppListJson"); do
+          for item in $(jq  -c -r '.output[]' <<< "$ppListJson"); do
             echod "Inside Parameters Loop"
             parameterUID=$(jq -r '.uid' <<< "$item")
             data=$(jq -r '.param' <<< "$item")
