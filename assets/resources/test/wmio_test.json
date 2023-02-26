@@ -81,7 +81,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{url}}/runflow/run/sync/ngZMdbzkk",
+					"raw": "{{url}}/runflow/run/sync/{{Request1.workflowid}}",
 					"host": [
 						"{{url}}"
 					],
@@ -89,7 +89,7 @@
 						"runflow",
 						"run",
 						"sync",
-						"ngZMdbzkk"
+						"{{Request1.workflowid}}"
 					]
 				}
 			},
