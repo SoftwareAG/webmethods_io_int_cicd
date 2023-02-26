@@ -73,9 +73,15 @@
 			"value": "wmio_project_d",
 			"type": "default",
 			"enabled": true
+		},
+		{
+			"key": "Request1.workflowid",
+			"value": "ngZMdbzkk",
+			"type": "default",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2023-02-24T16:02:38.522Z",
+	"_postman_exported_at": "2023-02-26T10:58:41.669Z",
 	"_postman_exported_using": "Postman/10.6.7"
 }
