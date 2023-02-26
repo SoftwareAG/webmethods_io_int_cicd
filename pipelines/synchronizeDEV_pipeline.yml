@@ -73,7 +73,18 @@ steps:
 
   displayName: 'Import Asset'
 
-
+- task: TriggerBuild@4
+  inputs:
+    buildDefinition: 'Test'
+    useSameBranch: true
+    storeInEnvironmentVariable: true
+    authenticationMethod: 'OAuth Token'
+    password: $(System.AccessToken)
+    buildParameters: 
+      'repoPath: $(repoPath), repoName:$(repoName), branch:$(feature_branch_name), environment:$(source_type)'
+  displayName: Trigger Test Pipeline
+  continueOnError: false
+  
 - task: DeleteFiles@1
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)../$(repoName)'
