@@ -169,7 +169,7 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
       fi
 cd ${HOME_DIR}/${repoName}
 # Exporting Project Parameters
-PROJECT_PARAM_GET_URL:${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
+PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
 
 ppListJson= $(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
 --header 'Content-Type: application/json' \
