@@ -161,8 +161,34 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
       if [ -z "$accountexport" ];   then
           echo "Account export failed:" ${accountListJson}
       else
-          echo "Account export Succeeded"
+          
           mkdir -p ./assets/accounts
           cd ./assets/accounts
           echo "$accountListJson" > user_accounts.json
+          echo "Account export Succeeded"
       fi
+cd ${HOME_DIR}/${repoName}
+# Exporting Project Parameters
+PROJECT_PARAM_GET_URL:${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
+
+ppListJson= $(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-u ${admin_user}:${admin_password})
+
+ppListExport=$(echo "$ppListJson" | jq '. // empty')
+
+if [ -z "$ppListExport" ];   then
+          echo "No Project Parameters retreived:" ${ppListJson}
+      else
+          mkdir -p ./assets/projectConfigs/parameters
+          cd ./assets/projectConfigs/parameters
+          for item in $(jq  -c -r '.output.[]' <<< "$ppListJson"); do
+            echod "Inside Parameters Loop"
+            parameterUID=$(jq -r '.uid' <<< "$item")
+            data=$(jq -r '.param' <<< "$item")
+            echo ${data} > ./${parameterUID}.json
+          done
+        echo "Project Parameters export Succeeded"
+      fi
+cd ${HOME_DIR}/${repoName}
