@@ -171,7 +171,7 @@ cd ${HOME_DIR}/${repoName}
 # Exporting Project Parameters
 PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
 
-ppListJson= $(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
+ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -u ${admin_user}:${admin_password})
