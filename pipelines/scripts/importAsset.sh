@@ -166,7 +166,7 @@ if [ -d "$DIR" ]; then
             ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
-            --data-raw ${parameterJSON} -u ${admin_user}:${admin_password})
+            --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})
             ppCreatedJson=$(echo "$ppCreateJson" | jq '.output.uid // empty')
             if [ -z "$ppCreatedJson" ];   then
                 echo "Project Paraters Creation failed:" ${ppCreateJson}
