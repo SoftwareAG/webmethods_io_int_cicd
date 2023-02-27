@@ -11,7 +11,7 @@ pool:
 variables:
 - name: init
   value: true
-- group: repo_variables
+
 
 steps:
 - checkout: self
