@@ -132,6 +132,8 @@ else
 fi  
 
 # Importing Project Parameters
+echod $(pwd)
+echod $(ls -ltr)
 
 DIR="./assets/projectConfigs/parameters/"
 if [ -d "$DIR" ]; then
