@@ -140,7 +140,8 @@ if [ -d "$DIR" ]; then
     echo "Project Parameters exists"
     cd ./assets/projectConfigs/parameters/
     for filename in ./*.json; do
-        parameterUID=${filename%.*}
+        parameterUID=${filename##*/}
+        parameterUID=${parameterUID##*/}
         echod ${parameterUID}
         PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
         echod ${PROJECT_PARAM_GET_URL}
