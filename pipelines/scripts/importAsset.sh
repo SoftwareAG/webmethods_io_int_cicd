@@ -131,4 +131,58 @@ else
   importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 fi  
 
+# Importing Project Parameters
 
+DIR="./assets/projectConfigs/parameters/"
+if [ -d "$DIR" ]; then
+    echo "Project Parameters exists"
+    cd ./assets/projectConfigs/parameters/
+    for filename in ./*.json; do
+        parameterUID=${filename##*/}
+        PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
+        ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
+        --header 'Content-Type: application/json' \
+        --header 'Accept: application/json' \
+        -u ${admin_user}:${admin_password})
+
+        ppListExport=$(echo "$ppListJson" | jq '. // empty')
+
+        if [ -z "$ppListExport" ];   then
+            echo "Project parameters does not exists, creating ..:"
+            PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
+            echod ${PROJECT_PARAM_CREATE_URL}
+            parameterJSON=`jq '.' ${parameterUID}.json`
+            echod ${parameterJSON}
+            ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
+            --header 'Content-Type: application/json' \
+            --header 'Accept: application/json' \
+            -d ${parameterJSON} -u ${admin_user}:${admin_password})
+            ppCreatedJson=$(echo "$ppCreateJson" | jq '.output.uid // empty')
+            if [ -z "$ppCreatedJson" ];   then
+                echo "Project Paraters Creation failed:" ${ppCreateJson}
+            else
+                echo "Project Paraters Creation Succeeded, UID:" ${ppCreatedJson}
+            fi
+        else
+            echo "Project parameters does exists, updating ..:"
+            PROJECT_PARAM_UPDATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
+            echod ${PROJECT_PARAM_UPDATE_URL}
+            parameterJSON=`jq '.' ${parameterUID}.json`
+            echod ${parameterJSON}
+            ppUpdateJson=$(curl --location --request POST ${PROJECT_PARAM_UPDATE_URL}  \
+            --header 'Content-Type: application/json' \
+            --header 'Accept: application/json' \
+            -d ${parameterJSON} -u ${admin_user}:${admin_password})
+            ppUpdatedJson=$(echo "$ppUpdateJson" | jq '.output.uid // empty')
+            if [ -z "$ppUpdatedJson" ];   then
+                echo "Project Paraters Creation failed:" ${ppUpdateJson}
+            else
+                echo "Project Paraters Creation Succeeded, UID:" ${ppUpdatedJson}
+            fi       
+         fi
+    done
+else 
+    echo "No Project Parameters to import."
+fi
+
+cd ${HOME_DIR}/${repoName}
