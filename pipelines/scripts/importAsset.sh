@@ -161,7 +161,7 @@ if [ -d "$DIR" ]; then
             echod "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
-            --data-raw ${parameterJSON} -u ${admin_user}:${admin_password})"
+            --data-raw "$parameterJSON" -u ${admin_user}:${admin_password})"
 
             ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
             --header 'Content-Type: application/json' \
