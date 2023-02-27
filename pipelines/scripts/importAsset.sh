@@ -140,7 +140,7 @@ if [ -d "$DIR" ]; then
     echo "Project Parameters exists"
     cd ./assets/projectConfigs/parameters/
     for filename in ./*.json; do
-        parameterUID=${filename##*/}
+        parameterUID=${filename%.*}
         echod ${parameterUID}
         PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${parameterUID}
         echod ${PROJECT_PARAM_GET_URL}
@@ -149,9 +149,9 @@ if [ -d "$DIR" ]; then
         --header 'Accept: application/json' \
         -u ${admin_user}:${admin_password})
 
-        ppListExport=$(echo "$ppListJson" | jq '. // empty')
-        echod ${ppListExport}
-        if [ -z "$ppListExport" ];   then
+        ppExport=$(echo "$ppListJson" | jq '.output.uid // empty')
+        echod ${ppExport}
+        if [ -z "$ppExport" ];   then
             echo "Project parameters does not exists, creating ..:"
             PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
             echod ${PROJECT_PARAM_CREATE_URL}
