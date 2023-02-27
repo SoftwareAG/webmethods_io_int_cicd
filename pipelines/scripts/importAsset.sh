@@ -156,9 +156,13 @@ if [ -d "$DIR" ]; then
             echo "Project parameters does not exists, creating ..:"
             PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
             echod ${PROJECT_PARAM_CREATE_URL}
-            parameterJSON="'$(cat ${parameterUID}.json)'"
-            #parameterJSON=`jq '.' ${parameterUID}.json`
+            parameterJSON="$(cat ${parameterUID}.json)"
             echod "${parameterJSON}"
+            echod "curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
+            --header 'Content-Type: application/json' \
+            --header 'Accept: application/json' \
+            --data-raw ${parameterJSON} -u ${admin_user}:${admin_password})"
+
             ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
             --header 'Content-Type: application/json' \
             --header 'Accept: application/json' \
