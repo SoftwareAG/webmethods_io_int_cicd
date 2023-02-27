@@ -137,7 +137,7 @@ echod $(ls -ltr)
 
 DIR="./assets/projectConfigs/parameters/"
 if [ -d "$DIR" ]; then
-    echo "Project Parameters exists"
+    echo "Project Parameters needs to be synched"
     cd ./assets/projectConfigs/parameters/
     for filename in ./*.json; do
         parameterUID=${filename##*/}
@@ -156,7 +156,8 @@ if [ -d "$DIR" ]; then
             echo "Project parameters does not exists, creating ..:"
             PROJECT_PARAM_CREATE_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
             echod ${PROJECT_PARAM_CREATE_URL}
-            parameterJSON=`jq '.' ${parameterUID}.json`
+            parameterJSON="$(cat ${parameterUID}.json)"
+            #parameterJSON=`jq '.' ${parameterUID}.json`
             echod ${parameterJSON}
             ppCreateJson=$(curl --location --request POST ${PROJECT_PARAM_CREATE_URL}  \
             --header 'Content-Type: application/json' \
