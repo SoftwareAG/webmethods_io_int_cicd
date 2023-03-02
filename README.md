@@ -23,7 +23,7 @@ We will assume that, organization is following the below GIT Workflows.
 ![](./images/markdown/SingleFeature.png)    ![](./images/markdown/MultiFeature.png)
 
 # Steps
-1. Initialize
+1. **Initialize**
    1. Developer starts by executing *Initialize Pipeline* (Automation)
    2. This checks if the request is for an existing asset or a new implementation
    3. If new, automation will 
@@ -35,7 +35,7 @@ We will assume that, organization is following the below GIT Workflows.
       2. Import asset to Play/Build environment
 ![](./images/markdown/Initialize.png)
 
-2. Develop & Commit
+2. **Develop & Commit**
 
 
 # Downloads / Assets
