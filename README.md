@@ -7,7 +7,7 @@ When organization start using webMethods.io Integration for business use-cases, 
 
 This use-case will highlight a solution using import & export APIs (or CLI) and Azure Devops to extract and store the code assets in repository (GitHub). And by integrating repository workflows and azure pipelines, will automate the promotion of assets to different stages/environment as per organizations promotion workflow. This will also showcase how to automate the test framework for respective stages/environments.
 
-![](./images/markdown/delivery.png)  ![](./images/markdown/overview.png)  
+![](./images/markdown/delivery.png)  ![](./images/markdown/overview.png)
 
 The automation around webMethods.io Integration APIs are all done as scripts, which will make it easier to adopt any Orchestration platform of the choice.
 
