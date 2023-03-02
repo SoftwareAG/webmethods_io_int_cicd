@@ -18,8 +18,9 @@ The automation around webMethods.io Integration APIs are all done as scripts, wh
 4. GitHub Enterprise: For Pipelines/Scripts
 5. Postman/Newman as test framework.
 
-# Topics
-
+# Git Workflow
+We will assume that, organization is following the below GIT Workflow.
+![](./images/markdown/SingleFeature.png)    ![](./images/markdown/MultiFeature.png)
 
 # Steps
 
