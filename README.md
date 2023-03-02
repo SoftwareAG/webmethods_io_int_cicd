@@ -19,10 +19,23 @@ The automation around webMethods.io Integration APIs are all done as scripts, wh
 5. Postman/Newman as test framework.
 
 # Git Workflow
-We will assume that, organization is following the below GIT Workflow.
+We will assume that, organization is following the below GIT Workflows.
 ![](./images/markdown/SingleFeature.png)    ![](./images/markdown/MultiFeature.png)
 
 # Steps
+1. Initialize
+   1. Developer starts by executing *Initialize Pipeline* (Automation)
+   2. This checks if the request is for an existing asset or a new implementation
+   3. If new, automation will 
+      1. Initialize a repository
+      2. Create standardized branches, including requested Feature Branch
+      3. Create a project in Play/Build environment
+   4. If existing, automation will
+      1. Clone the Prod branch to Feature branch
+      2. Import asset to Play/Build environment
+![](./images/markdown/Initialize.png)
+
+2. Develop & Commit
 
 
 # Downloads / Assets
