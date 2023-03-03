@@ -6,8 +6,7 @@
 trigger: none
 variables:
 - group: webMethodsIO_group
-- name: admin_password
-  value: $[variables.admin_password] # uses runtime expression
+
 pool:
   vmImage: ubuntu-latest
 resources:
