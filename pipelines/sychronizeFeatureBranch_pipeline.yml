@@ -5,9 +5,9 @@
 
 trigger: none
 variables:
-- group: Tenant_Secrets
-- name: my-passed-variable
-  value: $[variables.myhello] # uses runtime expression
+- group: webMethodsIO_group
+- name: admin_password
+  value: $[variables.admin_password] # uses runtime expression
 pool:
   vmImage: ubuntu-latest
 resources:
