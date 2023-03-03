@@ -80,7 +80,7 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repoName)'
-    artifactName: '$(repoName)_$(assetID)_export'
+    artifactName: '$(repoName)_export'
   displayName: 'Publishing the export'
 
 - task: DeleteFiles@1
