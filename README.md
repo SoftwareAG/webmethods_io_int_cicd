@@ -1,6 +1,8 @@
 # DevOps for webMethods.IO Integration
 
-    This article shows how to design and setup an automated CI/CD process and framework for webMethods IO using the inbuilt APIs (or CLI). Here we have used Azure DevOps as our orchestration platform, GitHub as repository platform and Postman/Newman as test framework. 
+    This article shows how to design and setup an automated CI/CD process and framework for webMethods.io 
+    using the inbuilt APIs (or CLI). Here we have used Azure DevOps as our orchestration platform, 
+    GitHub as repository platform and Postman/Newman as test framework. 
 
 # Use-case
 When organization start using webMethods.io Integration for business use-cases, the need of having a continuous integration and delivery  process becomes very important. Which will ensure the business to have "Faster release rate", "More Test reliability" & "Faster to Market".
