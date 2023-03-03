@@ -36,9 +36,51 @@ We will assume that, organization is following the below GIT Workflows.
 ![](./images/markdown/Initialize.png)
 
 2. **Develop & Commit**
+   1. Developer starts developing
+   2. Once after completion he will execute synchronizeToFeature Pipeline (Automation)
+   3. Automation will 
+      1. Export the asset
+      2. Commit the asset to Feature Branch
 
+![](,/../images/markdown/synchronizeToFeature.png)
+
+3. **Deliver / Promote to DEV**
+   1. Once the implementation is finished, developer manually creates a Pull Request from Feature Branch to DEV
+   2. This will trigger the synchronizeToDev pipeline (Automation)
+   3. Automation will 
+      1. Checkout the DEV branch
+      2. Import the asset to DEV environment
+      3. And then kicks of automated test for the associated project/repo with data/assertions specific to DEV
+   4. On Failure, developer needs to fix/re-develop the asset (Step 2).
+
+![](./images/markdown/synchronizeToDev.png)
+
+4. **Deliver / Promote to QA**
+   1. After Dev cycle is complete, developer manually creates a Pull Request from Feature Branch to QA.  
+   2. This will trigger the synchronizeToQA pipeline (Automation)
+   3. Automation will 
+      1. Checkout the QA branch
+      2. Import the asset to QA environment
+      3. And then kicks of automated test for the associated project/repo with data/assertions specific to QA
+   4. On Failure, developer needs to fix/re-develop the asset (Step 2).
+
+![](./images/markdown/synchronizeToQA.png)
+
+5. **Deliver / Promote to PROD**
+   1. Once the automated test and UAT is successfully finished, developer manually creates a Pull Request from Feature Branch to PROD.  PROD deployment may have different approval cycle.
+   2. Respective operations team will manually trigger the synchronizeToPROD pipeline (Automation)
+   3. Automation will 
+      1. Checkout the PROD branch
+      2. Create a release
+      3. Import the asset to PROD environment
+      4. And then kicks of automated Smoke test, if any for PROD.
+   4. On Failure, developer needs to fix/re-develop the asset (Step 2). And release will be rolled back.
+
+![](./images/markdown/synchronizeToPROD.png)
 
 # Downloads / Assets
+
+1. Github: 
 
 
 ## How to use/test
