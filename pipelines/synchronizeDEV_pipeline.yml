@@ -84,7 +84,11 @@ steps:
       'repoPath: $(repoPath), repoName:$(repoName), branch:$(source_type), environment:$(source_type)'
   displayName: Trigger Test Pipeline
   continueOnError: false
-  
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(System.DefaultWorkingDirectory)/../$(repoName)'
+    artifactName: '$(repoName)_export'
+  displayName: 'Publishing the export'
 - task: DeleteFiles@1
   inputs:
     SourceFolder: '$(System.DefaultWorkingDirectory)../$(repoName)'
