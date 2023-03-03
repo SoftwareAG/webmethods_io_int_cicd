@@ -169,6 +169,7 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
       fi
 cd ${HOME_DIR}/${repoName}
 # Exporting Project Parameters
+: ' PP Export
 PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
 
 ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
@@ -192,3 +193,4 @@ if [ -z "$ppListExport" ];   then
         echo "Project Parameters export Succeeded"
       fi
 cd ${HOME_DIR}/${repoName}
+'
