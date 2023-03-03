@@ -80,9 +80,26 @@ We will assume that, organization is following the below GIT Workflows.
 
 # Downloads / Assets
 
-1. Github: 
-
+1. Repository for automation, scripts & sample assets. Github: https://github.softwareag.com/PS/webmethods_io_int_cicd
+2. Presentation: https://github.softwareag.com/PS/webmethods_io_int_cicd/blob/main/presentation/webMethodsIO_Integration_CICD.pptx 
+3. Demo recording: 
 
 ## How to use/test
+1. Clone / Fork the automation repo
+2. Adjust the environment configs
+3. Configure your Azure DevOps tenant 
+   1. Create Project, 
+   2. Link automation repo to get the pipelines
+   3. In project settings, create Service Connections for Automation repository and Code Repository
+4. Start the "*Initialize*" pipeline
+5. Check the respective repo and webMethods.io project is created
+6. Import sample assets from automation repo.
+7. Start "*synchronizeToFeature*" pipeline
+8. Check whether new assets have been committed to feature branch.
+9. Adjust the test cases for each environment from automation repo and commit it code repo feature branch created above. *Note: Follow the folder structure documented*
+10. Create a Pull Request in code repository from Feature Branch to DEV
+11. Start "*synchronizeToDev*" pipeline. (This has been automated for Github, please refer to Github automation document).
+12. Check code has been Imported/Promoted to Dev environment
+13. Check whether Test has been automatically triggered.
 
 
