@@ -3,6 +3,10 @@
 trigger:
 - none
 
+variables:
+- name: repoPath
+  value: $(gitOwner)/$(repoName)
+
 pool:
   vmImage: ubuntu-latest
 resources:
