@@ -4,7 +4,8 @@
 # https://aka.ms/yaml
 
 trigger: none
-
+variables:
+- group: webMethodsIO_group
 
 pool:
   vmImage: ubuntu-latest
