@@ -11,13 +11,21 @@ variables:
 - name: init
   value: true
 - name: assetID
+  value: $(assetID)
 - name: assetName
+  value: $(assetName)
 - name: assetType
+  value: $(assetType)
 - name: devUser
+  value: $(devUser)
 - name: feature_branch_name
+  value: $(feature_branch_name)
 - name: repoName
+  value: $(repoName)
 - name: repoPath
+  value: $(repoPath)
 - name: synchProject
+  value: $(synchProject)
 - group: webMethodsIO_group
 - group: azure_group
 - group: github_group
