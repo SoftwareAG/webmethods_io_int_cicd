@@ -10,6 +10,14 @@ pool:
 variables:
 - name: init
   value: true
+- name: assetID
+- name: assetName
+- name: assetType
+- name: devUser
+- name: feature_branch_name
+- name: repoName
+- name: repoPath
+- name: synchProject
 - group: webMethodsIO_group
 - group: azure_group
 - group: github_group
