@@ -6,6 +6,8 @@
 trigger: none
 variables:
 - group: webMethodsIO_group
+- name: repoPath
+  value: $(gitOwner)/$(repoName)
 
 pool:
   vmImage: ubuntu-latest
