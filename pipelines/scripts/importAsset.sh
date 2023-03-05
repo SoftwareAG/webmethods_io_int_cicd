@@ -132,7 +132,7 @@ else
 fi  
 
 # Importing Project Parameters
-:' PP Import
+: ' PP Import
 echod $(pwd)
 echod $(ls -ltr)
 
