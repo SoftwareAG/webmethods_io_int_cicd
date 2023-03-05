@@ -4,6 +4,7 @@ trigger:
 - none
 
 variables:
+- group: github_group
 - name: repoPath
   value: $(gitOwner)/$(repoName)
 
