@@ -83,10 +83,14 @@ We will assume that the organization is following the below GIT Workflows.
 ![](./images/markdown/synchronizeToPROD.png)
 
 # Downloads / Assets
-
 1. Repository for automation, scripts & sample assets. Github: https://github.softwareag.com/PS/webmethods_io_int_cicd
 2. Presentation: https://github.softwareag.com/PS/webmethods_io_int_cicd/blob/main/presentation/webMethodsIO_Integration_CICD.pptx 
 3. Demo recording: 
+
+# Next Steps
+1. Incorporate design for Hybrid use-case
+2. Extend testing framework
+3. Incorporate design for code review
 
 ## How to use/test
 1. Clone / Fork the automation repo
