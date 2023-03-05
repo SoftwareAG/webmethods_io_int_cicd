@@ -86,7 +86,7 @@ steps:
     authenticationMethod: 'OAuth Token'
     password: $(System.AccessToken)
     buildParameters: 
-      'repoPath: $(repoPath), repoName:$(repoName), branch:$(source_type), environment:$(source_type)'
+      'repoName:$(repoName), branch:$(source_type), environment:$(source_type)'
   displayName: Trigger Test Pipeline
   continueOnError: false
 - task: PublishBuildArtifacts@1
