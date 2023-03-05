@@ -6,6 +6,9 @@
 trigger: none
 variables:
 - group: webMethodsIO_group
+- group: github_group
+- name: repoPath
+  value: $(gitOwner)/$(repoName)
 - name: repoPath
   value: $(gitOwner)/$(repoName)
 
