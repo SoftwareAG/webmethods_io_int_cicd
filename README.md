@@ -39,7 +39,7 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](./images/markdown/Initialize.png)
 
-1. **Develop & Commit**
+2. **Develop & Commit**
    1. Developer starts developing
    2. After completion they will execute synchronizeToFeature Pipeline (Automation)
    3. Automation will 
@@ -48,7 +48,7 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](,/../images/markdown/synchronizeToFeature.png)
 
-1. **Deliver / Promote to DEV**
+3. **Deliver / Promote to DEV**
    1. Once the implementation is finished, developer manually creates a Pull Request from Feature Branch to DEV
    2. This will trigger the synchronizeToDev pipeline (Automation)
    3. Automation will 
@@ -59,7 +59,7 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](./images/markdown/synchronizeToDev.png)
 
-1. **Deliver / Promote to QA**
+4. **Deliver / Promote to QA**
    1. After Dev cycle is complete, developer manually creates a Pull Request from Feature Branch to QA.  
    2. This will trigger the synchronizeToQA pipeline (Automation)
    3. Automation will 
@@ -70,7 +70,7 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](./images/markdown/synchronizeToQA.png)
 
-1. **Deliver / Promote to PROD**
+5. **Deliver / Promote to PROD**
    1. Once the automated test and UAT is successfully finished, developer manually creates a Pull Request from Feature Branch to PROD.  PROD deployment may have different approval cycle.
    2. Respective operations team will manually trigger the synchronizeToPROD pipeline (Automation)
    3. Automation will 
