@@ -1,7 +1,17 @@
-# Export workflow pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+##############################################################################################################
+#                                                                                                            #
+# synchronizeFeatureBranch_pipeline.yml : Exports from Play/Build and commits to feature branch              #
+#                                                                                                            #
+# ####### Inputs ########                                                                                    #
+# assetID: (Optional) Id of the asset to be Imported                                                         #
+# assetName: (Optional) name of the asset                                                                    #
+# assetType: (Optional) Type of the asset. Currently supported options: workflow, flowservice.               #
+# devUser: (Optional) UserID for commits and audit                                                           #
+# featureBranchName: ((Mandatory) Name of the feature branch.                                                #
+# repoName: (Mandatory) Name of the corresponding repository.                                                #
+# synchProject: (Mandatory) True if you want to synchronize complete project. If false, then you have to     #
+#                provide assetID and assetType                                                               #
+##############################################################################################################
 
 trigger: none
 
