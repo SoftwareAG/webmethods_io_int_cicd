@@ -18,7 +18,7 @@ resources:
     type: github
     endpoint: github
     name: $(repoPath)
-    ref: $(feature_branch_name)
+    ref: $(featureBranchName)
 steps:
 - checkout: projectRepo
   submodules: "true"
@@ -79,7 +79,7 @@ steps:
     git config user.name "$(devUser)"
     git add .
     git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
-    git push origin HEAD:$(feature_branch_name)
+    git push origin HEAD:$(featureBranchName)
   displayName: 'Commit the code to feature branch'
 
 - task: PublishBuildArtifacts@1
@@ -101,6 +101,6 @@ steps:
     authenticationMethod: 'OAuth Token'
     password: $(System.AccessToken)
     buildParameters: 
-      'repoName:$(repoName), branch:$(feature_branch_name), environment:$(source_type)'
+      'repoName:$(repoName), branch:$(featureBranchName), environment:$(source_type)'
   displayName: Trigger Test Pipeline
   continueOnError: false
