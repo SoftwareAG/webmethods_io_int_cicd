@@ -226,7 +226,6 @@ if [ -z "$rdListExport" ];   then
               rdJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
               if [[ "$columnDelimiter" == "," ]]; then
                 echod "COMMA"
-
                 datajson=$(echo "$rdJson" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
               else
                 echod "Not a COMMA:" ${columnDelimiter}
@@ -238,10 +237,12 @@ if [ -z "$rdListExport" ];   then
               cd ${rdName}
               
               metadataJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData')
-              metadataJson=$(echo "$rdJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
-              echo "$metadataJson" > $metadata.json
+              metadataJson=$(echo "$metadataJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
+              echo "$metadataJson" > metadata.json
               echo "$datajson" > ${source_type}.csv
-              cp .${source_type}.csv dev.csv qa.csv prod.csv
+              cp ./${source_type}.csv dev.csv 
+              cp ./${source_type}.csv qa.csv 
+              cp ./${source_type}.csv prod.csv
             fi
           done
         echo "Reference Data export Succeeded"
