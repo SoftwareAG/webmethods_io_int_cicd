@@ -212,7 +212,6 @@ if [ -z "$rdListExport" ];   then
           cd ./assets/projectConfigs/referenceData
           for item in $(jq -r '.integration.serviceData.referenceData[] | .name' <<< "$rdListJson"); do
             echod "Inside Ref Data Loop:" "$item"
-            rdName=$(echo "$item" | jq -c '.name')
             rdName=${item}
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
@@ -220,7 +219,7 @@ if [ -z "$rdListExport" ];   then
             --header 'Accept: application/json' \
             -u ${admin_user}:${admin_password})
             rdExport=$(echo "$rdJson" | jq '. // empty')
-            if [ -z "$rdListExport" ];   then
+            if [ -z "$rdExport" ];   then
               echo "Empty reference data defined for the name:" ${rdName}
             else
               columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
@@ -232,7 +231,7 @@ if [ -z "$rdListExport" ];   then
                 datajson=$(echo "$rdJson" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
               fi
 
-              echod ${datajson}
+              echod "${datajson}"
               mkdir -p ${rdName}
               cd ${rdName}
               
