@@ -13,6 +13,7 @@ assetID=$5
 assetType=$6
 HOME_DIR=$7
 synchProject=$8
+source_type=$9
 debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -53,6 +54,11 @@ debug=${@: -1}
   if [ "$debug" == "debug" ]; then
     echo "......Running in Debug mode ......"
   fi
+
+      if [ -z "$source_type" ]; then
+      echo "Missing template parameter source_type"
+      exit 1
+    fi
 
 
 function echod(){
@@ -194,3 +200,70 @@ if [ -z "$ppListExport" ];   then
       fi
 cd ${HOME_DIR}/${repoName}
 '
+
+# Exporting Project Referencedata
+
+PROJECT_ID_URL=${LOCAL_DEV_URL}//apis/v1/rest/projects/${repoName}
+
+projectIDJson=$(curl --location --request GET ${PROJECT_ID_URL}  \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-u ${admin_user}:${admin_password})
+
+projectID=$(echo "$projectIDJson" | jq '.output.uid // empty')
+
+if [ -z "$projectID" ];   then
+    echo "Incorrect Project/Repo name"
+    exit 1
+fi
+
+
+PROJECT_REF_DATA_LIST_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}
+
+rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-u ${admin_user}:${admin_password})
+
+rdListExport=$(echo "$rdListJson" | jq '.integration.serviceData.referenceData[0].name // empty')
+
+if [ -z "$rdListExport" ];   then
+          echo "No reference data defined for the project" 
+      else
+          mkdir -p ./assets/projectConfigs/referenceData
+          cd ./assets/projectConfigs/referenceData
+          for item in $(jq  -c -r '.integration.serviceData.referenceData[]' <<< "$rdListJson"); do
+            echod "Inside Ref Data Loop"
+            rdName=$(jq -r '.name' <<< "$item")
+            REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
+            rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
+            --header 'Content-Type: application/json' \
+            --header 'Accept: application/json' \
+            -u ${admin_user}:${admin_password})
+            rdExport=$(echo "$rdJson" | jq '. // empty')
+            if [ -z "$rdListExport" ];   then
+              echo "Empty reference data defined for the name:" ${rdName}
+            else
+              columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
+              if [[ "$columnDelimiter" == "," ]]; then
+                echod "COMMA"
+                datajson=$(echo "$rdJson" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
+              else
+                echod "Not a COMMA:" ${columnDelimiter}
+                datajson=$(echo "$rdJson" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
+              fi
+
+              echod ${datajson}
+              mkdir -p ${rdName}
+              cd ${rdName}
+              
+              metadataJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData')
+              metadataJson=$(echo "$rdJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
+              echo "$metadataJson" > $metadata.json
+              echo "$datajson" > ${source_type}.csv
+              cp .${source_type}.csv dev.csv qa.csv prod.csv
+            fi
+          done
+        echo "Reference Data export Succeeded"
+      fi
+cd ${HOME_DIR}/${repoName}
