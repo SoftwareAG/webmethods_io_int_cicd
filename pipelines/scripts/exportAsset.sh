@@ -207,7 +207,12 @@ PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 echod "curl --location --request GET ${PROJECT_ID_URL}  \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
--u ${admin_user}:${admin_password})"
+-u ${admin_user}:${admin_password}"
+
+curl --location --request GET ${PROJECT_ID_URL}  \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-u ${admin_user}:${admin_password}
 
 projectIDJson=$(curl --location --request GET ${PROJECT_ID_URL}  \
 --header 'Content-Type: application/json' \
