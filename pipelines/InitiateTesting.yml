@@ -1,4 +1,12 @@
-# Testing pipeline
+##############################################################################################################
+#                                                                                                            #
+# InitiateTesting_pipeline.yml : Starts testing for a specific repo on specific stage                        #
+#                                                                                                            #
+# ####### Inputs ########                                                                                    #
+# branch: (Mandatory) Which branch should be referred for test cases                                         #
+# environment: (Mandatory) On which stage should be Test triggered                                           #
+# repoName: (Mandatory) Name of the corresponding repository.                                                #
+##############################################################################################################
 
 trigger:
 - none
