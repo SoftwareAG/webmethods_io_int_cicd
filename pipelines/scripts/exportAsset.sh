@@ -223,13 +223,13 @@ if [ -z "$rdListExport" ];   then
               echo "Empty reference data defined for the name:" ${rdName}
             else
               columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
-              rdJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
+              rdExport=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
               if [[ "$columnDelimiter" == "," ]]; then
                 echod "COMMA"
-                datajson=$(echo "$rdJson" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
+                datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
               else
                 echod "Not a COMMA:" ${columnDelimiter}
-                datajson=$(echo "$rdJson" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
+                datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
               fi
 
               echod "${datajson}"
