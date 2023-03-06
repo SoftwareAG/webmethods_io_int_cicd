@@ -163,7 +163,6 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
 
-    echod "Account:  "${accountListJson}
 
     accountexport=$(echo "$accountListJson" | jq '. // empty')
       if [ -z "$accountexport" ];   then
@@ -176,6 +175,8 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
           echo "Account export Succeeded"
       fi
 cd ${HOME_DIR}/${repoName}
+
+
 set -x
 # Exporting Project Referencedata
 PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
@@ -185,8 +186,6 @@ projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
 
-
-echod "projectJson:" ${projectJson}
 
 projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
 
@@ -204,7 +203,7 @@ rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
 --header 'Accept: application/json' \
 -u ${admin_user}:${admin_password})
 
-rdListExport=$(echo "$rdListJson" | jq '.integration.serviceData.referenceData[].name // empty')
+rdListExport=$(echo "$rdListJson" | jq -r -c '.integration.serviceData.referenceData[].name // empty')
 echod "rdListExport:" ${rdListExport}
 
 if [ -z "$rdListExport" ];   then
@@ -214,7 +213,7 @@ if [ -z "$rdListExport" ];   then
           cd ./assets/projectConfigs/referenceData
           for item in $(jq  -c -r '.integration.serviceData.referenceData[]' <<< "$rdListJson"); do
             echod "Inside Ref Data Loop"
-            rdName=$(jq -r '.name' <<< "$item")
+            rdName=$(jq -r  '.name' <<< "$item")
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
             --header 'Content-Type: application/json' \
