@@ -1,5 +1,5 @@
 tenant:
-  hostname: "insrsaeu.int-aws-de.webmethods.io"   # webMthodsIO Integration hostname or ip address
+  hostname: "nokroeger.int-aws-us.webmethods.io"   # webMthodsIO Integration hostname or ip address
   port: "443"                                       # webMthodsIO Integration port
-  admin_username: "refplatform"                     # webMthodsIO Integration user  
+  admin_username: "srinivasan.sabaphat"                     # webMthodsIO Integration user  
   type: "qa"                                         #QA
