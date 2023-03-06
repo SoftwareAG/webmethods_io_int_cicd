@@ -163,6 +163,8 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
 
+    echod "Account:  "$accountListJson
+
     accountexport=$(echo "$accountListJson" | jq '. // empty')
       if [ -z "$accountexport" ];   then
           echo "Account export failed:" ${accountListJson}
