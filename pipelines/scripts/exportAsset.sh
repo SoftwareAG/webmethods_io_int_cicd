@@ -211,8 +211,8 @@ if [ -z "$rdListExport" ];   then
           mkdir -p ./assets/projectConfigs/referenceData
           cd ./assets/projectConfigs/referenceData
           for item in $(jq -c -r '.integration.serviceData.referenceData[]' <<< "$rdListJson"); do
-            echod "Inside Ref Data Loop:" "$item"
-            rdName=$(echo "$item" | jq -c '.name')
+            echod "Inside Ref Data Loop:" "${item}"
+            rdName=$(echo "${item}" | jq -c '.name')
             
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
