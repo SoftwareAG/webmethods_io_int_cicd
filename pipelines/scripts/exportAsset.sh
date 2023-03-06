@@ -176,7 +176,7 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
           echo "Account export Succeeded"
       fi
 cd ${HOME_DIR}/${repoName}
-
+set -x
 # Exporting Project Referencedata
 PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
@@ -185,7 +185,10 @@ echod "curl  --location --request GET ${PROJECT_ID_URL} \
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password}"
 
-projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} --header 'Content-Type: application/json' --header 'Accept: application/json' -u ${admin_user}:${admin_password})
+projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u ${admin_user}:${admin_password})
 
 
 echod "projectJson:" ${projectJson}
@@ -250,7 +253,7 @@ if [ -z "$rdListExport" ];   then
       fi
 cd ${HOME_DIR}/${repoName}
 
-
+set +x
 # Exporting Project Parameters
 : ' PP Export
 PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
