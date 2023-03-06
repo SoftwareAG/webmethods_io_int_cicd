@@ -163,7 +163,7 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
 
-    echod "Account:  "$accountListJson
+    echod "Account:  "${accountListJson}
 
     accountexport=$(echo "$accountListJson" | jq '. // empty')
       if [ -z "$accountexport" ];   then
@@ -179,15 +179,13 @@ cd ${HOME_DIR}/${repoName}
 
 # Exporting Project Referencedata
 PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
+
 echod "curl  --location --request GET ${PROJECT_ID_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password}"
 
-projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    -u ${admin_user}:${admin_password})
+projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} --header 'Content-Type: application/json' --header 'Accept: application/json' -u ${admin_user}:${admin_password})
 
 
 echod "projectJson:" ${projectJson}
