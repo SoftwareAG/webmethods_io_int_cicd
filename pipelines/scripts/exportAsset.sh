@@ -203,7 +203,7 @@ cd ${HOME_DIR}/${repoName}
 
 # Exporting Project Referencedata
 
-PROJECT_ID_URL=${LOCAL_DEV_URL}//apis/v1/rest/projects/${repoName}
+PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
 projectIDJson=$(curl --location --request GET ${PROJECT_ID_URL}  \
 --header 'Content-Type: application/json' \
