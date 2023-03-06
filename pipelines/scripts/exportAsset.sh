@@ -180,11 +180,6 @@ set -x
 # Exporting Project Referencedata
 PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
-echod "curl  --location --request GET ${PROJECT_ID_URL} \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    -u ${admin_user}:${admin_password}"
-
 projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
     --header 'Content-Type: application/json' \
     --header 'Accept: application/json' \
@@ -193,7 +188,7 @@ projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
 
 echod "projectJson:" ${projectJson}
 
-projectID=$(echo "$projectJson" | jq '.output.uid // empty')
+projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
 
 if [ -z "$projectID" ];   then
     echo "Incorrect Project/Repo name"
