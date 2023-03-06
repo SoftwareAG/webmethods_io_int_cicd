@@ -209,15 +209,15 @@ echod "curl --location --request GET ${PROJECT_ID_URL}  \
 --header 'Accept: application/json' \
 -u ${admin_user}:${admin_password}"
 
-projectIDJson=$(curl --location --request GET ${PROJECT_ID_URL}  \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
--u ${admin_user}:${admin_password})
 
 
-echod "projectIDJson:" $projectIDJson
+projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u ${admin_user}:${admin_password})
+echod "projectJson:" $projectJson
 
-projectID=$(echo "$projectIDJson" | jq '.output.uid // empty')
+projectID=$(echo "$projectJson" | jq '.output.uid // empty')
 
 if [ -z "$projectID" ];   then
     echo "Incorrect Project/Repo name"
