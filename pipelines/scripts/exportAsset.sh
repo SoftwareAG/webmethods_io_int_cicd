@@ -217,6 +217,7 @@ if [ -z "$projectID" ];   then
     exit 1
 fi
 
+echod "ProjectID:" ${projectID}
 
 PROJECT_REF_DATA_LIST_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}
 
@@ -225,7 +226,8 @@ rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
 --header 'Accept: application/json' \
 -u ${admin_user}:${admin_password})
 
-rdListExport=$(echo "$rdListJson" | jq '.integration.serviceData.referenceData[0].name // empty')
+rdListExport=$(echo "$rdListJson" | jq '.integration.serviceData.referenceData[].name // empty')
+echod "rdListExport:" ${rdListExport}
 
 if [ -z "$rdListExport" ];   then
           echo "No reference data defined for the project" 
