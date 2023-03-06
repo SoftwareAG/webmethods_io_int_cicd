@@ -177,7 +177,6 @@ accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
 cd ${HOME_DIR}/${repoName}
 
 
-set -x
 # Exporting Project Referencedata
 PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
@@ -249,7 +248,7 @@ if [ -z "$rdListExport" ];   then
       fi
 cd ${HOME_DIR}/${repoName}
 
-set +x
+
 # Exporting Project Parameters
 : ' PP Export
 PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
