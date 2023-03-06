@@ -204,16 +204,15 @@ rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
 -u ${admin_user}:${admin_password})
 
 rdListExport=$(echo "$rdListJson" | jq -r -c '.integration.serviceData.referenceData[].name // empty')
-echod "rdListExport:" ${rdListExport}
 
 if [ -z "$rdListExport" ];   then
           echo "No reference data defined for the project" 
       else
           mkdir -p ./assets/projectConfigs/referenceData
           cd ./assets/projectConfigs/referenceData
-          for item in $(jq  -c -r '.integration.serviceData.referenceData[]' <<< "$rdListJson"); do
-            echod "Inside Ref Data Loop"
-            rdName=$(jq -r  '.name' <<< "$item")
+          for item in $(jq -c -r '.integration.serviceData.referenceData[]' <<< "$rdListJson"); do
+            echod "Inside Ref Data Loop:" $item
+            rdName=$(jq -r '.name' <<< "$item")
             REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
             rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
             --header 'Content-Type: application/json' \
