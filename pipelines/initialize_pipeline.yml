@@ -1,5 +1,17 @@
-# Initialize Play/Build Environemnt
-
+##############################################################################################################
+#                                                                                                            #
+# initialize_pipeline.yml : Initialize the repository and also the play/build stage                          #
+#                                                                                                            #
+# ####### Inputs ########                                                                                    #
+# assetID: (Optional) Id of the asset to be Imported                                                         #
+# assetName: (Optional) name of the asset                                                                    #
+# assetType: (Optional) Type of the asset. Currently supported options: workflow, flowservice.               #
+# devUser: (Optional) UserID for commits and audit                                                           #
+# featureBranchName: ((Mandatory) Name of the feature branch.                                                #
+# repoName: (Mandatory) Name of the corresponding repository.                                                #
+# synchProject: (Mandatory) True if you want to synchronize complete project. If false, then you have to     #
+#                provide assetID and assetType                                                               #
+##############################################################################################################
 
 trigger: none
 

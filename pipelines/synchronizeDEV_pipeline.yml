@@ -1,7 +1,15 @@
-# Export workflow pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+##############################################################################################################
+#                                                                                                            #
+# synchronizeDEV_pipeline.yml : Imports to DEV Stage                                                         #
+#                                                                                                            #
+# ####### Inputs ########                                                                                    #
+# assetID: (Optional) Id of the asset to be Imported                                                         #
+# assetType: (Optional) Type of the asset. Currently supported options: workflow, flowservice.               #
+# repoName: (Mandatory) Name of the corresponding repository.                                                #
+# synchProject: (Mandatory) True if you want to synchronize complete project. If false, then you have to     #
+#                provide assetID and assetType                                                               #
+##############################################################################################################
+
 
 trigger: none
 variables:
