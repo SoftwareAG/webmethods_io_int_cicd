@@ -242,6 +242,7 @@ if [ -z "$rdListExport" ];   then
               cp ./${source_type}.csv dev.csv 
               cp ./${source_type}.csv qa.csv 
               cp ./${source_type}.csv prod.csv
+              cd -
             fi
           done
         echo "Reference Data export Succeeded"
