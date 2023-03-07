@@ -1,5 +1,5 @@
 tenant:
-  hostname: "env209597.int-az-eu.webmethods.io"   # webMthodsIO Integration hostname or ip address
-  port: "443"                                       # webMthodsIO Integration port
-  admin_username: "srinivasan.sabapathy@softwareag.com"                     # webMthodsIO Integration user  
+  hostname: "env209597.int-az-eu.webmethods.io"   # webMethodsIO Integration hostname or ip address
+  port: "443"                                       # webMethodsIO Integration port
+  admin_username: "srinivasan.sabapathy@softwareag.com"                     # webMethodsIO Integration user  
   type: "dev"                                         #DEV
