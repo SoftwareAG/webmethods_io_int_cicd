@@ -187,7 +187,7 @@ function refData(){
               else
                 echo "Reference Data failed:" ${projectPostJson}
               fi
-
+            cd -
           fi
         done
   fi
