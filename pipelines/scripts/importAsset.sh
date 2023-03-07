@@ -53,10 +53,13 @@ debug=${@: -1}
       echo "Missing template parameter HOME_DIR"
       exit 1
     fi
-
-if [ "$debug" == "debug" ]; then
-    echo "......Running in Debug mode ......"
-  fi
+        if [ -z "$source_type" ]; then
+      echo "Missing template parameter source_type"
+      exit 1
+    fi
+    if [ "$debug" == "debug" ]; then
+      echo "......Running in Debug mode ......"
+    fi
 
 
 function echod(){
@@ -97,7 +100,7 @@ function importAsset() {
   formKey="recipe=@"${FILE}
   echod ${formKey}
   if [ -f "$FILE" ]; then
-  ####### Check if asset with this name, an asset exist
+  ####### Check if asset with this name exist
 
       echo "$FILE exists. Importing ..."
       importedName=$(curl --location --request POST ${FLOW_URL} \
@@ -127,7 +130,7 @@ if [ ${synchProject} == true ]; then
       echod $base_name${filename%.*}
       echod $parent_name
       importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} 
-    done
+  done
   
 
   # Importing Reference Data
