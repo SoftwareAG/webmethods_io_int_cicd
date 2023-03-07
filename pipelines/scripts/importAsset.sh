@@ -66,6 +66,7 @@ function echod(){
   
   if [ "$debug" == "debug" ]; then
     echo $1
+    set -x
   fi
 
 }
@@ -266,3 +267,4 @@ if [ ${synchProject} == true ]; then
 else
   importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 fi 
+set +x
