@@ -122,19 +122,18 @@ function importAsset() {
 cd ${HOME_DIR}/${repoName}
 }
 
-if [ ${synchProject} == true ]; then
-  echod "Listing files"
-  for filename in ./assets/*/*.zip; do 
-      base_name=${filename##*/}
-      parent_name="$(basename "$(dirname "$filename")")"
-      base_name=${base_name%.*}
-      echod $base_name${filename%.*}
-      echod $parent_name
-      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} 
-  done
-  
+function refData(){
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  source_type=$9
 
-  # Importing Reference Data
+# Importing Reference Data
   DIR="./assets/projectConfigs/referenceData/"
   if [ -d "$DIR" ]; then
       echo "Project referenceData needs to be synched"
@@ -193,11 +192,22 @@ if [ ${synchProject} == true ]; then
           fi
       done
 
+cd ${HOME_DIR}/${repoName}
+
+}
 
 
-
-  # Importing Project Parameters
-  : ' PP Import
+function projectParameters(){
+# Importing Project Parameters
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  source_type=$9
   echod $(pwd)
   echod $(ls -ltr)
 
@@ -262,7 +272,24 @@ if [ ${synchProject} == true ]; then
   fi
 
   cd ${HOME_DIR}/${repoName}
-  '
+  
+
+}
+
+
+if [ ${synchProject} == true ]; then
+  echod "Listing files"
+  for filename in ./assets/*/*.zip; do 
+      base_name=${filename##*/}
+      parent_name="$(basename "$(dirname "$filename")")"
+      base_name=${base_name%.*}
+      echod $base_name${filename%.*}
+      echod $parent_name
+      importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject}
+  done
+  
+  refData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject} ${source_type}
+  #projectParameters ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${base_name} ${parent_name} ${HOME_DIR} ${synchProject} ${source_type}
 
 else
   importAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
