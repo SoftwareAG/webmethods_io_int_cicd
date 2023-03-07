@@ -51,14 +51,16 @@ debug=${@: -1}
       exit 1
     fi
 
-  if [ "$debug" == "debug" ]; then
-    echo "......Running in Debug mode ......"
-  fi
-
-      if [ -z "$source_type" ]; then
+    if [ -z "$source_type" ]; then
       echo "Missing template parameter source_type"
       exit 1
     fi
+    
+    if [ "$debug" == "debug" ]; then
+      echo "......Running in Debug mode ......"
+    fi
+
+
 
 
 function echod(){
