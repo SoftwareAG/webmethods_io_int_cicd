@@ -151,128 +151,128 @@ if [ ${synchProject} == true ]; then
     echod $assetID
     exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
   done
+
+  #Expoting Accounts
+  ACCOUNT_LIST_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/accounts
+
+  accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      -u ${admin_user}:${admin_password})
+
+
+      accountexport=$(echo "$accountListJson" | jq '. // empty')
+        if [ -z "$accountexport" ];   then
+            echo "Account export failed:" ${accountListJson}
+        else
+            
+            mkdir -p ./assets/accounts
+            cd ./assets/accounts
+            echo "$accountListJson" > user_accounts.json
+            echo "Account export Succeeded"
+        fi
+  cd ${HOME_DIR}/${repoName}
+
+
+  # Exporting Project Referencedata
+  PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
+
+  projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      -u ${admin_user}:${admin_password})
+
+
+  projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
+
+  if [ -z "$projectID" ];   then
+      echo "Incorrect Project/Repo name"
+      exit 1
+  fi
+
+  echod "ProjectID:" ${projectID}
+
+  PROJECT_REF_DATA_LIST_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}
+
+  rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  -u ${admin_user}:${admin_password})
+
+  rdListExport=$(echo "$rdListJson" | jq -r -c '.integration.serviceData.referenceData[].name // empty')
+
+  if [ -z "$rdListExport" ];   then
+            echo "No reference data defined for the project" 
+        else
+            mkdir -p ./assets/projectConfigs/referenceData
+            cd ./assets/projectConfigs/referenceData
+            for item in $(jq -r '.integration.serviceData.referenceData[] | .name' <<< "$rdListJson"); do
+              echod "Inside Ref Data Loop:" "$item"
+              rdName=${item}
+              REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
+              rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
+              --header 'Content-Type: application/json' \
+              --header 'Accept: application/json' \
+              -u ${admin_user}:${admin_password})
+              rdExport=$(echo "$rdJson" | jq '.integration.serviceData.referenceData // empty')
+              if [ -z "$rdExport" ];   then
+                echo "Empty reference data defined for the name:" ${rdName}
+              else
+                columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
+                rdExport=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
+                if [[ "$columnDelimiter" == "," ]]; then
+                  echod "COMMA"
+                  datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
+                else
+                  echod "Not a COMMA:" ${columnDelimiter}
+                  datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
+                fi
+
+                echod "${datajson}"
+                mkdir -p ${rdName}
+                cd ${rdName}
+                
+                metadataJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData')
+                metadataJson=$(echo "$metadataJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
+                echo "$metadataJson" > metadata.json
+                echo "$datajson" > ${source_type}.csv
+                cp ./${source_type}.csv dev.csv 
+                cp ./${source_type}.csv qa.csv 
+                cp ./${source_type}.csv prod.csv
+                cd -
+              fi
+            done
+          echo "Reference Data export Succeeded"
+        fi
+  cd ${HOME_DIR}/${repoName}
+
+
+  # Exporting Project Parameters
+  : ' PP Export
+  PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
+
+  ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  -u ${admin_user}:${admin_password})
+
+  ppListExport=$(echo "$ppListJson" | jq '. // empty')
+
+  if [ -z "$ppListExport" ];   then
+            echo "No Project Parameters retreived:" ${ppListJson}
+        else
+            mkdir -p ./assets/projectConfigs/parameters
+            cd ./assets/projectConfigs/parameters
+            for item in $(jq  -c -r '.output[]' <<< "$ppListJson"); do
+              echod "Inside Parameters Loop"
+              parameterUID=$(jq -r '.uid' <<< "$item")
+              data=$(jq -r '.param' <<< "$item")
+              echo ${data} > ./${parameterUID}.json
+            done
+          echo "Project Parameters export Succeeded"
+        fi
+  cd ${HOME_DIR}/${repoName}
+  '
 else
   exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 fi  
-
-#Expoting Accounts
-ACCOUNT_LIST_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/accounts
-
-accountListJson=$(curl  --location --request GET ${ACCOUNT_LIST_URL} \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    -u ${admin_user}:${admin_password})
-
-
-    accountexport=$(echo "$accountListJson" | jq '. // empty')
-      if [ -z "$accountexport" ];   then
-          echo "Account export failed:" ${accountListJson}
-      else
-          
-          mkdir -p ./assets/accounts
-          cd ./assets/accounts
-          echo "$accountListJson" > user_accounts.json
-          echo "Account export Succeeded"
-      fi
-cd ${HOME_DIR}/${repoName}
-
-
-# Exporting Project Referencedata
-PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
-
-projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    -u ${admin_user}:${admin_password})
-
-
-projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
-
-if [ -z "$projectID" ];   then
-    echo "Incorrect Project/Repo name"
-    exit 1
-fi
-
-echod "ProjectID:" ${projectID}
-
-PROJECT_REF_DATA_LIST_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}
-
-rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
--u ${admin_user}:${admin_password})
-
-rdListExport=$(echo "$rdListJson" | jq -r -c '.integration.serviceData.referenceData[].name // empty')
-
-if [ -z "$rdListExport" ];   then
-          echo "No reference data defined for the project" 
-      else
-          mkdir -p ./assets/projectConfigs/referenceData
-          cd ./assets/projectConfigs/referenceData
-          for item in $(jq -r '.integration.serviceData.referenceData[] | .name' <<< "$rdListJson"); do
-            echod "Inside Ref Data Loop:" "$item"
-            rdName=${item}
-            REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
-            rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
-            --header 'Content-Type: application/json' \
-            --header 'Accept: application/json' \
-            -u ${admin_user}:${admin_password})
-            rdExport=$(echo "$rdJson" | jq '. // empty')
-            if [ -z "$rdExport" ];   then
-              echo "Empty reference data defined for the name:" ${rdName}
-            else
-              columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
-              rdExport=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
-              if [[ "$columnDelimiter" == "," ]]; then
-                echod "COMMA"
-                datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
-              else
-                echod "Not a COMMA:" ${columnDelimiter}
-                datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
-              fi
-
-              echod "${datajson}"
-              mkdir -p ${rdName}
-              cd ${rdName}
-              
-              metadataJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData')
-              metadataJson=$(echo "$metadataJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
-              echo "$metadataJson" > metadata.json
-              echo "$datajson" > ${source_type}.csv
-              cp ./${source_type}.csv dev.csv 
-              cp ./${source_type}.csv qa.csv 
-              cp ./${source_type}.csv prod.csv
-              cd -
-            fi
-          done
-        echo "Reference Data export Succeeded"
-      fi
-cd ${HOME_DIR}/${repoName}
-
-
-# Exporting Project Parameters
-: ' PP Export
-PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
-
-ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
---header 'Content-Type: application/json' \
---header 'Accept: application/json' \
--u ${admin_user}:${admin_password})
-
-ppListExport=$(echo "$ppListJson" | jq '. // empty')
-
-if [ -z "$ppListExport" ];   then
-          echo "No Project Parameters retreived:" ${ppListJson}
-      else
-          mkdir -p ./assets/projectConfigs/parameters
-          cd ./assets/projectConfigs/parameters
-          for item in $(jq  -c -r '.output[]' <<< "$ppListJson"); do
-            echod "Inside Parameters Loop"
-            parameterUID=$(jq -r '.uid' <<< "$item")
-            data=$(jq -r '.param' <<< "$item")
-            echo ${data} > ./${parameterUID}.json
-          done
-        echo "Project Parameters export Succeeded"
-      fi
-cd ${HOME_DIR}/${repoName}
-'
