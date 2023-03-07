@@ -61,12 +61,11 @@ debug=${@: -1}
       echo "......Running in Debug mode ......"
     fi
 
-
+ set -x
 function echod(){
   
   if [ "$debug" == "debug" ]; then
     echo $1
-    set -x
   fi
 
 }
@@ -183,15 +182,15 @@ function refData(){
                   --form 'file encoding='"$encodingType" \
                   --form ${formKey} -u ${admin_user}:${admin_password})  
              refDataOutput=$(echo "$projectPostJson" | jq -r -c '.integration.message.description')
-             if [ "$refDataOutput"=="Success" ];   then
+              if [ "$refDataOutput"=="Success" ];   then
                 echo "Reference Data created/updated successfully"
-             else
+              else
                 echo "Reference Data failed:" ${projectPostJson}
-            fi
+              fi
 
           fi
-      done
-
+        done
+  fi
 cd ${HOME_DIR}/${repoName}
 
 }
