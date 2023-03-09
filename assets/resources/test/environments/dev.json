@@ -4,13 +4,13 @@
 	"values": [
 		{
 			"key": "url",
-			"value": "https://nokroeger.int-aws-us.webmethods.io",
+			"value": "https://env209597.int-az-eu.webmethods.io",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "user",
-			"value": "srinivasan.sabaphat",
+			"value": "refplatform",
 			"type": "default",
 			"enabled": true
 		},
