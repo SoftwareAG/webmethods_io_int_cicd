@@ -7,7 +7,7 @@
 # Use-case
 When organizations start using webMethods.io Integration for business use-cases, the need for having a continuous integration and delivery process becomes very important. These processes will enable the business to have a "Faster release rate", "More Test reliability" & "Faster to Market".
 
-This use-case will highlight a solution utilizing import & export APIs (or CLI) and Azure Devops to extract and store the code assets in repository (GitHub). By integrating repository workflows and azure pipelines, this process will automate the promotion of assets to different stages/environment as per the organizations promotion workflow. This will also showcase how to automate the test framework for respective stages/environments.
+This use-case will highlight a solution utilizing webMethods.io import & export APIs (or CLI) and Azure Devops to extract and store the code assets in repository (GitHub). By integrating repository workflows and azure pipelines, this process will automate the promotion of assets to different stages/environment as per the organizations promotion workflow. This will also showcase how to automate the test framework for respective stages/environments.
 
 ![](./images/markdown/delivery.png)  ![](./images/markdown/overview.png)
 
@@ -82,10 +82,12 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](./images/markdown/synchronizeToPROD.png)
 
-# Downloads / Assets
+# Downloads / Assets / References
 1. Repository for automation, scripts & sample assets. Github: https://github.softwareag.com/PS/webmethods_io_int_cicd
 2. Presentation: https://github.softwareag.com/PS/webmethods_io_int_cicd/blob/main/presentation/webMethodsIO_Integration_CICD.pptx 
 3. Demo recording: 
+4. API Documentation: https://docs.webmethods.io/integration/apis/webmethods_api_ref/#reference-data-apis
+5. CLI Repository: https://github.com/SoftwareAG/webmethods-io-integration-apicli
 
 # Next Steps
 1. Incorporate design for Hybrid use-case
