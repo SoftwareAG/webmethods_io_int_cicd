@@ -75,7 +75,7 @@ We will assume that the organization is following the below GIT Workflows.
 <br> 
 <br> 
 
-1. **Deliver / Promote to DEV**
+3. **Deliver / Promote to DEV**
    1. Once the implementation is finished, developer manually creates a Pull Request from Feature Branch to DEV
    2. This will trigger the synchronizeToDev pipeline (Automation)
    3. Automation will 
