@@ -71,6 +71,7 @@ We will assume that the organization is following the below GIT Workflows.
    * /ut-flow/referencedata/{{*projectUID*}}/{{*referenceDataName*}}, 
    * /projects/{{*projectName*}}/params/{{*parameterUID*}}, 
    * /projects/{{*projectName*}}/params
+
 <br> 
 <br> 
 <br> 
@@ -86,6 +87,21 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](./images/markdown/synchronizeToDev.png)
 
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**API's Used** 
+   *  /projects/{{*projectName*}}, 
+   *  /projects/{{*projectName*}}/workflow-import, 
+   *  /projects/{{*projectName*}}/flow-import, 
+   *  /ut-flow/referencedata/{{*projectUID*}}/{{*referenceDataName*}}, 
+   *  /ut-flow/referencedata/create/{{*projectUID*}}, 
+   *  /ut-flow/referencedata/update/{{*projectUID*}}/{{*referenceDataName*}}, 
+   *  /projects/{{*projectName*}}/params/{{*parameterUID*}}, 
+   *  /projects/{{*projectName*}}/params
+   *  /projects/{{*projectName*}}/workflows/{{*assetID*}}/run
+   *  /projects/{{*projectName*}}/flows/{{*assetName*}}/run
+<br> 
+<br> 
+<br> 
+
 4. **Deliver / Promote to QA**
    1. After Dev cycle is complete, developer manually creates a Pull Request from Feature Branch to QA.  
    2. This will trigger the synchronizeToQA pipeline (Automation)
@@ -96,6 +112,11 @@ We will assume that the organization is following the below GIT Workflows.
    4. On failure, developer needs to fix/re-develop the asset (Step 2).
 
 ![](./images/markdown/synchronizeToQA.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**API's Used:** ***SAME AS STEP 3***
+<br> 
+<br> 
+<br> 
 
 5. **Deliver / Promote to PROD**
    1. Once the automated test and UAT is successfully finished, developer manually creates a Pull Request from Feature Branch to PROD.  PROD deployment may have different approval cycle.
@@ -108,6 +129,11 @@ We will assume that the organization is following the below GIT Workflows.
    4. On failure, developer needs to fix/re-develop the asset (Step 2). And release will be rolled back.
 
 ![](./images/markdown/synchronizeToPROD.png)
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**API's Used:** ***SAME AS STEP 3***
+<br> 
+<br> 
+<br> 
 
 # Downloads / Assets / References
 1. Repository for automation, scripts & sample assets. Github: https://github.softwareag.com/PS/webmethods_io_int_cicd
