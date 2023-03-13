@@ -39,6 +39,11 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](./images/markdown/Initialize.png)
 
+   **API's Used**: /projects/{{projectName}}, /projects/{{projectName}}/workflow-import, /projects/{{projectName}}/flow-import, /ut-flow/referencedata/{{projectUID}}/{{referenceDataName}}, /ut-flow/referencedata/create/{{projectUID}}, /ut-flow/referencedata/update/{{projectUID}}/{{referenceDataName}}, /projects/{{projectName}}/params/{{parameterUID}}, /projects/{{projectName}}/params
+
+
+
+
 2. **Develop & Commit**
    1. Developer starts developing
    2. After completion they will execute synchronizeToFeature Pipeline (Automation)
