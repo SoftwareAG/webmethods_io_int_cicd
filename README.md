@@ -53,7 +53,17 @@ We will assume that the organization is following the below GIT Workflows.
 
 ![](,/../images/markdown/synchronizeToFeature.png)
 
-3. **Deliver / Promote to DEV**
+   **API's Used**: 
+      * /projects/{{projectName}}/workflows/{{assetID}}/export, 
+      * /projects/{{projectName}}/flows/{{assetID}}/export, 
+      * /projects/{{projectName}}/assets, 
+      * /projects/{{projectName}}/accounts, 
+      * /ut-flow/referencedata/{{projectUID}}, 
+      * /ut-flow/referencedata/{{projectUID}}/{{referenceDataName}}, 
+      * /projects/{{projectName}}/params/{{parameterUID}}, 
+      * /projects/{{projectName}}/params
+
+1. **Deliver / Promote to DEV**
    1. Once the implementation is finished, developer manually creates a Pull Request from Feature Branch to DEV
    2. This will trigger the synchronizeToDev pipeline (Automation)
    3. Automation will 
