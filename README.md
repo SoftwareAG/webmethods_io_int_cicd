@@ -71,7 +71,6 @@ We will assume that the organization is following the below GIT Workflows.
    * /ut-flow/referencedata/{{*projectUID*}}/{{*referenceDataName*}}, 
    * /projects/{{*projectName*}}/params/{{*parameterUID*}}, 
    * /projects/{{*projectName*}}/params
-
 <br> 
 <br> 
 <br> 
