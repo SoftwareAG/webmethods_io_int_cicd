@@ -164,4 +164,5 @@ We will assume that the organization is following the below GIT Workflows.
 12. Check code has been Imported/Promoted to Dev environment
 13. Check whether Test has been automatically triggered.
 
-
+______________________
+These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
