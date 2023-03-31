@@ -116,7 +116,7 @@ steps:
               echo "Branch $(featureBranchName) already exists"
           else
               chmod +x ../self/pipelines/scripts/github/*.sh
-              ./self/pipelines/scripts/github/initializeRepo.sh $(devUser) $(featureBranchName) ${HOME_DIR} debug
+              ../self/pipelines/scripts/github/createFeatureFromProdBranch.sh $(devUser) $(featureBranchName) ${HOME_DIR} debug
               # Creating Feature Branch 
               #echo "Branch does not exists. Creating Branch ..."
               #git config user.email "noemail.com"
