@@ -67,7 +67,7 @@ steps:
       ########GitHub 
         HOME_DIR=$(System.DefaultWorkingDirectory)/../
 
-        chmod 777 ./self/pipelines/scripts/github/*.sh
+        chmod +x ./self/pipelines/scripts/github/*.sh
         ./self/pipelines/scripts/github/initializeRepo.sh $(repo_user) $(PAT) $(AZURE_TOKEN) $(repoName) $(devUser) $(featureBranchName) ${HOME_DIR} debug
 
   displayName: 'Create a repo and required branches'
