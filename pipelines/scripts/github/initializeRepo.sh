@@ -78,7 +78,7 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
           #### Create empty repo & SECRET
           curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
 
-          keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET 'https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/public-key' \
+          keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/public-key \
           --header 'X-GitHub-Api-Version: 2022-11-28' \
           --header 'Accept: application/vnd.github+json')
 
