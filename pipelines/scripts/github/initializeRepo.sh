@@ -62,12 +62,12 @@ gitHubApiURL=https://api.github.com/
       echo "......Running in Debug mode ......"
     fi
 
-
+set -x
 function echod(){
   
   if [ "$debug" == "debug" ]; then
     echo $1
-    set -x
+    
   fi
 
 }
