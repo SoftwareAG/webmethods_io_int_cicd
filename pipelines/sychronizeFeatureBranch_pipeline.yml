@@ -75,11 +75,10 @@ steps:
 
 - script: |
     cd ../$(repoName)
-    git config user.email "noemail.com"
-    git config user.name "$(devUser)"
-    git add .
-    git commit -m "push the export repository from pipeline. Build: $(Build.BuildNumber)"
-    git push origin HEAD:$(featureBranchName)
+
+    echo "Committing asset ..."
+    chmod +x ../self/pipelines/scripts/github/*.sh    
+    ../self/pipelines/scripts/github/commitFeatureBranch.sh $(devUser) $(Build.BuildNumber) $(featureBranchName) ${HOME_DIR} debugebug
   displayName: 'Commit the code to feature branch'
 
 - task: PublishBuildArtifacts@1
