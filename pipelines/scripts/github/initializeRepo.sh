@@ -13,8 +13,6 @@ repoName=$4
 devUser=$5
 featureBranchName=$6
 HOME_DIR=$7
-synchProject=$8
-source_type=$9
 debug=${@: -1}
 gitHubApiURL=https://api.github.com/
 
@@ -53,10 +51,7 @@ gitHubApiURL=https://api.github.com/
       echo "Missing template parameter HOME_DIR"
       exit 1
     fi
-        if [ -z "$source_type" ]; then
-      echo "Missing template parameter source_type"
-      exit 1
-    fi
+   
     if [ "$debug" == "debug" ]; then
       echo "......Running in Debug mode ......"
     fi
@@ -93,7 +88,7 @@ name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(r
 
           encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py ${keyValue} ${token})
          
-    
+
           secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
           
           curl \
