@@ -10,10 +10,9 @@ repo_user=$1
 PAT=$2
 AZURE_TOKEN=$3
 repoName=$4
-repoPath=$5
-devUser=$6
-featureBranchName=$7
-HOME_DIR=$8
+devUser=$5
+featureBranchName=$6
+HOME_DIR=$7
 debug=${@: -1}
 gitHubApiURL=https://api.github.com/
 
@@ -35,11 +34,6 @@ gitHubApiURL=https://api.github.com/
 
     if [ -z "$repoName" ]; then
       echo "Missing template parameter repoName"
-      exit 1
-    fi
-
-    if [ -z "$repoPath" ]; then
-      echo "Missing template parameter repoPath"
       exit 1
     fi
 
@@ -84,7 +78,7 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
           #### Create empty repo & SECRET
           curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
 
-          keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET 'https://api.github.com/repos/${repoPath}/actions/secrets/public-key' \
+          keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET 'https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/public-key' \
           --header 'X-GitHub-Api-Version: 2022-11-28' \
           --header 'Accept: application/vnd.github+json')
 
@@ -101,7 +95,7 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
             -X PUT \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            -u ${repo_user}:${PAT} https://api.github.com/repos/${repoPath}/actions/secrets/AZURE_DEVOPS_TOKEN \
+            -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/AZURE_DEVOPS_TOKEN \
             -d '{"encrypted_value":"'"${AZURE_TOKEN}"'","key_id":"'"${keyId}"'"}'
           
           #### Initiatialite and push to main
@@ -136,7 +130,7 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
            curl -u ${repo_user}:${PAT} -X PUT \
               -H "Accept: application/vnd.github+json" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
-             https://api.github.com/repos/${repoPath}/actions/workflows/dev.yml/enable
+             https://api.github.com/repos/${repo_user}/${repoName}/actions/workflows/dev.yml/enable
 
           echo "Repo creation done !!!"
       else
