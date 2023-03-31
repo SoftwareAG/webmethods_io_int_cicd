@@ -61,11 +61,12 @@ debug=${@: -1}
       echo "......Running in Debug mode ......"
     fi
 
- set -x
+
 function echod(){
   
   if [ "$debug" == "debug" ]; then
     echo $1
+    set -x
   fi
 
 }
