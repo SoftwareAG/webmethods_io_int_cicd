@@ -115,6 +115,7 @@ steps:
           then
               echo "Branch $(featureBranchName) already exists"
           else
+              echo "Branch $(featureBranchName) doesnt exists, synching from prod ..."
               chmod +x ../self/pipelines/scripts/github/*.sh
               ../self/pipelines/scripts/github/createFeatureFromProdBranch.sh $(devUser) $(featureBranchName) ${HOME_DIR} debug
               # Creating Feature Branch 
