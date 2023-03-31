@@ -63,8 +63,7 @@ steps:
   condition: succeeded()
 - script: |
       cd ../
-            echo $(repoName)
-            echo ${repoPath}
+
       ########GitHub 
         HOME_DIR=$(System.DefaultWorkingDirectory)/../
 
