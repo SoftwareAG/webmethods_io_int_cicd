@@ -47,7 +47,8 @@ function echod(){
               echo "Branch does not exists. Creating Branch ..."
               git config user.email "noemail.com"
               git config user.name "${devUser}"
-              git checkout -b $(featureBranchName) production
+              git checkout -b ${featureBranchName} production
               git add .
               git commit -m "Synching from Prod for feature branch ${featureBranchName}"
               git push -u origin ${featureBranchName}
+set +x
