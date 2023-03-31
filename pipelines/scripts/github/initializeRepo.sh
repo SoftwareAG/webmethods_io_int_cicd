@@ -10,9 +10,10 @@ repo_user=$1
 PAT=$2
 AZURE_TOKEN=$3
 repoName=$4
-devUser=$5
-featureBranchName=$6
-HOME_DIR=$7
+repoPath=$5
+devUser=$6
+featureBranchName=$7
+HOME_DIR=$8
 debug=${@: -1}
 gitHubApiURL=https://api.github.com/
 
@@ -34,6 +35,11 @@ gitHubApiURL=https://api.github.com/
 
     if [ -z "$repoName" ]; then
       echo "Missing template parameter repoName"
+      exit 1
+    fi
+
+    if [ -z "$repoPath" ]; then
+      echo "Missing template parameter repoPath"
       exit 1
     fi
 
@@ -67,24 +73,24 @@ function echod(){
 }
 
 
-name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.name')
+name=$(curl -u ${repo_user}:$(PAT) https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
       echo ${name}
       if [ "$name" == null ]
       then
           echo "Repo does not exists, creating ..."
-          mkdir -p $(repoName)
-          cd $(repoName)
+          mkdir -p ${repoName}
+          cd ${repoName}
 
           #### Create empty repo & SECRET
-          curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)""}'
+          curl -u ${repo_user}:$(PAT) https://api.github.com/user/repos -d '{"name":"${repoName}""}'
 
-          keyJson=$(curl -u $(repo_user):$(PAT) --location --request GET 'https://api.github.com/repos/$(repoPath)/actions/secrets/public-key' \
+          keyJson=$(curl -u ${repo_user}:$(PAT) --location --request GET 'https://api.github.com/repos/${repoPath}/actions/secrets/public-key' \
           --header 'X-GitHub-Api-Version: 2022-11-28' \
           --header 'Accept: application/vnd.github+json')
 
           keyId=$(echo "$keyJson" | jq -r '.key_id')
           keyValue=$(echo "$keyJson" | jq -r '.key')
-          token=$(echo $(AZURE_TOKEN))
+          token=$(echo ${AZURE_TOKEN})
 
           encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py ${keyValue} ${token})
          
@@ -95,11 +101,11 @@ name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(r
             -X PUT \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            -u $(repo_user):$(PAT) https://api.github.com/repos/$(repoPath)/actions/secrets/AZURE_DEVOPS_TOKEN \
-            -d '{"encrypted_value":"'"$(AZURE_TOKEN)"'","key_id":"'"${keyId}"'"}'
+            -u ${repo_user}:$(PAT) https://api.github.com/repos/${repoPath}/actions/secrets/AZURE_DEVOPS_TOKEN \
+            -d '{"encrypted_value":"'"${AZURE_TOKEN}"'","key_id":"'"${keyId}"'"}'
           
           #### Initiatialite and push to main
-          echo "# $(repoName)" >> README.md
+          echo "# ${repoName}" >> README.md
           mkdir -p .github
           cd .github
           mkdir -p workflows
@@ -107,11 +113,11 @@ name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(r
           cp ../self/assets/github/workflows/dev.yml .github/workflows/
           git init
           git config user.email "noemail.com"
-          git config user.name "$(devUser)"
+          git config user.name "${devUser}"
           git add .
           git commit -m "first commit"
           git branch -M production
-          git remote add origin https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git
+          git remote add origin https://${repo_user}:$(PAT)@github.com/${repo_user}/${repoName}.git
           git push -u origin production
 
           git checkout -b dev production
@@ -122,15 +128,15 @@ name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(r
           git commit -m "first commit"
           git push -u origin qa
           
-          git checkout -b $(featureBranchName) production
+          git checkout -b ${featureBranchName} production
           git commit -m "first commit"
-          git push -u origin $(featureBranchName)
+          git push -u origin ${featureBranchName}
 
           #Enable workflow
-           curl -u $(repo_user):$(PAT) -X PUT \
+           curl -u ${repo_user}:$(PAT) -X PUT \
               -H "Accept: application/vnd.github+json" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
-             https://api.github.com/repos/$(repoPath)/actions/workflows/dev.yml/enable
+             https://api.github.com/repos/${repoPath}/actions/workflows/dev.yml/enable
 
           echo "Repo creation done !!!"
       else
