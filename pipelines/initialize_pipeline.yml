@@ -115,14 +115,16 @@ steps:
           then
               echo "Branch $(featureBranchName) already exists"
           else
+              chmod +x ../self/pipelines/scripts/github/*.sh
+              ./self/pipelines/scripts/github/initializeRepo.sh $(devUser) $(featureBranchName) ${HOME_DIR} debug
               # Creating Feature Branch 
-              echo "Branch does not exists. Creating Branch ..."
-              git config user.email "noemail.com"
-              git config user.name "$(devUser)"
-              git checkout -b $(featureBranchName) production
-              git add .
-              git commit -m "Synching from Prod for feature branch $(featureBranchName)"
-              git push -u origin $(featureBranchName)
+              #echo "Branch does not exists. Creating Branch ..."
+              #git config user.email "noemail.com"
+              ##git config user.name "$(devUser)"
+              #git checkout -b $(featureBranchName) production
+              #git add .
+              #git commit -m "Synching from Prod for feature branch $(featureBranchName)"
+              #git push -u origin $(featureBranchName)
               # Project Check
               chmod +x ../self/pipelines/scripts/*.sh
               echo "Check and create Project ..."
