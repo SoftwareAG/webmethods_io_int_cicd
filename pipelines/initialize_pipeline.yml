@@ -67,7 +67,7 @@ steps:
       ########GitHub 
 set -e
 
-<<'###'
+<<'///'
       name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.name')
       echo ${name}
       if [ "$name" == null ]
@@ -139,7 +139,7 @@ set -e
           echo "##vso[task.setvariable variable=init]false"
           exit 0
       fi
-      ###
+      ///
   displayName: 'Create a repo and required branches'
   
 - script: |
