@@ -37,6 +37,15 @@ steps:
   clean: "true"
   path: self
 
+- script: |
+    echo "##vso[task.setvariable variable=assetID;]NA"
+    echo "##vso[task.setvariable variable=assetType;]NA"
+    echo "##vso[task.setvariable variable=assetName;]NA"
+  condition: eq(variables['synchProject'], 'true') 
+  displayName: 'Adjust variables'
+
+
+
 - bash: |
     pwd
     cd ../self

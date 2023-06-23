@@ -71,6 +71,8 @@ function echod(){
 
 }
 
+echod $@
+
 function exportAsset(){
 
 LOCAL_DEV_URL=$1
