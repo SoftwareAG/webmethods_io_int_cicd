@@ -1,0 +1,15 @@
+version: "1.0.0"
+info:
+  model: agent-manifest
+  tags:
+  - demo
+  - coucou
+repositories:
+  - repository:
+    name: "customPackages1"
+    url: "https://github.com/testcustomer/wm.git"
+    type: "OnPrem"
+  - repository:
+    name: "testProject"
+    url: "https://github.com/testproject/wm.git"
+    type: "API"

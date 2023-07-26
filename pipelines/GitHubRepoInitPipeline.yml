@@ -1,0 +1,149 @@
+##############################################################################################################
+#                                                                                                            #
+# GitHubRepoInitPipeline.yml : Initialize the repository for hybrid devops                                   #
+#                                                                                                            #
+# ####### Inputs ########                                                                                    #
+# AZURE_TOKEN: (Mandatory) azure_token                                                                       #
+# PAT: (Mandatory) personal access token                                                                     #            #
+# devUser: (Optional) UserID for commits and audit                                                           #
+# featureBranchName: (Mandatory) Name of the feature branch.                                                #
+# repoName: (Mandatory) Name of the corresponding repository.                                                #                                                              #
+##############################################################################################################
+
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- name: init
+  value: true
+  
+
+steps:
+- checkout: self
+  submodules: "true"
+  persistCredentials: "true"
+  clean: "true"
+  path: self
+
+- bash: |
+    pwd
+    cd ../self
+    pwd
+    ls -ltr
+    echo "##vso[task.setvariable variable=repo_user]`yq -e '.repo.user' configs/repo.yml`"
+    echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
+    echo $(System.DefaultWorkingDirectory)
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  displayName: 'Get Environment Tenant Details'
+
+# setup python environment
+- script: |
+    python3.10 -m pip install --upgrade pip
+    pip install pynacl
+    chmod +x ./pipelines/scripts/github/encryptGithubSecret.py
+  displayName: 'Setup Python3 Environment'
+  workingDirectory: '$(System.DefaultWorkingDirectory)'
+  condition: succeeded()
+
+- script: |
+    cd ../
+    
+    ########GitHub 
+
+    name=$(curl -u $(repo_user):$(PAT) https://api.github.com/repos/$(repo_user)/$(repoName) | jq -r '.name')
+  
+    if [ "$name" == null ]; then
+      echo "Repo does not exist, creating ..."
+      mkdir -p $(repoName)
+      cd $(repoName)
+      #### Create empty repo & SECRET
+      curl -u $(repo_user):$(PAT) https://api.github.com/user/repos -d '{"name":"$(repoName)"}'
+
+      keyJson=$(curl -u $(repo_user):$(PAT) --location --request GET 'https://api.github.com/repos/$(repo_user)/$(repoName)/actions/secrets/public-key' \
+      --header 'Accept: application/vnd.github+json')
+
+      keyId=$(echo "$keyJson" | jq -r '.key_id')
+      keyValue=$(echo "$keyJson" | jq -r '.key')
+      token=$(echo $(AZURE_TOKEN))
+      encryptedValue=$(python3.10 ../self/pipelines/scripts/github/encryptGithubSecret.py "${keyValue}" "${token}")
+      
+      secretJson='{"encrypted_value":"'"${encryptedValue}"'","key_id":"'"${keyId}"'"}'
+      
+      curl \
+        -X PUT \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        -u $(repo_user):$(PAT) "https://api.github.com/repos/$(repo_user)/$(repoName)/actions/secrets/AZURE_DEVOPS_TOKEN" \
+        -d "${secretJson}"
+
+      #### Initialize and push to main
+      echo "# $(repoName)" >> README.md
+      mkdir -p .github/assets
+      mkdir -p .github/scaffolds
+      mkdir -p .github/configs
+      mkdir -p .github/assets/IS
+      git init
+      git config user.email "chaitali.patil@softwareag.com"
+      git config user.name "$(devUser)"
+      git add README.md
+      git commit -m "first commit"
+      git branch -M production
+      git remote add origin "https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git"
+      git push -u origin production
+
+      # Create additional branches
+
+      git checkout -b dev production
+      git push -u origin dev
+
+      git checkout -b qa production
+      git push -u origin qa
+
+      git checkout -b $(featureBranchName) production
+      git push -u origin $(featureBranchName)
+        
+        # Create folder
+      
+      mkdir -p .github/assets
+        cd .github/assets
+      mkdir -p IS 
+       echo "This is a sample file." > sample.txt
+        git add sample.txt
+     
+      git commit -m "Added folder and sample file"
+        git push
+      echo "Repo creation and branch, folder creation done !!!"
+    else
+      echo "Repo already exists with name: ${name}"
+      echo "##vso[task.setvariable variable=init]false"
+      exit 0
+    fi
+  displayName: 'Create a repo and required branches'
+
+- script: |
+    cd ../
+    HOME_DIR=$(System.DefaultWorkingDirectory)/../
+    if [ "$init" == true ]; then
+      echo "New repo created"
+    else
+      ######## Create a feature branch from prod 
+      git clone --branch production "https://$(repo_user):$(PAT)@github.com/$(repo_user)/$(repoName).git"
+      cd $(repoName)
+      branchExists=$(git ls-remote --exit-code --heads origin $(featureBranchName))
+      if [ ! -z "${branchExists// }" ]; then
+          echo "Branch $(featureBranchName) already exists"
+      else
+          # Creating Feature Branch 
+          echo "Branch does not exist. Creating Branch ..."
+          git config user.email "chaitali.patil@softwareag.com"
+          git config user.name "$(devUser)"
+          git checkout -b $(featureBranchName) production
+          git add .
+          git commit -m "Synching from Prod for feature branch $(featureBranchName)"
+          git push -u origin $(featureBranchName)
+      fi
+    fi
+  displayName: 'Create feature branch in existing Repo'
