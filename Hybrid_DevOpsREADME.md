@@ -39,4 +39,33 @@ We will assume that the organization is following the below GIT Workflows.
 
 3. for wm.io , follow the same steps ( https://github.softwareag.com/PS/webmethods_io_int_cicd)
 
-4. for integration server , follow 
+4. for integration server (on premise) , the below steps are done
+
+i) Initialize pipeline creates feature branch ( if the repository is new then initialize pipeline creates repository and branches)
+ii) Developer checks out the feature branch , develops the code and commits it.
+iii) synchronizeToDev pipeline is initiated to deploy the code in dev environment.
+
+
+# Git Workflow
+We will assume that the organization is following the below GIT Workflows.
+
+![](./images/markdown/SingleFeature.png)    ![](./images/markdown/MultiFeature.png)
+
+# Steps
+1. **Initialize**
+   1. Developer starts by executing *Initialize Pipeline* (Automation)
+   2. This checks if the request is for an existing repository or a new one
+   3. If new, automation will 
+      1. Initialize a repository
+      2. Create standardized branches, including requested Feature Branch
+   4. If existing, automation will
+      1. Clone the Prod branch to Feature branch
+
+<br> 
+<br> 
+<br> 
+
+
+2. **Develop & Commit**
+   1. Developer starts developing
+   2. After completion they will execute synchronizeToDev Pipeline (Automation)
