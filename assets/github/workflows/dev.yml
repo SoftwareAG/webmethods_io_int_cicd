@@ -12,10 +12,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: Azure Pipelines Action
-          uses: Azure/pipelines@v1
+          uses: Azure/pipelines@v1.2
           with:
             azure-devops-project-url: https://dev.azure.com/insrsa/webMethodsIO_Integration
             azure-pipeline-name: 'sychronizeToDEV'
             azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            # azure-pipeline-variables:  '{"repoName": ${{ github.event.repository.name }}, "repoPath": ${{ github.repository }}' # optional stringified json
+            azure-pipeline-variables:  '{"repoName": ${{ github.event.repository.name }}, "synchProject": "true"}' # optional stringified json
             

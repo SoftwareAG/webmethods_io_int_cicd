@@ -1,0 +1,16 @@
+version: "1.0.0"
+info:
+  model: devops-manifest
+  tags:
+  - tag1
+  - tag2
+repositories:
+  - repository:
+    name: "wm_onprem_project_a"
+    url: "https://github.com/chini007/wm_onprem_project_a.git"
+    type: "OnPrem"
+    pipeline: 
+  - repository:
+    name: "wm_api_project_a"
+    url: "https://github.com/chini007/wmwm_api_project_a.git"
+    type: "API"

@@ -1,8 +1,8 @@
 #!/bin/bash
 #############################################################################
-#                                                                           #
-# exportAsset.sh : Export asset from a project                    #
-#                                                                           #
+##                                                                           #
+##exportAsset.sh : Export asset from a project                              #
+##                                                                          #
 #############################################################################
 
 LOCAL_DEV_URL=$1
@@ -14,6 +14,7 @@ assetType=$6
 HOME_DIR=$7
 synchProject=$8
 source_type=$9
+inlcudeAllReferenceData=${10}
 debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -57,78 +58,208 @@ debug=${@: -1}
     fi
     
     if [ "$debug" == "debug" ]; then
-      echo "......Running in Debug mode ......"
+      echo "******* Running in Debug mode ******"
     fi
 
 
 
 
 function echod(){
-  
   if [ "$debug" == "debug" ]; then
     echo $1
+    set -x
   fi
-
 }
 
-echod $@
+function exportSingleReferenceData () {
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  projectID=$8
+  rdName=$assetID
+  
+
+  cd ${HOME_DIR}/${repoName}
+  mkdir -p ./assets/projectConfigs/referenceData
+  cd ./assets/projectConfigs/referenceData
+  REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
+  rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  -u ${admin_user}:${admin_password})
+  rdExport=$(echo "$rdJson" | jq '.integration.serviceData.referenceData // empty')
+  if [ -z "$rdExport" ];   then
+    echo "Empty reference data defined for the name:" ${rdName}
+  else
+    columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
+    rdExport=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
+    if [[ "$columnDelimiter" == "," ]]; then
+      echod "COMMA"
+      datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
+    else
+      echod "Not a COMMA:" ${columnDelimiter}
+      datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
+    fi
+
+    echod "${datajson}"
+    mkdir -p ${rdName}
+    cd ${rdName}
+    
+    metadataJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData')
+    metadataJson=$(echo "$metadataJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
+    echo "$metadataJson" > metadata.json
+    echo "$datajson" > ${source_type}.csv
+    cp ./${source_type}.csv dev.csv 
+    cp ./${source_type}.csv qa.csv 
+    cp ./${source_type}.csv prod.csv
+    cd -
+  fi
+  cd ${HOME_DIR}/${repoName}
+}
+
+
+function exportReferenceData (){ 
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  cd ${HOME_DIR}/${repoName}
+
+  PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
+
+  projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      -u ${admin_user}:${admin_password})
+
+
+  projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
+
+  if [ -z "$projectID" ];   then
+      echo "Incorrect Project/Repo name"
+      exit 1
+  fi
+
+
+  echod "ProjectID:" ${projectID}
+
+  PROJECT_REF_DATA_LIST_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}
+
+  rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
+  --header 'Content-Type: application/json' \
+  --header 'Accept: application/json' \
+  -u ${admin_user}:${admin_password})
+
+  rdListExport=$(echo "$rdListJson" | jq -r -c '.integration.serviceData.referenceData[].name // empty')
+
+  if [ -z "$rdListExport" ];   then
+            echo "No reference data defined for the project" 
+  else
+      for item in $(jq -r '.integration.serviceData.referenceData[] | .name' <<< "$rdListJson"); do
+        echod "Inside Ref Data Loop:" "$item"
+        rdName=${item}
+        exportSingleReferenceData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${rdName} ${assetType} ${HOME_DIR} ${projectID}
+      done
+    echo "Reference Data export Succeeded"
+  fi
+
+  cd ${HOME_DIR}/${repoName}
+} 
 
 function exportAsset(){
 
-LOCAL_DEV_URL=$1
-admin_user=$2
-admin_password=$3
-repoName=$4
-assetID=$5
-assetType=$6
-HOME_DIR=$7
+  LOCAL_DEV_URL=$1
+  admin_user=$2
+  admin_password=$3
+  repoName=$4
+  assetID=$5
+  assetType=$6
+  HOME_DIR=$7
+  synchProject=$8
+  inlcudeAllReferenceData=$9
 
-echod ${assetType}
+ 
+    # Single assetType
+    if [[ $assetType = referenceData* ]]; then
+      PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
-if [[ $assetType = workflow* ]]; then
-        echod $assetType
-        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
-        cd ${HOME_DIR}/${repoName}
-        mkdir -p ./assets/workflows
-        cd ./assets/workflows
-        echod "Workflow Export:" ${FLOW_URL}
-        echod $(ls -ltr)
+      projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
+          --header 'Content-Type: application/json' \
+          --header 'Accept: application/json' \
+          -u ${admin_user}:${admin_password})
+
+
+      projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
+
+      if [ -z "$projectID" ];   then
+          echo "Incorrect Project/Repo name"
+          exit 1
+      fi
+
+      echod "ProjectID:" ${projectID}
+      exportSingleReferenceData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${projectID}
     else
-        FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
-        cd ${HOME_DIR}/${repoName}
-        mkdir -p ./assets/flowservices
-        cd ./assets/flowservices
-        echo "Flowservice Export:" ${FLOW_URL}
-        echod $(ls -ltr)
-    fi    
+      if [[ $assetType = workflow* ]]; then
+          echod $assetType
+          FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
+          cd ${HOME_DIR}/${repoName}
+          mkdir -p ./assets/workflows
+          cd ./assets/workflows
+          echod "Workflow Export:" ${FLOW_URL}
+          echod $(ls -ltr)
+      else
+        if [[ $assetType = flowservice* ]]; then
+          FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
+          cd ${HOME_DIR}/${repoName}
+          mkdir -p ./assets/flowservices
+          cd ./assets/flowservices
+          echo "Flowservice Export:" ${FLOW_URL}
+          echod $(ls -ltr)
+        fi
+      fi
+      linkJson=$(curl  --location --request POST ${FLOW_URL} \
+      --header 'Content-Type: application/json' \
+      --header 'Accept: application/json' \
+      -u ${admin_user}:${admin_password})
 
-  
-    linkJson=$(curl  --location --request POST ${FLOW_URL} \
-    --header 'Content-Type: application/json' \
-    --header 'Accept: application/json' \
-    -u ${admin_user}:${admin_password})
+      downloadURL=$(echo "$linkJson" | jq -r '.output.download_link')
+      
+      regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
+      
+      if [[ $downloadURL =~ $regex ]]; then 
+        echod "Valid Download link retreived:"${downloadURL}
+      else
+          echo "Download link retreival Failed:" ${linkJson}
+          exit 1
+      fi
+      downloadJson=$(curl --location --request GET "${downloadURL}" --output ${assetID}.zip)
 
-    downloadURL=$(echo "$linkJson" | jq -r '.output.download_link')
-    
-    regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
-    
-    if [[ $downloadURL =~ $regex ]]; then 
-       echod "Valid Download link retreived:"${downloadURL}
-    else
-        echo "Download link retreival Failed:" ${linkJson}
-        exit 1
-    fi
-    downloadJson=$(curl --location --request GET "${downloadURL}" --output ${assetID}.zip)
-
-    FILE=./${assetID}.zip
-    if [ -f "$FILE" ]; then
-        echo "Download succeeded:" ls -ltr ./${assetID}.zip
-    else
-        echo "Download failed:"${downloadJson}
-    fi
-cd ${HOME_DIR}/${repoName}
+      FILE=./${assetID}.zip
+      if [ -f "$FILE" ]; then
+          echo "Download succeeded:" ls -ltr ./${assetID}.zip
+      else
+          echo "Download failed:"${downloadJson}
+      fi
+      # For Single assetType Flowservice Export Reference Data
+      if [ ${synchProject} != true ]; then
+        if [[ $assetType = flowservice* ]]; then
+          if [ ${inlcudeAllReferenceData} == true ]; then
+            exportReferenceData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
+          fi
+        fi
+      fi
+    fi 
+  cd ${HOME_DIR}/${repoName}
 
 }  
+
 if [ ${synchProject} == true ]; then
   echod "Listing All Assets"
   echod $assetType
@@ -145,7 +276,7 @@ if [ ${synchProject} == true ]; then
     assetID=$item
     assetType=workflow
     echod $assetID
-    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
+    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
   done
   # Exporting Flows
   for item in $(jq  -c -r '.output.flows[]' <<< "$projectListJson"); do
@@ -153,7 +284,7 @@ if [ ${synchProject} == true ]; then
     assetID=$item
     assetType=flowservice
     echod $assetID
-    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR}
+    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
   done
 
   #Expoting Accounts
@@ -179,76 +310,8 @@ if [ ${synchProject} == true ]; then
 
 
   # Exporting Project Referencedata
-  PROJECT_ID_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}
 
-  projectJson=$(curl  --location --request GET ${PROJECT_ID_URL} \
-      --header 'Content-Type: application/json' \
-      --header 'Accept: application/json' \
-      -u ${admin_user}:${admin_password})
-
-
-  projectID=$(echo "$projectJson" | jq -r -c '.output.uid // empty')
-
-  if [ -z "$projectID" ];   then
-      echo "Incorrect Project/Repo name"
-      exit 1
-  fi
-
-  echod "ProjectID:" ${projectID}
-
-  PROJECT_REF_DATA_LIST_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}
-
-  rdListJson=$(curl --location --request GET ${PROJECT_REF_DATA_LIST_URL}  \
-  --header 'Content-Type: application/json' \
-  --header 'Accept: application/json' \
-  -u ${admin_user}:${admin_password})
-
-  rdListExport=$(echo "$rdListJson" | jq -r -c '.integration.serviceData.referenceData[].name // empty')
-
-  if [ -z "$rdListExport" ];   then
-            echo "No reference data defined for the project" 
-        else
-            mkdir -p ./assets/projectConfigs/referenceData
-            cd ./assets/projectConfigs/referenceData
-            for item in $(jq -r '.integration.serviceData.referenceData[] | .name' <<< "$rdListJson"); do
-              echod "Inside Ref Data Loop:" "$item"
-              rdName=${item}
-              REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${rdName}
-              rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
-              --header 'Content-Type: application/json' \
-              --header 'Accept: application/json' \
-              -u ${admin_user}:${admin_password})
-              rdExport=$(echo "$rdJson" | jq '.integration.serviceData.referenceData // empty')
-              if [ -z "$rdExport" ];   then
-                echo "Empty reference data defined for the name:" ${rdName}
-              else
-                columnDelimiter=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.columnDelimiter')
-                rdExport=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData.dataRecords')
-                if [[ "$columnDelimiter" == "," ]]; then
-                  echod "COMMA"
-                  datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv')
-                else
-                  echod "Not a COMMA:" ${columnDelimiter}
-                  datajson=$(echo "$rdExport" | jq -c -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' | sed "s/\",\"/\"${columnDelimiter}\"/g")
-                fi
-
-                echod "${datajson}"
-                mkdir -p ${rdName}
-                cd ${rdName}
-                
-                metadataJson=$(echo "$rdJson" | jq -c -r '.integration.serviceData.referenceData')
-                metadataJson=$(echo "$metadataJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
-                echo "$metadataJson" > metadata.json
-                echo "$datajson" > ${source_type}.csv
-                cp ./${source_type}.csv dev.csv 
-                cp ./${source_type}.csv qa.csv 
-                cp ./${source_type}.csv prod.csv
-                cd -
-              fi
-            done
-          echo "Reference Data export Succeeded"
-        fi
-  cd ${HOME_DIR}/${repoName}
+  exportReferenceData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
 
 
   # Exporting Project Parameters
@@ -278,5 +341,5 @@ if [ ${synchProject} == true ]; then
   cd ${HOME_DIR}/${repoName}
   '
 else
-  exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
+  exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
 fi  

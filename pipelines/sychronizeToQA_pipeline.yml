@@ -88,7 +88,7 @@ steps:
     ../self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
 
     echo "Importing asset ..."
-    ../self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR} $(synchProject) $(source_type) debug
+    ../self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR} $(synchProject) $(source_type) $(includeAllReferenceData) debug
   displayName: 'Import Asset'
 
 - script: |

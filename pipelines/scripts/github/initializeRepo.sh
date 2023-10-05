@@ -96,7 +96,8 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/AZURE_DEVOPS_TOKEN \
-            -d '{"encrypted_value":"'"${AZURE_TOKEN}"'","key_id":"'"${keyId}"'"}'
+            -d ${secretJson}
+            #-d '{"encrypted_value":"'"${AZURE_TOKEN}"'","key_id":"'"${keyId}"'"}'
           
           #### Initiatialite and push to main
           echo "# ${repoName}" >> README.md
