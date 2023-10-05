@@ -378,6 +378,7 @@ function projectParameters(){
 
 }
 
+cd ${HOME_DIR}/${repoName}
 
 if [ ${synchProject} == true ]; then
   echod "Listing files"
