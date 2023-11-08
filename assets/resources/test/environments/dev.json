@@ -4,19 +4,19 @@
 	"values": [
 		{
 			"key": "url",
-			"value": "https://env209597.int-az-eu.webmethods.io/",
+			"value": "https://env209597.int-az-eu.webmethods.io",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "user",
-			"value": "refplatform",
+			"value": "*********",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "password",
-			"value": "Manage123!",
+			"value": "********",
 			"type": "secret",
 			"enabled": true
 		},

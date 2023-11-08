@@ -10,13 +10,13 @@
 		},
 		{
 			"key": "user",
-			"value": "refplatform",
+			"value": "********",
 			"type": "default",
 			"enabled": true
 		},
 		{
 			"key": "password",
-			"value": "Manage123!",
+			"value": "********",
 			"type": "secret",
 			"enabled": true
 		},
