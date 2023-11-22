@@ -164,5 +164,22 @@ We will assume that the organization is following the below GIT Workflows.
 12. Check code has been Imported/Promoted to Dev environment
 13. Check whether Test has been automatically triggered.
 
+# Useful links   
+
+📘 Explore the Knowledge Base    
+Dive into a wealth of webMethods tutorials and articles in our [Tech Community Knowledge Base](https://tech.forums.softwareag.com/tags/c/knowledge-base/6/webmethods).  
+
+💡 Get Expert Answers    
+Stuck or just curious? Ask the webMethods experts directly on our [Forum](https://tech.forums.softwareag.com/tags/c/forum/1/webMethods).  
+
+🚀 Try webMethods    
+See webMethods in action with a [Free Trial](https://techcommunity.softwareag.com/en_en/downloads.html).   
+
+✍️ Share Your Feedback    
+Your input drives our innovation. If you find a bug, please create an issue in the repository. If you’d like to share your ideas or feedback, please post them [here](https://tech.forums.softwareag.com/c/feedback/2).   
+
+More to discover
+* [DevOps for webMethods.io Integration](https://tech.forums.softwareag.com/t/devops-for-webmethods-io-integration/275949)
+* [webMethods DevOps](https://tech.forums.softwareag.com/t/recording-webmethods-virtual-meetup-may-19th-2023-webmethods-devops/278975)  
 ______________________
 These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
