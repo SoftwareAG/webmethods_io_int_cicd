@@ -2,3 +2,7 @@
 1. Workflow Overwrite Feature added
 2. Reference Data as assetType
 3. Bug fixes
+##### November 2023 Release ########
+1. Public Apis for Reference Data
+2. Github action using HTTP/REST
+3. Bug fixes
