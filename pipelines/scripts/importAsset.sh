@@ -2,7 +2,7 @@
 
 #############################################################################
 #                                                                           #
-# importAsset.sh : Import asset into a project                    #
+# importAsset.sh : Import asset into a project                              #
 #                                                                           #
 #############################################################################
 
@@ -187,26 +187,29 @@ function importSingleRefData(){
       FILE=./${source_type}.csv
       formKey="file=@"${FILE}
       echod ${formKey} 
-      REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
+      REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/referencedata/${refDataName}
+      
       rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
         --header 'Content-Type: application/json' \
         --header 'Accept: application/json' \
         -u ${admin_user}:${admin_password})
-        rdExport=$(echo "$rdJson" | jq '.integration.serviceData.referenceData // empty')
+        rdExport=$(echo "$rdJson" | jq '.output // empty')
         if [ -z "$rdExport" ];   then
           echo "Refrence Data does not exists, Creating ....:" ${refDataName}
-          POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/create/${projectID}                 
+          POST_REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/referencedata
+          method="POST"               
         else
           echo "Refrence Data exists, Updating ....:" ${refDataName}
-          POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/update/${projectID}/${refDataName}
+          POST_REF_DATA_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/referencedata/${refDataName}
+          method="PUT"   
         fi
-        projectPostJson=$(curl --location --request POST ${POST_REF_DATA_URL} \
+        projectPostJson=$(curl --location --request ${method} ${POST_REF_DATA_URL} \
             --header 'Accept: application/json' \
             --form 'name='"$refDataName" \
             --form 'description='"$description" \
-            --form 'field separator='"$columnDelimiter" \
-            --form 'text qualifier='"$releaseCharacter" \
-            --form 'file encoding='"$encodingType" \
+            --form 'field_separator='"$columnDelimiter" \
+            --form 'text_qualifier='"$releaseCharacter" \
+            --form 'file_encoding='"$encodingType" \
             --form ${formKey} -u ${admin_user}:${admin_password})  
         refDataOutput=$(echo "$projectPostJson" | jq -r -c '.integration.message.description')
         if [ "$refDataOutput"=="Success" ];   then
@@ -251,47 +254,7 @@ function importRefData(){
        echod "ProjectID:" ${projectID}
       cd ./assets/projectConfigs/referenceData/
       for d in * ; do
-        importSingleRefData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${d} ${assetType} ${HOME_DIR} ${synchProject} ${source_type} ${projectID}
-        # if [ -d "$d" ]; then
-        #   refDataName="$d"
-        #   echod "$d"
-        #   cd "$d"
-        #   description=$(jq -r .description metadata.json)
-        #   columnDelimiter=$(jq -r .columnDelimiter metadata.json)
-        #   encodingType=$(jq -r .encodingType metadata.json)
-        #   releaseCharacter=$(jq -r .releaseCharacter metadata.json)
-        #   FILE=./${source_type}.csv
-        #   formKey="file=@"${FILE}
-        #   echod ${formKey} 
-        #   REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/${projectID}/${refDataName}
-        #   rdJson=$(curl --location --request GET ${REF_DATA_URL}  \
-        #     --header 'Content-Type: application/json' \
-        #     --header 'Accept: application/json' \
-        #     -u ${admin_user}:${admin_password})
-        #     rdExport=$(echo "$rdJson" | jq '.integration.serviceData.referenceData // empty')
-        #     if [ -z "$rdExport" ];   then
-        #       echo "Refrence Data does not exists, Creating ....:" ${refDataName}
-        #       POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/create/${projectID}                 
-        #     else
-        #       echo "Refrence Data exists, Updating ....:" ${refDataName}
-        #       POST_REF_DATA_URL=${LOCAL_DEV_URL}/integration/rest/external/v1/ut-flow/referencedata/update/${projectID}/${refDataName}
-        #     fi
-        #     projectPostJson=$(curl --location --request POST ${POST_REF_DATA_URL} \
-        #         --header 'Accept: application/json' \
-        #         --form 'name='"$refDataName" \
-        #         --form 'description='"$description" \
-        #         --form 'field separator='"$columnDelimiter" \
-        #         --form 'text qualifier='"$releaseCharacter" \
-        #         --form 'file encoding='"$encodingType" \
-        #         --form ${formKey} -u ${admin_user}:${admin_password})  
-        #     refDataOutput=$(echo "$projectPostJson" | jq -r -c '.integration.message.description')
-        #     if [ "$refDataOutput"=="Success" ];   then
-        #       echo "Reference Data created/updated successfully"
-        #     else
-        #       echo "Reference Data failed:" ${projectPostJson}
-        #     fi
-        #   cd -
-        # fi
+        importSingleRefData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${d} ${assetType} ${HOME_DIR} ${synchProject} ${source_type} ${projectID}-
         done
   fi
  cd ${HOME_DIR}/${repoName}

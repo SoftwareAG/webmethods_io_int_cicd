@@ -1,21 +1,23 @@
-name: DEV
+  name: DEV
 
-# Run this workflow every time a commit gets pushed to main or a pull request gets opened against main
-on:
-  pull_request:
-    branches: 
-      - dev
+  # Run this workflow every time a commit gets pushed to main or a pull request gets opened against main
+  on:
+    pull_request:
+      branches: 
+        - dev
+  jobs:
+      build:
+          name: Call Azure Pipeline
+          runs-on: ubuntu-latest
+          steps:
+          - name: Synchronize Dev
+            uses: fjogeleit/http-request-action@v1
+            with:
+              url: 'https://dev.azure.com/insrsa/webMethodsIO_Integration/_apis/build/builds?api-version=7.1-preview.7'
+              method: 'POST'
+              username: 'insrsa@softwareag.com'
+              password: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+              customHeaders: '{"Content-Type": "application/json"}'
+              data: '{"parameters": "{\"repoName\":\"${{ github.event.repository.name }}\",\"synchProject\":\"true\"}","definition":{"id": 24}}'
 
-jobs:
-    build:
-        name: Call Azure Pipeline
-        runs-on: ubuntu-latest
-        steps:
-        - name: Azure Pipelines Action
-          uses: Azure/pipelines@v1.2
-          with:
-            azure-devops-project-url: https://dev.azure.com/insrsa/webMethodsIO_Integration
-            azure-pipeline-name: 'sychronizeToDEV'
-            azure-devops-token: ${{ secrets.AZURE_DEVOPS_TOKEN }}
-            azure-pipeline-variables:  '{"repoName": ${{ github.event.repository.name }}, "synchProject": "true"}' # optional stringified json
-            
+              

@@ -193,7 +193,7 @@
 					"variable": [
 						{
 							"key": "project",
-							"value": "wmio_project_d"
+							"value": "{{project}}"
 						},
 						{
 							"key": "flow",

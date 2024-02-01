@@ -68,6 +68,7 @@ function echod(){
 
 
 name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.name')
+repoid=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.id')
       echo ${name}
       if [ "$name" == null ]
       then
@@ -77,6 +78,7 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
 
           #### Create empty repo & SECRET
           curl -u ${repo_user}:${PAT} https://api.github.com/user/repos -d '{"name":"'${repoName}'"}'
+          repoid=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${repoName} | jq -r '.id')
 
           keyJson=$(curl -u ${repo_user}:${PAT} --location --request GET https://api.github.com/repos/${repo_user}/${repoName}/actions/secrets/public-key \
           --header 'X-GitHub-Api-Version: 2022-11-28' \
@@ -127,11 +129,20 @@ name=$(curl -u ${repo_user}:${PAT} https://api.github.com/repos/${repo_user}/${r
           git commit -m "first commit"
           git push -u origin ${featureBranchName}
 
+
+
+          #Enable Actions
+           curl -u ${repo_user}:${PAT} -L -X PUT \
+              -H "Accept: application/vnd.github+json" \
+             -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/orgs/${repo_user}/actions/permissions/repositories/${repoid}
+
           #Enable workflow
-           curl -u ${repo_user}:${PAT} -X PUT \
+           curl -u ${repo_user}:${PAT} -L -X PUT \
               -H "Accept: application/vnd.github+json" \
              -H "X-GitHub-Api-Version: 2022-11-28" \
              https://api.github.com/repos/${repo_user}/${repoName}/actions/workflows/dev.yml/enable
+             
 
           echo "Repo creation done !!!"
       else

@@ -8,7 +8,7 @@ repositories:
   - repository:
     name: "wm_onprem_project_a"
     url: "https://github.com/chini007/wm_onprem_project_a.git"
-    type: "OnPrem"
+    type: "Edge"
     pipeline: 
   - repository:
     name: "wm_api_project_a"

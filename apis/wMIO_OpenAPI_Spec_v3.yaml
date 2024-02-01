@@ -1,0 +1,2879 @@
+---
+openapi: 3.0.1
+info:
+  title: WMIO Open API
+  description: 'This is WMIO Open API   '
+  version: 1.0.0
+servers:
+- url: https://awstag2003.stag-int-aws-us.webmethods.io
+security:
+- basicAuth: []
+paths:
+  /apis/v1/rest/projects:
+    get:
+      tags:
+      - Project
+      summary: Get a list of projects.
+      responses:
+        "200":
+          description: List of all valid projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponseBody'
+        "400":
+          description: Bad request
+          content: {}
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - Project
+      summary: Create new project.
+      requestBody:
+        description: Project data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a projects meta data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}:
+    get:
+      tags:
+      - Project
+      summary: Get a single project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a projects meta data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    put:
+      tags:
+      - Project
+      summary: Updates a project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Project data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a projects meta data.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Project
+      summary: Deletes a project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Deletes a valid projects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteWorkFlowResponse'
+        "400":
+          description: Bad request
+          content: {}
+  /apis/v1/rest/projects/{project}/assets:
+    get:
+      tags:
+      - Project
+      summary: Get a list of valid assets of a Project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides valid assetes of project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectAssetsListResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/push:
+    post:
+      tags:
+      - Project
+      summary: Publish project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Project Publish.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PushRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a project Publish call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PushProjectResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/deploy:
+    post:
+      tags:
+      - Project
+      summary: Deploy Project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Project Deploy.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeployProjectReqBody'
+        required: true
+      responses:
+        "200":
+          description: Deploy a Project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployProjectResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/export:
+    post:
+      tags:
+      - Project
+      summary: Export a project with all valid assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a project export call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportRequestBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/project-import:
+    post:
+      tags:
+      - Project
+      summary: Import Project.
+      requestBody:
+        description: Project Import.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImportProjectRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Import a Project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployProjectResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/params:
+    get:
+      tags:
+      - Project
+      summary: Get a list Project Parameters of a Project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Project Parameter list of project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamsListResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - Project
+      summary: Create Project Parameter.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Create Project Parameter.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectParamCreateRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Provides a create project parameter call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamCreateResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/params/{Param}:
+    get:
+      tags:
+      - Project
+      summary: Get Parameters details.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Param
+        in: path
+        description: Project Parameter uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Project Parameter details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamCreateResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    put:
+      tags:
+      - Project
+      summary: Update a project Parameter.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Param
+        in: path
+        description: Project Parameter uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Provides a Updated project parameter values.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProjectParamCreateRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a update project parameter call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamCreateResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Project
+      summary: Delete Project Parameter.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: Param
+        in: path
+        description: Project Parameter uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Project Parameter delete call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamDeleteResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/workflows/{workflow}/export:
+    post:
+      tags:
+      - Workflow
+      summary: Export a workflow with it's dependent assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: workflow
+        in: path
+        description: Workflow UID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Name and Description for Import workflow.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a list of dependent assets.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        "400":
+          description: Invalid input
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/workflow-import:
+    post:
+      tags:
+      - Workflow
+      summary: Import a workflow in a project with it's dependent assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Exported .zip file.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImportRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Creates a new workflow in mentioned project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportResponseBody'
+        "400":
+          description: Invalid input
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/workflows/{workflow}/run:
+    post:
+      tags:
+      - Workflow
+      summary: Run/Executes a workflow.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: workflow
+        in: path
+        description: Workflow UID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides information about workflow run.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkFlowRunResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/workflow-run/run_id:
+    get:
+      tags:
+      - Workflow
+      summary: Provides Run/Executes status of a workflow.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides all information about workflow run.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkFlowRunStatusResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/workflows/{workflow}:
+    delete:
+      tags:
+      - Workflow
+      summary: Delets a workflow with it's dependent assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: workflow
+        in: path
+        description: Workflow UID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a workflow deletion message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteWorkFlowResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/webhook-flows:
+    get:
+      tags:
+      - Workflow
+      summary: Get a list Webhook Enabled workflows of a Project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Webhook enabled workflows list of project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/webhook-flows/{workflow}/reset:
+    put:
+      tags:
+      - Workflow
+      summary: Reset Webhook URL.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: workflow
+        in: path
+        description: Workflow uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Workflow Webhook URL Reset Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResetWebhookURLResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/webhook-flows/{workflow}/auth:
+    post:
+      tags:
+      - Workflow
+      summary: Set Webhook Auth.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: workflow
+        in: path
+        description: Workflow UID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Authentication type of webhook.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetWebhookAuthRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Set Webhook Authentication Type.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetWebhookAuthResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/workflows:
+    post:
+      tags:
+      - Workflow
+      summary: Create Empty Workflow
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Provides a workflow meta data.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWorkflowRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides information Newly Created Workflow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateWorkflowResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/recipes:
+    get:
+      tags:
+      - Recipe
+      summary: Get a list of recipes.
+      responses:
+        "200":
+          description: Provides a list of recipes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllRecipesResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - Recipe
+      summary: Upload Workflow in Recpie.
+      requestBody:
+        description: Exported .zip file.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImportRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Upload workflow in Recipe Section.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRecipeResponseBody'
+        "400":
+          description: Invalid input
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/recipes/{Recipe}:
+    get:
+      tags:
+      - Recipe
+      summary: Get recipe details.
+      parameters:
+      - name: Recipe
+        in: path
+        description: Recipe Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a recipe details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateRecipeResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Recipe
+      summary: Delete Non Global Recipe.
+      parameters:
+      - name: Recipe
+        in: path
+        description: Recipe Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Delete Recipe call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamDeleteResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/flows/{flow}/export:
+    post:
+      tags:
+      - Flowservice
+      summary: Export a flowservice with it's dependent assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: flow
+        in: path
+        description: Flowservice name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides download link.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/flow-import:
+    post:
+      tags:
+      - Flowservice
+      summary: Import a flowservice in a project with it's dependent assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Exported .zip file.
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImportRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Creates/overrides flowservice in mentioned project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportFlowserviceResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/flows/{flow}/run:
+    post:
+      tags:
+      - Flowservice
+      summary: Run/Executes a flowservice.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: flow
+        in: path
+        description: Workservice name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Executes flowservice run.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkFlowRunResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/flows/{flow}:
+    delete:
+      tags:
+      - Flowservice
+      summary: Delets a flowservice with it's dependent assets.
+      parameters:
+      - name: project
+        in: path
+        description: Project name.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: flow
+        in: path
+        description: Workflow UID.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a flowservice deletion message.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteWorkFlowResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+  /apis/v1/rest/themes/defaultvalues:
+    get:
+      tags:
+      - White Labeling
+      summary: Get a Default Values Theme.
+      responses:
+        "200":
+          description: Provides a default values of default theme.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetDefaultThemeValueResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/themes:
+    get:
+      tags:
+      - White Labeling
+      summary: Get list of Theme.
+      responses:
+        "200":
+          description: Provides a List Themes call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAllThemesResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - White Labeling
+      summary: Create a New Theme.
+      requestBody:
+        description: Create Theme.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThemeRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Provide Create Theme call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateThemenResponseBody'
+        "400":
+          description: Invalid input
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/themes/{Theme}:
+    get:
+      tags:
+      - White Labeling
+      summary: Get a Theme Details.
+      parameters:
+      - name: Theme
+        in: path
+        description: Theme Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Get theme details call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateThemenResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    put:
+      tags:
+      - White Labeling
+      summary: Updates a Theme.
+      parameters:
+      - name: Theme
+        in: path
+        description: Theme Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Provides a updated theme values.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThemeRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a update theme call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateThemenResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - White Labeling
+      summary: Delete a Theme.
+      parameters:
+      - name: Theme
+        in: path
+        description: Theme Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a delete theme call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamDeleteResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/themes/{Theme}/activate:
+    put:
+      tags:
+      - White Labeling
+      summary: Activate a Theme.
+      parameters:
+      - name: Theme
+        in: path
+        description: Theme Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a activate theme call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThemeactivateResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/themes/{Theme}/deactivate:
+    put:
+      tags:
+      - White Labeling
+      summary: Deactivate a Theme.
+      parameters:
+      - name: Theme
+        in: path
+        description: Theme Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a deactivate theme call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThemeactivateResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/trigger-flows:
+    get:
+      tags:
+      - Trigger Operations
+      summary: Get a list Trigger Enabled workflows of a Project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name or uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Trigger enabled workflows list of project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerEnabledworkflowsListResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/triggers/{trigger}:
+    delete:
+      tags:
+      - Trigger Operations
+      summary: Delete Trigger.
+      parameters:
+      - name: project
+        in: path
+        description: Project name or uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: trigger
+        in: path
+        description: Trigger uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Trigger delete call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamDeleteResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/accounts:
+    get:
+      tags:
+      - Account Operations
+      summary: Get a list User Created Accounts of a Project.
+      parameters:
+      - name: project
+        in: path
+        description: Project name or uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a list of User Created Accounts of project.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserAccountsResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/configs/{ConfigUid}:
+    put:
+      tags:
+      - Account Operations
+      summary: Update Account of Particular Action in Workflow.
+      parameters:
+      - name: project
+        in: path
+        description: Project name or Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: ConfigUid
+        in: path
+        description: Config uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Provides a Account Uid.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateAccountRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a Update Configs call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/updateAccountResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/projects/{project}/accounts/{AccountUid}:
+    delete:
+      tags:
+      - Account Operations
+      summary: Account Trigger.
+      parameters:
+      - name: project
+        in: path
+        description: Project name or uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: AccountUid
+        in: path
+        description: Account uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Account delete call response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamDeleteResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/monitor/summary:
+    post:
+      tags:
+      - Metrics Operations
+      summary: Fetch Execution Summary based on the provided search parameters.
+      parameters:
+      - name: skip
+        in: query
+        description: The number of items to skip.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: The number of items per page limit.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        description: Provides Required details.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fetchExecutionSummaryRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a Workflow Execution Summary.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchExecutionSummaryResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/monitor/workflow-execution/logs/{BillUid}:
+    get:
+      tags:
+      - Metrics Operations
+      summary: Get Details of Particular Execution.
+      parameters:
+      - name: BillUid
+        in: path
+        description: Execution Bill uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Execution Details of Particular Bill.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/fetchExecutiondetailsResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/roles:
+    get:
+      tags:
+      - Roles and Permission
+      summary: Get a List of Roles.
+      responses:
+        "200":
+          description: Provides a Get List of Roles call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getListofRolesResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    post:
+      tags:
+      - Roles and Permission
+      summary: Create a New Role.
+      requestBody:
+        description: Create Role.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createRoleRequestBody'
+        required: true
+      responses:
+        "201":
+          description: Provide Create Role call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRoleResponseBody'
+        "400":
+          description: Invalid input
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/roles/{RoleUid}:
+    get:
+      tags:
+      - Roles and Permission
+      summary: Get a Role Details.
+      parameters:
+      - name: RoleUid
+        in: path
+        description: Role Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Get Role details call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRoleResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    put:
+      tags:
+      - Roles and Permission
+      summary: Updates a Role.
+      parameters:
+      - name: RoleUid
+        in: path
+        description: Role Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Provides a updated Role values.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createRoleRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a update Role call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createRoleResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+      - Roles and Permission
+      summary: Delete a Role.
+      parameters:
+      - name: RoleUid
+        in: path
+        description: Role Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a delete Role call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectParamDeleteResponse'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/users:
+    get:
+      tags:
+      - Roles and Permission
+      summary: Get a List of Users.
+      responses:
+        "200":
+          description: Provides a Get List of user call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getListofUserResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/users/{UserUid}:
+    get:
+      tags:
+      - Roles and Permission
+      summary: Get a List of Users.
+      parameters:
+      - name: UserUid
+        in: path
+        description: User Uid.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Provides a Get user details call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUserDetailsResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+  /apis/v1/rest/assign-roles:
+    put:
+      tags:
+      - Roles and Permission
+      summary: Assign a Role to user.
+      requestBody:
+        description: Provides a value to assign Role.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/assignRoleRequestBody'
+        required: true
+      responses:
+        "200":
+          description: Provides a update Role call Response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/assignRoleResponseBody'
+        "400":
+          description: Bad Request.
+          content: {}
+      security:
+      - basicAuth: []
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    ExportRequestBodyWithOverwrite:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        overwrite:
+          type: boolean
+    ExportRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    ExportResponse:
+      type: object
+      properties:
+        download_link:
+          type: string
+        valid_till:
+          type: string
+    ImportProjectRequestBody:
+      type: object
+      properties:
+        project:
+          type: string
+          format: file
+    ImportRequestBody:
+      type: object
+      properties:
+        recipe:
+          type: string
+          format: file
+    ImportResponseBody:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        refid:
+          type: string
+        sid:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+    WorkFlowRunResponseBody:
+      type: object
+      properties:
+        run_id:
+          type: string
+        response:
+          type: string
+        status:
+          type: string
+        workflow_uid:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+    WorkFlowRunStatusResponseBody:
+      type: array
+      items:
+        $ref: '#/components/schemas/WorkFlowRunStatusResponseBody_inner'
+    DeleteWorkFlowResponse:
+      type: object
+      properties:
+        uid:
+          type: string
+    ProjectListResponseBody:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectListResponseBody_inner'
+    ProjectResponseBody:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+        workflow_count:
+          type: string
+        flowservice_count:
+          type: string
+    DependentAssetsList:
+      type: object
+      properties:
+        workflows:
+          type: array
+          items:
+            type: string
+        flows:
+          type: array
+          items:
+            $ref: '#/components/schemas/DependentAssetsList_flows_1'
+        rest:
+          type: array
+          items:
+            $ref: '#/components/schemas/DependentAssetsList_flows'
+        soap:
+          type: array
+          items:
+            $ref: '#/components/schemas/DependentAssetsList_flows'
+    ProjectAssetsListResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/ProjectAssetsListResponse_output'
+    ImportFlowserviceResponseBody:
+      type: object
+      properties:
+        name:
+          type: string
+        assemblyType:
+          type: string
+        serviceFullName:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+    PushRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        destination_tenant_detail:
+          $ref: '#/components/schemas/PushRequestBody_destination_tenant_detail'
+        workflows:
+          type: array
+          items:
+            type: string
+        flows:
+          type: array
+          items:
+            type: string
+        rest_api:
+          type: array
+          items:
+            type: string
+        soap_api:
+          type: array
+          items:
+            type: string
+        messaging:
+          type: array
+          items:
+            type: string
+    DeployProjectReqBody:
+      type: object
+      properties:
+        version:
+          type: number
+    DeployProjectResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/DeployProjectResponse_output'
+    DeployProjectRequestBody:
+      type: object
+      properties:
+        deployment_version:
+          type: string
+        data:
+          $ref: '#/components/schemas/DeployProjectRequestBody_data'
+        flow:
+          $ref: '#/components/schemas/DeployProjectRequestBody_flow'
+        rest:
+          $ref: '#/components/schemas/DeployProjectRequestBody_rest'
+        soap:
+          $ref: '#/components/schemas/DeployProjectRequestBody_soap'
+        schema:
+          $ref: '#/components/schemas/SchemaObj'
+        params:
+          $ref: '#/components/schemas/ParamsObj'
+    ParamsObj:
+      type: object
+      properties:
+        newParams:
+          type: array
+          items:
+            type: object
+        diffParams:
+          type: array
+          items:
+            type: object
+    SchemaObj:
+      type: object
+      properties:
+        trigger:
+          $ref: '#/components/schemas/SchemaObj_trigger'
+        account:
+          $ref: '#/components/schemas/SchemaObj_trigger'
+    PushProjectResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/PushProjectResponse_output'
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    WorkFlowRunStatusResponseBody_inner:
+      type: object
+      properties:
+        run_id:
+          type: string
+        workflow_uid:
+          type: string
+        project_uid:
+          type: string
+        status:
+          type: string
+    ProjectListResponseBody_inner:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+        workflow_count:
+          type: string
+        flowservice_count:
+          type: string
+    DependentAssetsList_flows:
+      type: object
+      properties:
+        serviceName:
+          type: string
+        serviceFullName:
+          type: string
+    DependentAssetsList_assets:
+      type: object
+      properties:
+        name:
+          type: string
+        serviceFullName:
+          type: string
+    DependentAssetsList_flows_1:
+      type: object
+      properties:
+        flows:
+          type: array
+          items:
+            $ref: '#/components/schemas/DependentAssetsList_flows'
+        assets:
+          type: array
+          items:
+            $ref: '#/components/schemas/DependentAssetsList_assets'
+    DeployProjectRequestBody_data:
+      type: object
+      properties:
+        trigger:
+          type: object
+        account:
+          type: object
+    DeployProjectRequestBody_flow_flowBody:
+      type: object
+      properties:
+        serviceFullName:
+          type: string
+        serviceName:
+          type: string
+    DeployProjectRequestBody_flow:
+      type: object
+      properties:
+        integrations:
+          type: object
+        uniqueId:
+          type: string
+        flowBody:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeployProjectRequestBody_flow_flowBody'
+    DeployProjectRequestBody_rest:
+      type: object
+      properties:
+        uniqueId:
+          type: string
+        restBody:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeployProjectRequestBody_flow_flowBody'
+    DeployProjectRequestBody_soap:
+      type: object
+      properties:
+        uniqueId:
+          type: string
+        soapBody:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeployProjectRequestBody_flow_flowBody'
+    SchemaObj_trigger:
+      type: object
+      properties:
+        newSchema:
+          type: object
+    ProjectParamCreateRequestBody:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        required:
+          type: boolean
+        isPassword:
+          type: boolean
+    ProjectParamCreateResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/ProjectParamCreateResponse_output'
+    ProjectParamDeleteResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/ProjectParamDeleteResponse_output'
+    ProjectParamsListResponse:
+      type: object
+      properties:
+        output:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectParamCreateResponse_output'
+    WebhookEnabledworkflowsListResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output'
+    ResetWebhookURLResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/ResetWebhookURLResponse_output'
+    SetWebhookAuthRequestBody:
+      type: object
+      properties:
+        auth:
+          type: string
+    SetWebhookAuthResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_objects'
+    CreateWorkflowRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    CreateWorkflowResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/CreateWorkflowResponseBody_output'
+    CreateRecipeResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/CreateWorkflowResponseBody_output'
+    GetAllRecipesResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/GetAllRecipesResponseBody_output'
+    GetDefaultThemeValueResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/GetDefaultThemeValueResponse_output'
+    CreateThemeRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        theme:
+          $ref: '#/components/schemas/CreateThemeRequestBody_theme'
+        footerContent:
+          type: string
+        aboutPageContent:
+          type: string
+    CreateThemenResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/CreateThemenResponseBody_output'
+    ThemeactivateResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/ThemeactivateResponseBody_output'
+    ListAllThemesResponse:
+      type: object
+      properties:
+        output:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateThemenResponseBody_output'
+    TriggerEnabledworkflowsListResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/TriggerEnabledworkflowsListResponse_output'
+    GetUserAccountsResponse:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/GetUserAccountsResponse_output'
+    updateAccountRequestBody:
+      type: object
+      properties:
+        account:
+          type: string
+    updateAccountResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/updateAccountResponseBody_output'
+    fetchExecutionSummaryRequestBody:
+      type: object
+      properties:
+        start_date:
+          type: string
+        end_date:
+          type: string
+        projects:
+          type: array
+          items:
+            type: string
+        workflows:
+          type: array
+          items:
+            type: string
+        execution_status:
+          type: array
+          items:
+            type: string
+    fetchExecutionSummaryResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/fetchExecutionSummaryResponseBody_output'
+    fetchExecutiondetailsResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/fetchExecutiondetailsResponseBody_output'
+    createRoleRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        projects:
+          type: array
+          items:
+            $ref: '#/components/schemas/createRoleRequestBody_projects'
+    createRoleResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/createRoleResponseBody_output'
+    getListofRolesResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/getListofRolesResponseBody_output'
+    getListofUserResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/getListofUserResponseBody_output'
+    getUserDetailsResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/getUserDetailsResponseBody_output'
+    assignRoleRequestBody:
+      type: object
+      properties:
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    assignRoleResponseBody:
+      type: object
+      properties:
+        output:
+          $ref: '#/components/schemas/assignRoleResponseBody_output'
+    ProjectAssetsListResponse_output:
+      type: object
+      properties:
+        workflows:
+          type: array
+          items:
+            type: string
+        flows:
+          type: array
+          items:
+            type: string
+        rest:
+          type: array
+          items:
+            type: string
+        soap:
+          type: array
+          items:
+            type: string
+        listener:
+          type: array
+          items:
+            type: string
+        messaging:
+          type: array
+          items:
+            type: string
+    PushRequestBody_destination_tenant_detail:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        url:
+          type: string
+    DeployProjectResponse_output:
+      type: object
+      properties:
+        status:
+          type: string
+    PushProjectResponse_output_contains_asset:
+      type: object
+      properties:
+        sap_assets:
+          type: boolean
+        messaging_assets:
+          type: boolean
+    PushProjectResponse_output_custom_connector_list:
+      type: object
+      properties:
+        cloudstream:
+          type: array
+          items:
+            type: string
+        nodejs:
+          type: array
+          items:
+            type: string
+    PushProjectResponse_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        version:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        project_name:
+          type: string
+        project_uid:
+          type: string
+        tenant_uid:
+          type: string
+        to_tenant:
+          type: string
+        from_tenant:
+          type: string
+        cross_environment:
+          type: boolean
+        contains_asset:
+          $ref: '#/components/schemas/PushProjectResponse_output_contains_asset'
+        custom_connector_list:
+          $ref: '#/components/schemas/PushProjectResponse_output_custom_connector_list'
+    ProjectParamCreateResponse_output_param:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        required:
+          type: boolean
+        isPassword:
+          type: boolean
+        hasError:
+          type: boolean
+    ProjectParamCreateResponse_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        param:
+          $ref: '#/components/schemas/ProjectParamCreateResponse_output_param'
+        project_uid:
+          type: string
+        tenant_uid:
+          type: string
+    ProjectParamDeleteResponse_output:
+      type: object
+      properties:
+        message:
+          type: string
+    WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_auth_auth:
+      type: object
+      properties:
+        user_name:
+          type: string
+        password:
+          type: string
+    WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_auth:
+      type: object
+      properties:
+        type:
+          type: string
+        auth:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_auth_auth'
+    WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_token_auth:
+      type: object
+      properties:
+        token:
+          type: string
+    WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_token:
+      type: object
+      properties:
+        type:
+          type: string
+        auth:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_token_auth'
+    WebhookEnabledworkflowsListResponse_output_webhook_settings:
+      type: object
+      properties:
+        auth_type:
+          type: string
+        webhook_auth:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_auth'
+        webhook_token:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_webhook_settings_webhook_token'
+        show_auth:
+          type: boolean
+        url_execution:
+          type: boolean
+    WebhookEnabledworkflowsListResponse_output_objects:
+      type: object
+      properties:
+        uid:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+        webhook_settings:
+          $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_webhook_settings'
+    WebhookEnabledworkflowsListResponse_output:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEnabledworkflowsListResponse_output_objects'
+        count:
+          type: number
+    ResetWebhookURLResponse_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+        webhook_url:
+          type: string
+    CreateWorkflowResponseBody_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    GetAllRecipesResponseBody_output_recipes:
+      type: object
+      properties:
+        download:
+          type: number
+        published:
+          type: boolean
+        name:
+          type: string
+        description:
+          type: string
+        uid:
+          type: string
+    GetAllRecipesResponseBody_output:
+      type: object
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetAllRecipesResponseBody_output_recipes'
+        count:
+          type: number
+    GetDefaultThemeValueResponse_output:
+      type: object
+      properties:
+        primaryColor:
+          type: string
+        primaryHeaderTextColor:
+          type: string
+        primaryTextColor:
+          type: string
+        linkColor:
+          type: string
+        primaryHoverColor:
+          type: string
+        backgroundImage:
+          type: string
+        logoFileName:
+          type: string
+        primaryBtnBgColor:
+          type: string
+        primaryBtnColor:
+          type: string
+        primaryBtnBrbColor:
+          type: string
+        secondaryBtnBgColor:
+          type: string
+        secondaryBtnColor:
+          type: string
+        secondaryBtnBrbColor:
+          type: string
+        favIconImage:
+          type: string
+        favIconFileName:
+          type: string
+        footerContent:
+          type: string
+        aboutPageContent:
+          type: string
+    CreateThemeRequestBody_theme:
+      type: object
+      properties:
+        primaryColor:
+          type: string
+        primaryHeaderTextColor:
+          type: string
+        primaryTextColor:
+          type: string
+        linkColor:
+          type: string
+        primaryHoverColor:
+          type: string
+        backgroundImage:
+          type: string
+        logoFileName:
+          type: string
+        primaryBtnBgColor:
+          type: string
+        primaryBtnColor:
+          type: string
+        primaryBtnBrbColor:
+          type: string
+        secondaryBtnBgColor:
+          type: string
+        secondaryBtnColor:
+          type: string
+        secondaryBtnBrbColor:
+          type: string
+        favIconImage:
+          type: string
+        favIconFileName:
+          type: string
+    CreateThemenResponseBody_output_settings:
+      type: object
+      properties:
+        description:
+          type: string
+        theme:
+          $ref: '#/components/schemas/GetDefaultThemeValueResponse_output'
+    CreateThemenResponseBody_output:
+      type: object
+      properties:
+        name:
+          type: string
+        uid:
+          type: string
+        settings:
+          $ref: '#/components/schemas/CreateThemenResponseBody_output_settings'
+        active:
+          type: boolean
+    ThemeactivateResponseBody_output:
+      type: object
+      properties:
+        name:
+          type: string
+        uid:
+          type: string
+        active:
+          type: boolean
+    TriggerEnabledworkflowsListResponse_output_trigger:
+      type: object
+      properties:
+        provider:
+          type: string
+        label:
+          type: string
+        title:
+          type: string
+        uid:
+          type: string
+    TriggerEnabledworkflowsListResponse_output_objects:
+      type: object
+      properties:
+        uid:
+          type: string
+        sid:
+          type: string
+        name:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+        trigger:
+          $ref: '#/components/schemas/TriggerEnabledworkflowsListResponse_output_trigger'
+    TriggerEnabledworkflowsListResponse_output:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/TriggerEnabledworkflowsListResponse_output_objects'
+        count:
+          type: number
+    GetUserAccountsResponse_output_configs_provider_name:
+      type: object
+      properties:
+        name:
+          type: string
+        flow_version:
+          type: integer
+        flow_uid:
+          type: string
+        activity_id:
+          type: string
+        action:
+          type: string
+        version:
+          type: string
+        service:
+          type: string
+        auth:
+          type: string
+        uid:
+          type: string
+    GetUserAccountsResponse_output_configs:
+      type: object
+      properties:
+        provider_name:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetUserAccountsResponse_output_configs_provider_name'
+    GetUserAccountsResponse_output_accounts_connections_provider_name:
+      type: object
+      properties:
+        icon:
+          type: string
+        label:
+          type: string
+        title:
+          type: string
+        uid:
+          type: string
+    GetUserAccountsResponse_output_accounts_connections:
+      type: object
+      properties:
+        provider_name:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetUserAccountsResponse_output_accounts_connections_provider_name'
+    GetUserAccountsResponse_output_accounts:
+      type: object
+      properties:
+        connections:
+          $ref: '#/components/schemas/GetUserAccountsResponse_output_accounts_connections'
+        auths:
+          $ref: '#/components/schemas/GetUserAccountsResponse_output_accounts_connections'
+    GetUserAccountsResponse_output:
+      type: object
+      properties:
+        configs:
+          $ref: '#/components/schemas/GetUserAccountsResponse_output_configs'
+        accounts:
+          $ref: '#/components/schemas/GetUserAccountsResponse_output_accounts'
+    updateAccountResponseBody_output:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        flow_version:
+          type: integer
+        flow_uid:
+          type: string
+        tenant_uid:
+          type: string
+        project_uid:
+          type: string
+        activity_id:
+          type: string
+        action:
+          type: string
+        version:
+          type: string
+        service:
+          type: string
+        provider:
+          type: string
+        auth/connection:
+          type: string
+        uid:
+          type: string
+    fetchExecutionSummaryResponseBody_output_summary:
+      type: object
+      properties:
+        success:
+          type: string
+        running:
+          type: string
+        stopped:
+          type: string
+        failed:
+          type: string
+        timeout:
+          type: string
+        pending:
+          type: string
+        hold:
+          type: string
+    fetchExecutionSummaryResponseBody_output_graph_logs:
+      type: object
+      properties:
+        uid:
+          type: string
+        execution_status:
+          type: string
+        flow_name:
+          type: string
+        flow_uid:
+          type: string
+        project_uid:
+          type: string
+        restarted:
+          type: string
+        requested_at:
+          type: string
+        project_name:
+          type: string
+        execution_source:
+          type: string
+    fetchExecutionSummaryResponseBody_output_graph:
+      type: object
+      properties:
+        count:
+          type: integer
+        logs:
+          type: array
+          items:
+            $ref: '#/components/schemas/fetchExecutionSummaryResponseBody_output_graph_logs'
+    fetchExecutionSummaryResponseBody_output:
+      type: object
+      properties:
+        summary:
+          $ref: '#/components/schemas/fetchExecutionSummaryResponseBody_output_summary'
+        graph:
+          $ref: '#/components/schemas/fetchExecutionSummaryResponseBody_output_graph'
+    fetchExecutiondetailsResponseBody_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        duration:
+          type: string
+        executed_by:
+          type: string
+        execution_status:
+          type: string
+        flow_name:
+          type: string
+        manual_run:
+          type: string
+        project_uid:
+          type: string
+        queue:
+          type: string
+        trigger:
+          type: string
+        start_time:
+          type: string
+        stop_time:
+          type: string
+        requested_at:
+          type: string
+        project_name:
+          type: string
+        transaction_count:
+          type: integer
+    createRoleRequestBody_projects:
+      type: object
+      properties:
+        project_name:
+          type: array
+          items:
+            type: string
+    createRoleResponseBody_output_access_list:
+      type: object
+      properties:
+        read:
+          type: boolean
+        write:
+          type: boolean
+        execute:
+          type: boolean
+    createRoleResponseBody_output_permissions:
+      type: object
+      properties:
+        project_uid:
+          type: string
+        access_list:
+          $ref: '#/components/schemas/createRoleResponseBody_output_access_list'
+    createRoleResponseBody_output:
+      type: object
+      properties:
+        name:
+          type: string
+        uid:
+          type: string
+        tenant_uid:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/createRoleResponseBody_output_permissions'
+        created_at:
+          type: string
+        updated_at:
+          type: string
+    getListofRolesResponseBody_output_permissions:
+      type: object
+      properties:
+        access_list:
+          $ref: '#/components/schemas/createRoleResponseBody_output_access_list'
+        project_uid:
+          type: string
+        name:
+          type: string
+    getListofRolesResponseBody_output_objects:
+      type: object
+      properties:
+        name:
+          type: string
+        ic_role_name:
+          type: string
+        tenant_uid:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/getListofRolesResponseBody_output_permissions'
+        description:
+          type: string
+        wmic_role_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        uid:
+          type: string
+    getListofRolesResponseBody_output:
+      type: object
+      properties:
+        count:
+          type: number
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/getListofRolesResponseBody_output_objects'
+    getListofUserResponseBody_output_permissions:
+      type: object
+      properties:
+        access_list:
+          $ref: '#/components/schemas/createRoleResponseBody_output_access_list'
+        project_uid:
+          type: string
+    getListofUserResponseBody_output_roles:
+      type: object
+      properties:
+        name:
+          type: string
+        ic_role_name:
+          type: string
+        tenant_uid:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/getListofUserResponseBody_output_permissions'
+        description:
+          type: string
+        wmic_role_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        uid:
+          type: string
+    getListofUserResponseBody_output_objects:
+      type: object
+      properties:
+        uid:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/getListofUserResponseBody_output_roles'
+        wmic_username:
+          type: string
+        is_admin:
+          type: string
+        is_developer:
+          type: string
+        is_owner:
+          type: string
+    getListofUserResponseBody_output:
+      type: object
+      properties:
+        objects:
+          type: array
+          items:
+            $ref: '#/components/schemas/getListofUserResponseBody_output_objects'
+        count:
+          type: number
+    getUserDetailsResponseBody_output_roles:
+      type: object
+      properties:
+        name:
+          type: string
+        ic_role_name:
+          type: string
+        description:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/getListofUserResponseBody_output_permissions'
+        wmic_role_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        uid:
+          type: string
+    getUserDetailsResponseBody_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        email:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/getUserDetailsResponseBody_output_roles'
+        is_admin:
+          type: boolean
+        is_developer:
+          type: boolean
+        is_owner:
+          type: boolean
+    assignRoleResponseBody_output:
+      type: object
+      properties:
+        uid:
+          type: string
+        email:
+          type: string
+        wmic_username:
+          type: string
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/getUserDetailsResponseBody_output_roles'
+        is_admin:
+          type: boolean
+        is_developer:
+          type: boolean
+        is_owner:
+          type: boolean
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
