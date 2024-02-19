@@ -56,6 +56,19 @@ steps:
     echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/play.yml`"
     echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/play.yml`"
     echo "##vso[task.setvariable variable=repo_user]`yq -e ".repo.user" configs/repo.yml`"
+    
+    echo "##vso[task.setvariable variable=dev_environment_hostname]`yq -e ".tenant.hostname" configs/dev.yml`"
+    echo "##vso[task.setvariable variable=dev_environment_port]`yq -e ".tenant.port" configs/dev.yml`"
+    echo "##vso[task.setvariable variable=dev_admin_user]`yq -e ".tenant.admin_username" configs/dev.yml`"
+
+    echo "##vso[task.setvariable variable=qa_environment_hostname]`yq -e ".tenant.hostname" configs/qa.yml`"
+    echo "##vso[task.setvariable variable=qa_environment_port]`yq -e ".tenant.port" configs/qa.yml`"
+    echo "##vso[task.setvariable variable=qa_admin_user]`yq -e ".tenant.admin_username" configs/qa.yml`"
+
+    echo "##vso[task.setvariable variable=prod_environment_hostname]`yq -e ".tenant.hostname" configs/prod.yml`"
+    echo "##vso[task.setvariable variable=prod_environment_port]`yq -e ".tenant.port" configs/prod.yml`"
+    echo "##vso[task.setvariable variable=prod_admin_user]`yq -e ".tenant.admin_username" configs/prod.yml`"
+
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-$(repoName)"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -95,6 +108,35 @@ steps:
         ######## Check & Create Project 
         chmod +x ./self/pipelines/scripts/*.sh
         ./self/pipelines/scripts/createProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName)
+
+        echo "PROJECT ID TEMP FIX: Importing dummy flowservice ..."
+        mkdir -p ${HOME_DIR}/$(repoName)/assets/flowservices/
+        cp ./self/assets/flowservices/SampleFlowService.zip ${HOME_DIR}/$(repoName)/assets/flowservices/
+
+        ./self/pipelines/scripts/importAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) "SampleFlowService" "flowservice" ${HOME_DIR} "false" $(source_type) debug
+
+        echo "PROJECT ID TEMP FIX: Publishing & Deploying Project DEV..."
+        ./self/pipelines/scripts/replicateProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(dev_environment_hostname) $(dev_environment_port) $(dev_admin_user) "SampleFlowService" debug
+        LOCAL_DEVE_URL=https://$(dev_environment_hostname):$(dev_environment_port)
+        echo "PROJECT ID TEMP FIX: Deleting dummy flowservice DEV..."
+        ./self/pipelines/scripts/deleteAssets.sh ${LOCAL_DEVE_URL} $(dev_admin_user) $(admin_password) $(repoName) "SampleFlowService" "flowservice" "false" debug
+
+        echo "PROJECT ID TEMP FIX: Publishing & Deploying Project QA..."
+        ./self/pipelines/scripts/replicateProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(qa_environment_hostname) $(qa_environment_port) $(qa_admin_user) "SampleFlowService" debug
+        LOCAL_QA_URL=https://$(qa_environment_hostname):$(qa_environment_port)
+        echo "PROJECT ID TEMP FIX: Deleting dummy flowservice QA..."
+        ./self/pipelines/scripts/deleteAssets.sh ${LOCAL_QA_URL} $(qa_admin_user) $(admin_password) $(repoName) "SampleFlowService" "flowservice" "false" debug
+
+
+        echo "PROJECT ID TEMP FIX: Publishing & Deploying Project PROD..."
+        ./self/pipelines/scripts/replicateProject.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(prod_environment_hostname) $(prod_environment_port) $(prod_admin_user) "SampleFlowService" debug
+        LOCAL_PROD_URL=https://$(prod_environment_hostname):$(prod_environment_port)
+        echo "PROJECT ID TEMP FIX: Deleting dummy flowservice PROD..."
+        ./self/pipelines/scripts/deleteAssets.sh ${LOCAL_PROD_URL} $(prod_admin_user) $(admin_password) $(repoName) "SampleFlowService" "flowservice" "false" debug 
+
+        echo "PROJECT ID TEMP FIX: Deleting dummy flowservice PLAY..."
+        ./self/pipelines/scripts/deleteAssets.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) "SampleFlowService" "flowservice" "false" debug 
+
 
       else
         ######## Create a feature branch from prod 

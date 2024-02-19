@@ -6,3 +6,6 @@
 1. Public Apis for Reference Data
 2. Github action using HTTP/REST
 3. Bug fixes
+##### January 2024 Release ########
+1. External Test Credentials from post environment files
+2. Project ID fix: Create a temp flow to export import project to maintain id in all environment.
