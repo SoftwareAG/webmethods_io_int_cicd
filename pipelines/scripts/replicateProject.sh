@@ -40,15 +40,15 @@ debug=${@: -1}
       exit 1
     fi    
     if [ -z "$destPort" ]; then
-      echo "Missing template parameter destEnv"
+      echo "Missing template parameter destPort"
       exit 1
     fi
     if [ -z "$destUser" ]; then
-      echo "Missing template parameter destEnv"
+      echo "Missing template parameter destUser"
       exit 1
     fi
     if [ -z "$assetID" ]; then
-      echo "Missing template parameter destEnv"
+      echo "Missing template parameter assetID"
       exit 1
     fi
  if [ "$debug" == "debug" ]; then
