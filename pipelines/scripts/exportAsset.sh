@@ -206,28 +206,46 @@ function exportAsset(){
       echod "ProjectID:" ${projectID}
       exportSingleReferenceData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${projectID}
     else
-      if [[ $assetType = workflow* ]]; then
+      if [[ $assetType = rest_api* ]]; then
           echod $assetType
-          FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
+          EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/export
+          rest_api_json='{ "rest_api": ["'${assetID}'"] }'
+          cd ${HOME_DIR}/${repoName}
+          mkdir -p ./assets/rest_api
+          cd ./assets/rest_api
+          echod "Rest_API Export:" ${EXPORT_URL} "with JSON: "${rest_api_json}
+          echod $(ls -ltr)
+      else
+        if [[ $assetType = workflow* ]]; then
+          echod $assetType
+          EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
           cd ${HOME_DIR}/${repoName}
           mkdir -p ./assets/workflows
           cd ./assets/workflows
-          echod "Workflow Export:" ${FLOW_URL}
+          echod "Workflow Export:" ${EXPORT_URL}
           echod $(ls -ltr)
-      else
-        if [[ $assetType = flowservice* ]]; then
-          FLOW_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
-          cd ${HOME_DIR}/${repoName}
-          mkdir -p ./assets/flowservices
-          cd ./assets/flowservices
-          echo "Flowservice Export:" ${FLOW_URL}
-          echod $(ls -ltr)
+        else
+          if [[ $assetType = flowservice* ]]; then
+            EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
+            cd ${HOME_DIR}/${repoName}
+            mkdir -p ./assets/flowservices
+            cd ./assets/flowservices
+            echo "Flowservice Export:" ${EXPORT_URL}
+            echod $(ls -ltr)
+          fi
         fi
       fi
-      linkJson=$(curl  --location --request POST ${FLOW_URL} \
-      --header 'Content-Type: application/json' \
-      --header 'Accept: application/json' \
-      -u ${admin_user}:${admin_password})
+      if [[ $assetType = rest_api* ]]; then
+        linkJson=$(curl  --location --request POST ${EXPORT_URL} \
+        --header 'Content-Type: application/json' \
+        --header 'Accept: application/json' \
+        --data-raw "$rest_api_json" -u ${admin_user}:${admin_password})
+      else     
+        linkJson=$(curl  --location --request POST ${EXPORT_URL} \
+        --header 'Content-Type: application/json' \
+        --header 'Accept: application/json' \
+        -u ${admin_user}:${admin_password})
+      fi
 
       downloadURL=$(echo "$linkJson" | jq -r '.output.download_link')
       
@@ -270,6 +288,15 @@ if [ ${synchProject} == true ]; then
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
   
+  # Exporing APIs
+  for item in $(jq  -c -r '.output.rest_api[]' <<< "$projectListJson"); do
+    echod "Inside REST_API Loop"
+    assetID=$item
+    assetType=rest_api
+    echod $assetID
+    exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
+  done
+
   # Exporing Workflows
   for item in $(jq  -c -r '.output.workflows[]' <<< "$projectListJson"); do
     echod "Inside Workflow Loop"
