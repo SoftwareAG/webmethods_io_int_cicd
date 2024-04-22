@@ -8,7 +8,7 @@ variables:
 - group: webMethodsIO_group
 - group: github_group
 - name: repoPath
-  value: $(gitOwner)/$(repoName)
+  value: $(gitOrg)/$(repoName)
 
 
 pool:
