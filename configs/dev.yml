@@ -1,5 +1,5 @@
 tenant:
-  hostname: "env209597.int-az-eu.webmethods.io"   # webMethodsIO Integration hostname or ip address
+  hostname: "psdev.int-aws-de.webmethods.io"   # webMethodsIO Integration hostname or ip address
   port: "443"                                       # webMethodsIO Integration port
-  admin_username: "refplatform"                     # webMethodsIO Integration user  
+  admin_username: "insrsa"                     # webMethodsIO Integration user  
   type: "dev"                                         #DEV
