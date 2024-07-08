@@ -15,6 +15,7 @@ HOME_DIR=$7
 synchProject=$8
 source_type=$9
 inlcudeAllReferenceData=${10}
+envTypes=${11}
 debug=${@: -1}
 
     if [ -z "$LOCAL_DEV_URL" ]; then
@@ -56,7 +57,14 @@ debug=${@: -1}
       echo "Missing template parameter source_type"
       exit 1
     fi
-    
+    if [ -z "$inlcudeAllReferenceData" ]; then
+      echo "Missing template parameter inlcudeAllReferenceData"
+      exit 1
+    fi
+    if [ -z "$envTypes" ]; then
+      echo "Missing template parameter envTypes"
+      exit 1
+    fi   
     if [ "$debug" == "debug" ]; then
       echo "******* Running in Debug mode ******"
     fi
@@ -113,9 +121,7 @@ function exportSingleReferenceData () {
     metadataJson=$(echo "$metadataJson"| jq 'del(.columnNames, .dataRecords, .revisionData)')
     echo "$metadataJson" > metadata.json
     echo "$datajson" > ${source_type}.csv
-    cp -n ./${source_type}.csv dev.csv 
-    cp -n ./${source_type}.csv qa.csv 
-    cp -n ./${source_type}.csv prod.csv
+    configPerEnv . ${envTypes} "referenceData" ${source_type}.csv
     cd -
   fi
   cd ${HOME_DIR}/${repoName}
@@ -173,6 +179,28 @@ function exportReferenceData (){
   cd ${HOME_DIR}/${repoName}
 } 
 
+function configPerEnv(){
+  localtion=$1
+  envTypes=$2
+  configType=$3
+  sourceFile=$4
+  key=$5
+
+  IFS=, read -ra values <<< "$envTypes"
+  for v in "${values[@]}"
+  do
+     # things with "$v"
+     if [ ${configType} == "referenceData" ]; then
+        cp ./$sourceFile ./$v.csv
+     else
+        if [ ${configType} == "project_parameter" ]; then
+            cp ./$sourceFile ./${key}_${v}.json
+        fi
+      fi
+  done
+
+}
+
 function exportAsset(){
 
   LOCAL_DEV_URL=$1
@@ -216,22 +244,28 @@ function exportAsset(){
           echod "Rest_API Export:" ${EXPORT_URL} "with JSON: "${rest_api_json}
           echod $(ls -ltr)
       else
-        if [[ $assetType = workflow* ]]; then
+        if [[ $assetType = project_parameter* ]]; then
           echod $assetType
-          EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
-          cd ${HOME_DIR}/${repoName}
-          mkdir -p ./assets/workflows
-          cd ./assets/workflows
-          echod "Workflow Export:" ${EXPORT_URL}
-          echod $(ls -ltr)
+          exportProjectParameters ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
+          return
         else
-          if [[ $assetType = flowservice* ]]; then
-            EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
+          if [[ $assetType = workflow* ]]; then
+            echod $assetType
+            EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/workflows/${assetID}/export
             cd ${HOME_DIR}/${repoName}
-            mkdir -p ./assets/flowservices
-            cd ./assets/flowservices
-            echo "Flowservice Export:" ${EXPORT_URL}
+            mkdir -p ./assets/workflows
+            cd ./assets/workflows
+            echod "Workflow Export:" ${EXPORT_URL}
             echod $(ls -ltr)
+          else
+            if [[ $assetType = flowservice* ]]; then
+              EXPORT_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/flows/${assetID}/export
+              cd ${HOME_DIR}/${repoName}
+              mkdir -p ./assets/flowservices
+              cd ./assets/flowservices
+              echo "Flowservice Export:" ${EXPORT_URL}
+              echod $(ls -ltr)
+            fi
           fi
         fi
       fi
@@ -246,7 +280,6 @@ function exportAsset(){
         --header 'Accept: application/json' \
         -u ${admin_user}:${admin_password})
       fi
-
       downloadURL=$(echo "$linkJson" | jq -r '.output.download_link')
       
       regex='(https?|ftp|file)://[-[:alnum:]\+&@#/%?=~_|!:,.;]*[-[:alnum:]\+&@#/%=~_|]'
@@ -278,6 +311,74 @@ function exportAsset(){
 
 }  
 
+function exportProjectParameters(){
+
+    LOCAL_DEV_URL=$1
+    admin_user=$2
+    admin_password=$3
+    repoName=$4
+    assetID=$5
+    assetType=$6
+    HOME_DIR=$7
+    synchProject=$8
+    inlcudeAllReferenceData=$9
+
+    if [ ${synchProject} == true ]; then
+      PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
+    else
+      PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params/${assetID}
+    fi
+
+    ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
+    --header 'Content-Type: application/json' \
+    --header 'Accept: application/json' \
+    -u ${admin_user}:${admin_password})
+
+    ppListExport=$(echo "$ppListJson" | jq '. // empty')
+
+    if [ -z "$ppListExport" ];   then
+              echo "No Project Parameters retreived:" ${ppListJson}
+          else
+              mkdir -p ./assets/projectConfigs/parameters
+              cd ./assets/projectConfigs/parameters
+              if [ ${synchProject} != true ]; then
+                parameterUID=$(jq -r '.output.uid' <<< "$ppListJson")
+                  mkdir -p ./${parameterUID}
+                  cd ./${parameterUID}
+                  data=$(jq -r '.output.param' <<< "$ppListJson")
+                  key=$(jq -r '.output.param.key' <<< "$ppListJson")
+                  metadataJson='{ "uid":"'${parameterUID}'" }'
+                  echo ${metadataJson} > ./metadata.json
+                  echo ${data} > ./${key}_${source_type}.json
+                  configPerEnv . ${envTypes} "project_parameter" ${key}_${source_type}.json ${key}
+                  #cp -n ./${key}_${source_type}.json ${key}_dev.json 
+                  #cp -n ./${key}_${source_type}.json ${key}_qa.json 
+                  #cp -n ./${key}_${source_type}.json ${key}_prod.json
+                  cd ..
+              else 
+                for item in $(jq  -c -r '.output[]' <<< "$ppListJson"); do
+                  echod "Inside Parameters Loop"
+                  parameterUID=$(jq -r '.uid' <<< "$item")
+                  mkdir -p ./${parameterUID}
+                  cd ./${parameterUID}
+                  data=$(jq -r '.param' <<< "$item")
+                  key=$(jq -r '.param.key' <<< "$item")
+                  metadataJson='{ "uid":"'${parameterUID}'" }'
+                  echo ${metadataJson} > ./metadata.json
+                  echo ${data} > ./${key}_${source_type}.json
+                  configPerEnv . ${envTypes} "project_parameter" ${key}_${source_type}.json ${key}
+                  #cp -n ./${key}_${source_type}.json ${key}_dev.json 
+                  #cp -n ./${key}_${source_type}.json ${key}_qa.json 
+                  #cp -n ./${key}_${source_type}.json ${key}_prod.json
+                  cd ..
+                done
+              fi
+            echo "Project Parameters export Succeeded"
+          fi
+    cd ${HOME_DIR}/${repoName}
+}  
+
+
 if [ ${synchProject} == true ]; then
   echod "Listing All Assets"
   echod $assetType
@@ -288,7 +389,7 @@ if [ ${synchProject} == true ]; then
     --header 'Accept: application/json' \
     -u ${admin_user}:${admin_password})
   
-  # Exporing APIs
+  # Exporting APIs
   for item in $(jq  -c -r '.output.rest_api[]' <<< "$projectListJson"); do
     echod "Inside REST_API Loop"
     assetID=$item
@@ -297,7 +398,7 @@ if [ ${synchProject} == true ]; then
     exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
   done
 
-  # Exporing Workflows
+  # Exporting Workflows
   for item in $(jq  -c -r '.output.workflows[]' <<< "$projectListJson"); do
     echod "Inside Workflow Loop"
     assetID=$item
@@ -339,34 +440,11 @@ if [ ${synchProject} == true ]; then
   # Exporting Project Referencedata
 
   exportReferenceData ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} 
-
-
   # Exporting Project Parameters
-  : ' PP Export
-  PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
-
-  ppListJson=$(curl --location --request GET ${PROJECT_PARAM_GET_URL}  \
-  --header 'Content-Type: application/json' \
-  --header 'Accept: application/json' \
-  -u ${admin_user}:${admin_password})
-
-  ppListExport=$(echo "$ppListJson" | jq '. // empty')
-
-  if [ -z "$ppListExport" ];   then
-            echo "No Project Parameters retreived:" ${ppListJson}
-        else
-            mkdir -p ./assets/projectConfigs/parameters
-            cd ./assets/projectConfigs/parameters
-            for item in $(jq  -c -r '.output[]' <<< "$ppListJson"); do
-              echod "Inside Parameters Loop"
-              parameterUID=$(jq -r '.uid' <<< "$item")
-              data=$(jq -r '.param' <<< "$item")
-              echo ${data} > ./${parameterUID}.json
-            done
-          echo "Project Parameters export Succeeded"
-        fi
-  cd ${HOME_DIR}/${repoName}
-  '
+  #PP Export
+  assetType=project_parameter
+  exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
+  
 else
   exportAsset ${LOCAL_DEV_URL} ${admin_user} ${admin_password} ${repoName} ${assetID} ${assetType} ${HOME_DIR} ${synchProject} ${inlcudeAllReferenceData}
 fi  

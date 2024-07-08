@@ -50,7 +50,7 @@ steps:
     cd ../self
     pwd
     ls -ltr
-    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/${source}.yml`"
+    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/env/${source}.yml`"
     
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'

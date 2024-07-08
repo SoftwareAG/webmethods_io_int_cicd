@@ -46,12 +46,12 @@ steps:
     cd ../self
     pwd
     ls -ltr
-    echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/play.yml`"
-    echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/play.yml`"
-    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/play.yml`"
-    echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/play.yml`"
+    echo "##vso[task.setvariable variable=source_environment_hostname]`yq -e ".tenant.hostname" configs/env/play.yml`"
+    echo "##vso[task.setvariable variable=source_environment_port]`yq -e ".tenant.port" configs/env/play.yml`"
+    echo "##vso[task.setvariable variable=admin_user]`yq -e ".tenant.admin_username" configs/env/play.yml`"
+    echo "##vso[task.setvariable variable=source_type]`yq -e ".tenant.type" configs/env/play.yml`"
     PROJECTNAME=$(perl -MURI::Escape -e 'print uri_escape($ARGV[0]);' "$(repoName)")
-    echo ${PROJECTNAME}
+    #echo ${PROJECTNAME}
     echo "##vso[build.updatebuildnumber]$(Build.BuildNumber)-${PROJECTNAME}"
     echo $(System.DefaultWorkingDirectory)
   workingDirectory: '$(System.DefaultWorkingDirectory)'
@@ -72,11 +72,18 @@ steps:
     cd $(repoName)
     chmod +x ../self/pipelines/scripts/*.sh    
 
+    config_dir=${HOME_DIR}self/configs/env
+   
+
+    ###### Fetching Environments
+    echo "Fetching Environment Types  ..."
+    envTypes=$(../self/pipelines/scripts/readEnvs.sh ${config_dir} $(source_type))
+    echo "****Envs****: "$envTypes
 
 
     ###### Exporting
     echo "Exporting asset ..."
-    ../self/pipelines/scripts/exportAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR} $(synchProject) $(source_type) $(inlcudeAllReferenceData) debug
+    ../self/pipelines/scripts/exportAsset.sh ${LOCAL_DEV_URL} $(admin_user) $(admin_password) $(repoName) $(assetID) $(assetType) ${HOME_DIR} $(synchProject) $(source_type) $(inlcudeAllReferenceData) ${envTypes} debug
   displayName: 'Export Asset'
   #failOnStderr: true
 
@@ -86,7 +93,7 @@ steps:
 
     echo "Committing asset ..."
     chmod +x ../self/pipelines/scripts/github/*.sh    
-    ../self/pipelines/scripts/github/commitFeatureBranch.sh $(devUser) $(Build.BuildNumber) $(featureBranchName) ${HOME_DIR} debugebug
+    ../self/pipelines/scripts/github/commitFeatureBranch.sh $(devUser) $(Build.BuildNumber) $(featureBranchName) ${HOME_DIR} debug
 
   displayName: 'Commit the code to feature branch'
 

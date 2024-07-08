@@ -1,5 +1,0 @@
-tenant:
-  hostname: "insrsaaz.int-az-eu.webmethods.io"   # webMethodsIO Integration hostname or ip address
-  port: "443"                                       # webMethodsIO Integration port
-  admin_username: "refplatform"                       # webMthodsIO Integration user
-  type: "play"                                         #Dev

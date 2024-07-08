@@ -9,3 +9,8 @@
 ##### January 2024 Release ########
 1. External Test Credentials from post environment files
 2. Project ID fix: Create a temp flow to export import project to maintain id in all environment.
+##### July 2024 Release ########
+1. Support for API
+2. Support for Parameters (with environment specific values)
+3. Environemnt specific configs filenames aligned from environment config yaml.
+4. Bug fixes

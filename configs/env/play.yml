@@ -1,0 +1,5 @@
+tenant:
+  hostname: "psdev.int-aws-de.webmethods.io"   # webMthodsIO Integration hostname or ip address
+  port: "443"                                       # webMthodsIO Integration port
+  admin_username: "gitops"                     # webMthodsIO Integration user
+  type: "play"                                         #Dev
