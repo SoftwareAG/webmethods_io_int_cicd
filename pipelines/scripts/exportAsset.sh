@@ -322,6 +322,7 @@ function exportProjectParameters(){
     HOME_DIR=$7
     synchProject=$8
     inlcudeAllReferenceData=$9
+    cd ${HOME_DIR}/${repoName}
 
     if [ ${synchProject} == true ]; then
       PROJECT_PARAM_GET_URL=${LOCAL_DEV_URL}/apis/v1/rest/projects/${repoName}/params
