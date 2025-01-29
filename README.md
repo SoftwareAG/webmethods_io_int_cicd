@@ -1,3 +1,6 @@
+⚠️ **WARNING:** Repository moved to IBM public Github: https://github.com/IBM/webmethods-io-int-cicd. This repository is no longer maintained and will be archived and closed on **10.02.2025**. The IBM repository was set up with the commits until January, 28th 2025 from this repository. 
+
+
 # DevOps for webMethods.IO Integration
 
     This article shows how to design and setup an automated CI/CD process and framework for webMethods.io 
